@@ -4,7 +4,7 @@ const I18N = {
     "hero.badge":"テクノロジー × 二次元",
     "hero.github":"GitHub","hero.about":"关于我 →",
     "about.title":"关于我",
-    "about.p1":"ようこそ！我是洪帅（honshuai），一个游走在代码与二次元之间的开发者。",
+    "about.p1":"ようこそ！我是shuai，一个游走在代码与二次元之间的开发者。",
     "about.p2":"热爱技术，也热爱动漫文化。相信代码可以是艺术，终端也可以很可爱。",
     "about.tag1":"🖥️ 开发者","about.tag2":"🌸 二次元爱好者","about.tag3":"⚡ 技术极客","about.tag4":"🎮 玩家",
     "skills.title":"技能","skills.frontend":"前端","skills.frontend.desc":"HTML · CSS · JavaScript · React",
@@ -20,7 +20,7 @@ const I18N = {
     "resume.r1.date":"2013.09 - 2017.06","resume.r1.title":"安徽大学 · 网络工程卓越班","resume.r1.role":"学生","resume.r1.desc":"期间两次实习：科大讯飞（2015.07-2015.10）、宇视科技（2016.07-2016.09）",
     "resume.r2.date":"2017.07 - 2019.09","resume.r2.title":"恒生电子股份有限公司","resume.r2.role":"软件工程师",
     "resume.r3.date":"2020.05 - 至今","resume.r3.title":"望江县医疗保障局","resume.r3.role":"工作人员",
-    "contact.title":"联系我","contact.text":"一緒に素晴らしいものを作りましょう！<br>一起来做点有趣的东西吧！",
+    "contact.title":"联系我","contact.email":"邮箱","contact.phone":"电话","contact.douyin":"抖音","contact.x":"X (Twitter)","contact.github":"GitHub","contact.text":"一緒に素晴らしいものを作りましょう！<br>一起来做点有趣的东西吧！",
     "contact.btn":"访问我的 GitHub","footer.powered":"Powered by","footer.jp":"このページは愛と情熱で作られました",
     "typed":["代码即艺术。端末も可愛い。","テクノロジー × 二次元","欢迎来到我的世界 ⚡","用代码改变世界 🌸","一行一行，构建未来"]
   },
@@ -29,7 +29,7 @@ const I18N = {
     "hero.badge":"Tech × Anime",
     "hero.github":"GitHub","hero.about":"About Me →",
     "about.title":"About Me",
-    "about.p1":"Welcome! I'm honshuai (洪帅), a developer wandering between code and anime.",
+    "about.p1":"Welcome! I'm shuai, a developer wandering between code and anime.",
     "about.p2":"Passionate about technology and anime culture. I believe code can be art, and terminals can be cute.",
     "about.tag1":"🖥️ Developer","about.tag2":"🌸 Otaku","about.tag3":"⚡ Tech Enthusiast","about.tag4":"🎮 Gamer",
     "skills.title":"Skills","skills.frontend":"Frontend","skills.frontend.desc":"HTML · CSS · JavaScript · React",
@@ -45,7 +45,7 @@ const I18N = {
     "resume.r1.date":"2013.09 - 2017.06","resume.r1.title":"Anhui University · Network Engineering","resume.r1.role":"Student","resume.r1.desc":"Internships: iFlytek (2015.07-2015.10), Uniview (2016.07-2016.09)",
     "resume.r2.date":"2017.07 - 2019.09","resume.r2.title":"Hundsun Electronics","resume.r2.role":"Software Engineer",
     "resume.r3.date":"2020.05 - Present","resume.r3.title":"Wangjiang County Healthcare Security Bureau","resume.r3.role":"Staff",
-    "contact.title":"Contact","contact.text":"Let's build something amazing together!<br>一起来做点有趣的东西吧！",
+    "contact.title":"Contact","contact.email":"Email","contact.phone":"Phone","contact.douyin":"Douyin","contact.x":"X (Twitter)","contact.github":"GitHub","contact.text":"Let's build something amazing together!<br>一起来做点有趣的东西吧！",
     "contact.btn":"Visit My GitHub","footer.powered":"Powered by","footer.jp":"This page was made with love and passion",
     "typed":["Code is Art. Terminals can be cute.","Tech × Anime","Welcome to my world ⚡","Changing the world with code 🌸","Building the future, one line at a time."]
   },
@@ -54,7 +54,7 @@ const I18N = {
     "hero.badge":"テクノロジー × 二次元",
     "hero.github":"GitHub","hero.about":"について →",
     "about.title":"について",
-    "about.p1":"ようこそ！我是洪帅（honshuai）、コードと二次元の間を歩く開発者です。",
+    "about.p1":"ようこそ！我是shuai、コードと二次元の間を歩く開発者です。",
     "about.p2":"技術とアニメ文化を愛しています。コードは芸術であり、ターミナルも可愛くなれると信じています。",
     "about.tag1":"🖥️ 開発者","about.tag2":"🌸 オタク","about.tag3":"⚡ 技術愛好家","about.tag4":"🎮 ゲーマー",
     "skills.title":"スキル","skills.frontend":"フロントエンド","skills.frontend.desc":"HTML · CSS · JavaScript · React",
@@ -70,7 +70,7 @@ const I18N = {
     "resume.r1.date":"2013.09 - 2017.06","resume.r1.title":"安徽大学 · ネットワーク工学","resume.r1.role":"学生","resume.r1.desc":"インターン：科大訊飛（2015.07-2015.10）、宇視科技（2016.07-2016.09）",
     "resume.r2.date":"2017.07 - 2019.09","resume.r2.title":"恒生電子株式会社","resume.r2.role":"ソフトウェアエンジニア",
     "resume.r3.date":"2020.05 - 現在","resume.r3.title":"望江県医療保障局","resume.r3.role":"職員",
-    "contact.title":"連絡","contact.text":"一緒に素晴らしいものを作りましょう！<br>一起来做点有趣的东西吧！",
+    "contact.title":"連絡","contact.email":"メール","contact.phone":"電話","contact.douyin":"抖音","contact.x":"X (Twitter)","contact.github":"GitHub","contact.text":"一緒に素晴らしいものを作りましょう！<br>一起来做点有趣的东西吧！",
     "contact.btn":"GitHub を見る","footer.powered":"Powered by","footer.jp":"このページは愛と情熱で作られました",
     "typed":["コードは芸術。端末も可愛い。","テクノロジー × 二次元","私の世界へようこそ ⚡","コードで世界を変える 🌸","一行ずつ、未来を構築する"]
   }
