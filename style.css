@@ -175,9 +175,16 @@ ul{list-style:none}
 .project-card p{color:var(--text-dim);font-size:.9rem;margin-bottom:16px}
 .project-link{font-family:var(--font-tech);font-size:.85rem;color:var(--accent);transition:gap .2s}
 .project-link:hover{letter-spacing:1px}
-.contact-card{text-align:center;max-width:600px;margin:0 auto;
-  background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:48px}
-.contact-text{font-size:1.1rem;margin-bottom:28px;color:var(--text);font-weight:300;letter-spacing:.5px}
+.contact-card{text-align:center;max-width:680px;margin:0 auto;
+  background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+  padding:48px 40px;position:relative;overflow:hidden}
+.contact-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--accent),var(--accent2),var(--accent3),transparent)}
+.contact-card::after{content:'';position:absolute;top:0;left:0;right:0;bottom:0;
+  background:radial-gradient(ellipse at 50% 0%,rgba(0,240,255,.03) 0%,transparent 60%);
+  pointer-events:none}
+.contact-text{font-size:1.15rem;margin-bottom:32px;color:var(--text);
+  font-weight:300;letter-spacing:.5px;line-height:1.9;position:relative;z-index:1}
 footer{text-align:center;padding:40px 24px;border-top:1px solid var(--border);
   color:var(--text-dim);font-size:.85rem;position:relative;z-index:1;font-weight:300;letter-spacing:.5px}
 .footer-accent{color:var(--accent)}
@@ -240,21 +247,32 @@ footer{text-align:center;padding:40px 24px;border-top:1px solid var(--border);
 @media(max-width:480px){.timeline{padding-left:28px}.timeline-dot{left:-22px;width:10px;height:10px}
   .timeline-content{padding:16px}}
 
-/* Contact info items */
-.contact-info{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-  gap:16px;margin-top:28px;text-align:left}
-.contact-item{display:flex;align-items:center;gap:16px;padding:16px 20px;
-  border-radius:14px;background:rgba(255,255,255,.04);border:1px solid var(--border);
-  transition:all .25s;cursor:pointer}
-.contact-item:hover{border-color:var(--accent);background:rgba(0,240,255,.06);
-  transform:translateY(-2px)}
-.contact-icon{font-size:1.8rem;flex-shrink:0;width:48px;height:48px;
+/* Contact info items — redesigned */
+.contact-info{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:12px;margin-top:28px;text-align:left;position:relative;z-index:1}
+.contact-item{display:flex;align-items:center;gap:14px;padding:14px 18px;
+  border-radius:12px;background:rgba(255,255,255,.03);border:1px solid var(--border);
+  transition:all .3s cubic-bezier(.4,0,.2,1);
+  cursor:pointer;text-decoration:none;position:relative;overflow:hidden}
+.contact-item::before{content:'';position:absolute;left:0;top:10%;bottom:10%;
+  width:3px;border-radius:0 3px 3px 0;background:var(--accent);
+  transform:scaleY(0);transition:transform .3s cubic-bezier(.4,0,.2,1)}
+.contact-item:hover{border-color:var(--accent);background:rgba(0,240,255,.05);
+  transform:translateX(4px);
+  box-shadow:0 0 20px rgba(0,240,255,.08),inset 0 0 20px rgba(0,240,255,.02)}
+.contact-item:hover::before{transform:scaleY(1)}
+.contact-icon{font-size:1.35rem;flex-shrink:0;width:44px;height:44px;
   display:flex;align-items:center;justify-content:center;border-radius:12px;
-  background:rgba(0,240,255,.08)}
-.contact-detail{display:flex;flex-direction:column;gap:2px;min-width:0}
-.contact-label{font-size:.75rem;color:var(--text-dim);font-family:var(--font-tech)}
-.contact-value{font-size:.95rem;color:var(--text);word-break:break-all}
-@media(max-width:480px){.contact-info{grid-template-columns:1fr}}
+  background:rgba(0,240,255,.08);transition:all .3s}
+.contact-item:hover .contact-icon{background:rgba(0,240,255,.15);
+  box-shadow:0 0 12px rgba(0,240,255,.2)}
+.contact-detail{display:flex;flex-direction:column;gap:1px;min-width:0}
+.contact-label{font-size:.7rem;color:var(--text-dim);font-family:var(--font-tech);
+  letter-spacing:1px;text-transform:uppercase}
+.contact-value{font-size:.9rem;color:var(--text);word-break:break-all;font-weight:400}
+.contact-item:hover .contact-value{color:var(--accent)}
+@media(max-width:480px){.contact-info{grid-template-columns:1fr}
+  .contact-card{padding:32px 20px}}
 
 
 /* About section rebuild */
