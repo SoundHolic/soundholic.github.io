@@ -7,7 +7,6 @@ const I18N = {
     "about.p1":"ようこそ！我是shuai，一个游走在代码与二次元之间的开发者。",
     "about.p2":"热爱技术，也热爱动漫文化。相信代码可以是艺术，终端也可以很可爱。",
     "about.tag1":"🖥️ 开发者","about.tag2":"🌸 二次元爱好者","about.tag3":"⚡ 技术极客","about.tag4":"🎮 玩家",
-    "about.quote1":"「愿风神忽悠你」 — 温迪","about.quote2":"「向着星辰与深渊」 — 原神","about.quote3":"「异世界，新旅途」 — 异环",
     "skills.title":"技能","skills.frontend":"前端","skills.frontend.desc":"HTML · CSS · JavaScript · React",
     "skills.backend":"后端","skills.backend.desc":"Python · Node.js · SQL",
     "skills.design":"设计","skills.design.desc":"UI/UX · Figma · Creative Coding",
@@ -23,7 +22,7 @@ const I18N = {
     "resume.r3.date":"2020.05 - 至今","resume.r3.title":"望江县医疗保障局","resume.r3.role":"工作人员",
     "contact.title":"联系我","contact.email":"邮箱","contact.phone":"电话","contact.douyin":"抖音","contact.x":"X (Twitter)","contact.github":"GitHub","contact.text":"一緒に素晴らしいものを作りましょう！<br>一起来做点有趣的东西吧！",
     "contact.btn":"访问我的 GitHub","footer.powered":"Powered by","footer.jp":"このページは愛と情熱で作られました",
-    "typed":["代码即艺术。端末も可愛い。","テクノロジー × 二次元","欢迎来到我的世界 ⚡","用代码改变世界 🌸","向着星辰与深渊 ⚔️","愿风神忽悠你 🌪️"]
+    "typed":["代码即艺术。端末も可愛い。","テクノロジー × 二次元","欢迎来到我的世界 ⚡","用代码改变世界 🌸","一行一行，构建未来"]
   },
   en: {
     "nav.home":"Home","nav.about":"About","nav.skills":"Skills","nav.projects":"Projects","nav.contact":"Contact",
@@ -33,7 +32,6 @@ const I18N = {
     "about.p1":"Welcome! I'm shuai, a developer wandering between code and anime.",
     "about.p2":"Passionate about technology and anime culture. I believe code can be art, and terminals can be cute.",
     "about.tag1":"🖥️ Developer","about.tag2":"🌸 Otaku","about.tag3":"⚡ Tech Enthusiast","about.tag4":"🎮 Gamer",
-    "about.quote1":"「May the Anemo God bless you」 — Venti","about.quote2":"「Ad astra abyssosque」 — Genshin Impact","about.quote3":"「New world, new journey」 — Infinity Ring",
     "skills.title":"Skills","skills.frontend":"Frontend","skills.frontend.desc":"HTML · CSS · JavaScript · React",
     "skills.backend":"Backend","skills.backend.desc":"Python · Node.js · SQL",
     "skills.design":"Design","skills.design.desc":"UI/UX · Figma · Creative Coding",
@@ -49,7 +47,7 @@ const I18N = {
     "resume.r3.date":"2020.05 - Present","resume.r3.title":"Wangjiang County Healthcare Security Bureau","resume.r3.role":"Staff",
     "contact.title":"Contact","contact.email":"Email","contact.phone":"Phone","contact.douyin":"Douyin","contact.x":"X (Twitter)","contact.github":"GitHub","contact.text":"Let's build something amazing together!<br>一起来做点有趣的东西吧！",
     "contact.btn":"Visit My GitHub","footer.powered":"Powered by","footer.jp":"This page was made with love and passion",
-    "typed":["Code is Art. Terminals can be cute.","Tech × Anime","Welcome to my world ⚡","Changing the world with code 🌸","Ad astra abyssosque ⚔️","May the Anemo God bless you 🌪️"]
+    "typed":["Code is Art. Terminals can be cute.","Tech × Anime","Welcome to my world ⚡","Changing the world with code 🌸","Building the future, one line at a time."]
   },
   ja: {
     "nav.home":"ホーム","nav.about":"について","nav.skills":"スキル","nav.projects":"プロジェクト","nav.contact":"連絡",
@@ -59,7 +57,6 @@ const I18N = {
     "about.p1":"ようこそ！我是shuai、コードと二次元の間を歩く開発者です。",
     "about.p2":"技術とアニメ文化を愛しています。コードは芸術であり、ターミナルも可愛くなれると信じています。",
     "about.tag1":"🖥️ 開発者","about.tag2":"🌸 オタク","about.tag3":"⚡ 技術愛好家","about.tag4":"🎮 ゲーマー",
-    "about.quote1":"「風神があなたを導く」 — ヴェンティ","about.quote2":"「星と深淵へ」 — 原神","about.quote3":"「異世界、新たな旅」 — 異環",
     "skills.title":"スキル","skills.frontend":"フロントエンド","skills.frontend.desc":"HTML · CSS · JavaScript · React",
     "skills.backend":"バックエンド","skills.backend.desc":"Python · Node.js · SQL",
     "skills.design":"デザイン","skills.design.desc":"UI/UX · Figma · Creative Coding",
@@ -75,6 +72,6 @@ const I18N = {
     "resume.r3.date":"2020.05 - 現在","resume.r3.title":"望江県医療保障局","resume.r3.role":"職員",
     "contact.title":"連絡","contact.email":"メール","contact.phone":"電話","contact.douyin":"抖音","contact.x":"X (Twitter)","contact.github":"GitHub","contact.text":"一緒に素晴らしいものを作りましょう！<br>一起来做点有趣的东西吧！",
     "contact.btn":"GitHub を見る","footer.powered":"Powered by","footer.jp":"このページは愛と情熱で作られました",
-    "typed":["コードは芸術。端末も可愛い。","テクノロジー × 二次元","私の世界へようこそ ⚡","コードで世界を変える 🌸","星と深淵へ ⚔️","風神があなたを導く 🌪️"]
+    "typed":["コードは芸術。端末も可愛い。","テクノロジー × 二次元","私の世界へようこそ ⚡","コードで世界を変える 🌸","一行ずつ、未来を構築する"]
   }
 };
