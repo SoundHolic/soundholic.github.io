@@ -6,10 +6,11 @@
   --font-jp:'M PLUS Rounded 1c',sans-serif;
   --font-tech:'Orbitron',monospace;
   --font-sc:'Noto Sans SC',sans-serif;
+  --font-cn-title:'ZCOOL QingKe HuangYou',sans-serif;
 }
 html{scroll-behavior:smooth;font-size:16px}
 body{background:var(--bg);color:var(--text);font-family:var(--font-sc);
-  line-height:1.6;overflow-x:hidden;min-height:100vh;
+  line-height:1.8;overflow-x:hidden;min-height:100vh;font-weight:400;
   background-image:radial-gradient(circle at 20% 50%,rgba(124,58,237,.08),transparent 50%),
     radial-gradient(circle at 80% 20%,rgba(0,240,255,.06),transparent 50%),
     radial-gradient(circle at 50% 80%,rgba(255,0,170,.05),transparent 50%)}
@@ -78,7 +79,7 @@ ul{list-style:none}
   max-width:900px;animation:fadeInUp 1s ease}
 .hero-badge{display:inline-block;padding:6px 20px;border-radius:20px;
   border:1px solid var(--accent);color:var(--accent);
-  font-family:var(--font-jp);font-size:.85rem;margin-bottom:24px;
+  font-family:var(--font-jp),var(--font-cn-title);font-size:.85rem;margin-bottom:24px;
   background:rgba(0,240,255,.05);letter-spacing:2px}
 .hero-title{font-family:var(--font-tech);font-size:clamp(2.5rem,8vw,5.5rem);
   font-weight:900;line-height:1;margin-bottom:12px}
@@ -128,7 +129,7 @@ ul{list-style:none}
 .section{max-width:1000px;margin:0 auto;padding:120px 24px 80px;
   position:relative;z-index:1}
 .section-center{text-align:center}
-.section-title{font-family:var(--font-tech);font-size:clamp(1.5rem,4vw,2.5rem);
+.section-title{font-family:var(--font-tech),var(--font-cn-title);font-size:clamp(1.5rem,4vw,2.5rem);
   font-weight:700;margin-bottom:48px;display:flex;align-items:center;gap:16px}
 .section-num{font-size:.8em;color:var(--accent);
   border:1px solid var(--accent);padding:4px 12px;border-radius:8px}
@@ -146,11 +147,11 @@ ul{list-style:none}
   background:linear-gradient(135deg,var(--accent3),var(--accent2));
   display:flex;align-items:center;justify-content:center;
   font-family:var(--font-tech);font-weight:900;font-size:2rem;color:#fff}
-.about-text p{margin-bottom:12px;font-size:1.05rem}
+.about-text p{margin-bottom:12px;font-size:1.05rem;font-weight:300;letter-spacing:.5px}
 .about-text strong{color:var(--accent)}
 .about-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
 .tag{padding:4px 14px;border-radius:20px;background:rgba(0,240,255,.08);
-  border:1px solid var(--border);font-size:.85rem;color:var(--text-dim)}
+  border:1px solid var(--border);font-size:.85rem;color:var(--text-dim);font-weight:300}
 .skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px}
 .skill-card{background:var(--card);border:1px solid var(--border);
   border-radius:var(--radius);padding:28px;text-align:center;
@@ -176,15 +177,15 @@ ul{list-style:none}
 .project-lang{font-size:.75rem;padding:2px 10px;border-radius:6px;
   background:rgba(247,223,30,.1);color:#f7df1e;font-family:var(--font-tech)}
 .project-dot{width:10px;height:10px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green)}
-.project-card h3{font-size:1.2rem;margin-bottom:8px}
+.project-card h3{font-size:1.2rem;margin-bottom:8px;font-family:var(--font-cn-title)}
 .project-card p{color:var(--text-dim);font-size:.9rem;margin-bottom:16px}
 .project-link{font-family:var(--font-tech);font-size:.85rem;color:var(--accent);transition:gap .2s}
 .project-link:hover{letter-spacing:1px}
 .contact-card{text-align:center;max-width:600px;margin:0 auto;
   background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:48px}
-.contact-text{font-size:1.1rem;margin-bottom:28px;color:var(--text)}
+.contact-text{font-size:1.1rem;margin-bottom:28px;color:var(--text);font-weight:300;letter-spacing:.5px}
 footer{text-align:center;padding:40px 24px;border-top:1px solid var(--border);
-  color:var(--text-dim);font-size:.85rem;position:relative;z-index:1}
+  color:var(--text-dim);font-size:.85rem;position:relative;z-index:1;font-weight:300;letter-spacing:.5px}
 .footer-accent{color:var(--accent)}
 .footer-jp{font-family:var(--font-jp);margin-top:4px;font-size:.8rem;opacity:.6}
 @keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
@@ -237,7 +238,7 @@ footer{text-align:center;padding:40px 24px;border-top:1px solid var(--border);
   border-radius:var(--radius);padding:20px 24px;transition:all .3s}
 .timeline-content:hover{border-color:var(--accent);transform:translateX(4px);
   box-shadow:0 4px 20px rgba(0,240,255,.08)}
-.timeline-content h3{font-size:1.1rem;margin-bottom:4px;color:var(--text)}
+.timeline-content h3{font-size:1.1rem;margin-bottom:4px;color:var(--text);font-family:var(--font-cn-title)}
 .timeline-role{display:inline-block;padding:2px 12px;border-radius:12px;
   background:rgba(0,240,255,.08);border:1px solid var(--border);
   font-size:.8rem;color:var(--accent2);margin-bottom:8px}
