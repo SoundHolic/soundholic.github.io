@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=5.0">
+<meta name="theme-color" content="#0a0a1a">
+<title>SoundHolic | Tech × Anime</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;700&family=M+PLUS+Rounded+1c:wght@400;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="particles"></div>
+<canvas id="matrix"></canvas>
+
+<header id="header">
+  <nav class="nav-container">
+    <a href="#home" class="logo">
+      <span class="logo-bracket">[</span>
+      <span class="logo-text">SoundHolic</span>
+      <span class="logo-bracket">]</span>
+    </a>
+    <button class="nav-toggle" aria-label="menu" onclick="toggleNav()">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#home" onclick="closeNav()">Home</a></li>
+      <li><a href="#about" onclick="closeNav()">About</a></li>
+      <li><a href="#skills" onclick="closeNav()">Skills</a></li>
+      <li><a href="#projects" onclick="closeNav()">Projects</a></li>
+      <li><a href="#contact" onclick="closeNav()">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+  <section id="home" class="hero">
+    <div class="hero-bg-grid"></div>
+    <div class="hero-content">
+      <div class="hero-badge">テクノロジー × 二次元</div>
+      <h1 class="hero-title">
+        <span class="glitch" data-text="SoundHolic">SoundHolic</span>
+      </h1>
+      <p class="hero-subtitle">
+        <span class="typed" id="typed"></span><span class="cursor">▊</span>
+      </p>
+      <div class="hero-links">
+        <a href="https://github.com/SoundHolic" target="_blank" class="btn-cyber">
+          <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          GitHub
+        </a>
+        <a href="#about" class="btn-ghost">关于我 →</a>
+      </div>
+    </div>
+    <div class="scroll-indicator">
+      <span>SCROLL</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <section id="about" class="section">
+    <h2 class="section-title"><span class="section-num">01</span> About Me</h2>
+    <div class="about-card">
+      <div class="about-avatar">
+        <div class="avatar-ring"></div>
+        <div class="avatar-inner">SH</div>
+      </div>
+      <div class="about-text">
+        <p>ようこそ！我是 <strong>SoundHolic</strong>，一个游走在代码与二次元之间的开发者。</p>
+        <p>热爱技术，也热爱动漫文化。相信代码可以是艺术，终端也可以很可爱。</p>
+        <div class="about-tags">
+          <span class="tag">🖥️ Developer</span>
+          <span class="tag">🌸 Otaku</span>
+          <span class="tag">⚡ Tech Enthusiast</span>
+          <span class="tag">🎮 Gamer</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills" class="section">
+    <h2 class="section-title"><span class="section-num">02</span> Skills</h2>
+    <div class="skills-grid">
+      <div class="skill-card" style="--delay:0s">
+        <div class="skill-icon">⚡</div>
+        <h3>Frontend</h3>
+        <div class="skill-bar"><div class="bar-fill" style="--w:90%"></div></div>
+        <p>HTML · CSS · JavaScript · React</p>
+      </div>
+      <div class="skill-card" style="--delay:.1s">
+        <div class="skill-icon">🔧</div>
+        <h3>Backend</h3>
+        <div class="skill-bar"><div class="bar-fill" style="--w:75%"></div></div>
+        <p>Python · Node.js · SQL</p>
+      </div>
+      <div class="skill-card" style="--delay:.2s">
+        <div class="skill-icon">🎨</div>
+        <h3>Design</h3>
+        <div class="skill-bar"><div class="bar-fill" style="--w:70%"></div></div>
+        <p>UI/UX · Figma · Creative Coding</p>
+      </div>
+      <div class="skill-card" style="--delay:.3s">
+        <div class="skill-icon">🤖</div>
+        <h3>AI / ML</h3>
+        <div class="skill-bar"><div class="bar-fill" style="--w:65%"></div></div>
+        <p>PyTorch · ComfyUI · LLM</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects" class="section">
+    <h2 class="section-title"><span class="section-num">03</span> Projects</h2>
+    <div class="projects-grid">
+      <div class="project-card">
+        <div class="project-header">
+          <span class="project-lang">JavaScript</span>
+          <span class="project-dot"></span>
+        </div>
+        <h3>ComfyUI Workflows</h3>
+        <p>AMD GPU 上跑 Stable Diffusion / SDXL 的工作流配置</p>
+        <a href="#" class="project-link">View →</a>
+      </div>
+      <div class="project-card">
+        <div class="project-header">
+          <span class="project-lang" style="background:#3776ab20;color:#4b8bbe">Python</span>
+          <span class="project-dot"></span>
+        </div>
+        <h3>Remotion Video Engine</h3>
+        <p>用 React 编程式生成科普动画视频的自动化流水线</p>
+        <a href="#" class="project-link">View →</a>
+      </div>
+      <div class="project-card">
+        <div class="project-header">
+          <span class="project-lang" style="background:#f7df1e20;color:#f7df1e">JS</span>
+          <span class="project-dot"></span>
+        </div>
+        <h3>Hermes Agent Skills</h3>
+        <p>AI Agent 自定义技能开发与自动化工作流</p>
+        <a href="#" class="project-link">View →</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="section section-center">
+    <h2 class="section-title"><span class="section-num">04</span> Contact</h2>
+    <div class="contact-card">
+      <p class="contact-text">一緒に素晴らしいものを作りましょう！<br>一起来做点有趣的东西吧！</p>
+      <a href="https://github.com/SoundHolic" target="_blank" class="btn-cyber btn-large">
+        <svg width="22" height="22" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        Visit My GitHub
+      </a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>© 2026 SoundHolic · Powered by <span class="footer-accent">Code & Coffee ☕</span></p>
+  <p class="footer-jp">このページは愛と情熱で作られました</p>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>
