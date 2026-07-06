@@ -144,7 +144,7 @@ ul{list-style:none}
   border-radius:50%;border:2px dashed var(--accent2);
   animation:spin 12s linear infinite reverse}
 @keyframes spin{to{transform:rotate(360deg)}}
-.avatar-svg{border-radius:50%;filter:drop-shadow(0 0 15px rgba(0,240,255,.2))}
+
 .about-text p{margin-bottom:12px;font-size:1.05rem;font-weight:300;letter-spacing:.5px}
 .about-text strong{color:var(--accent)}
 .about-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
@@ -259,29 +259,3 @@ footer{text-align:center;padding:40px 24px;border-top:1px solid var(--border);
 .contact-label{font-size:.75rem;color:var(--text-dim);font-family:var(--font-tech)}
 .contact-value{font-size:.95rem;color:var(--text);word-break:break-all}
 @media(max-width:480px){.contact-info{grid-template-columns:1fr}}
-
-/* Game elements: Genshin elemental icons */
-.game-elements{position:absolute;inset:0;pointer-events:none;z-index:1}
-.element-icon{position:absolute;font-size:1.5rem;opacity:.15;
-  filter:drop-shadow(0 0 6px currentColor);animation:elementFloat 8s ease infinite}
-.element-anemo{color:#39ff14;top:15%;left:8%;animation-delay:0s}
-.element-electro{color:#a020f0;top:20%;right:10%;animation-delay:1s}
-.element-pyro{color:#ff4500;top:60%;left:5%;animation-delay:2s}
-.element-hydro{color:#00bfff;top:70%;right:8%;animation-delay:.5s}
-.element-cryo{color:#add8e6;top:40%;left:12%;animation-delay:1.5s}
-.element-dendro{color:#7cfc00;top:50%;right:15%;animation-delay:2.5s}
-.element-geo{color:#daa520;bottom:15%;left:20%;animation-delay:3s}
-@keyframes elementFloat{
-  0%,100%{transform:translateY(0) rotate(0);opacity:.1}
-  50%{transform:translateY(-20px) rotate(15deg);opacity:.25}}
-
-/* Game quotes */
-.game-quotes{display:flex;flex-direction:column;gap:6px;margin-top:18px;
-  padding-left:12px;border-left:2px solid var(--accent)}
-.game-quote{font-size:.85rem;color:var(--text-dim);font-style:italic;
-  font-family:var(--font-cn-title);letter-spacing:1px}
-.game-quote:nth-child(1){color:var(--green)}
-.game-quote:nth-child(2){color:var(--accent)}
-.game-quote:nth-child(3){color:var(--accent2)}
-@media(max-width:768px){.element-icon{font-size:1rem;opacity:.1}
-  .game-quotes{padding-left:8px}}
