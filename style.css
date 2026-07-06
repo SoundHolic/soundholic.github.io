@@ -221,3 +221,26 @@ footer{text-align:center;padding:40px 24px;border-top:1px solid var(--border);
 @media(max-width:360px){.skills-grid{grid-template-columns:1fr}}
 @media(max-height:500px) and (orientation:landscape){.hero{min-height:100vh}.scroll-indicator{display:none}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+/* Timeline / Resume */
+.timeline{position:relative;padding-left:40px}
+.timeline::before{content:'';position:absolute;left:12px;top:0;bottom:0;
+  width:2px;background:linear-gradient(180deg,var(--accent),var(--accent2),transparent)}
+.timeline-item{position:relative;margin-bottom:36px}
+.timeline-item:last-child{margin-bottom:0}
+.timeline-dot{position:absolute;left:-34px;top:6px;width:14px;height:14px;
+  border-radius:50%;background:var(--accent);border:2px solid var(--bg);
+  box-shadow:0 0 12px var(--accent)}
+.timeline-date{font-family:var(--font-tech);font-size:.85rem;color:var(--accent);
+  margin-bottom:4px}
+.timeline-content{background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius);padding:20px 24px;transition:all .3s}
+.timeline-content:hover{border-color:var(--accent);transform:translateX(4px);
+  box-shadow:0 4px 20px rgba(0,240,255,.08)}
+.timeline-content h3{font-size:1.1rem;margin-bottom:4px;color:var(--text)}
+.timeline-role{display:inline-block;padding:2px 12px;border-radius:12px;
+  background:rgba(0,240,255,.08);border:1px solid var(--border);
+  font-size:.8rem;color:var(--accent2);margin-bottom:8px}
+.timeline-content p{font-size:.9rem;color:var(--text-dim);margin-top:6px}
+@media(max-width:480px){.timeline{padding-left:28px}.timeline-dot{left:-22px;width:10px;height:10px}
+  .timeline-content{padding:16px}}
