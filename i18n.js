@@ -1,6 +1,6 @@
 const I18N = {
   zh: {
-    "nav.home":"首页","nav.about":"关于","nav.skills":"技能","nav.projects":"项目","nav.contact":"联系",
+    "nav.home":"首页","nav.about":"关于","nav.skills":"技能","nav.world":"兴趣世界","world.title":"兴趣世界","world.stocks.title":"炒股","world.stocks.desc":"A股常年韭菜，坚信「跌了就是加仓机会」。账户红绿交替，心态稳如老狗。","world.genshin.title":"原神","world.genshin.desc":"提瓦特大陆旅行者，每日委托从不缺席。深渊满星，尘歌壶摆烂。","world.novel.title":"小说","world.novel.desc":"网文十级学者，修仙玄幻都市科幻来者不拒。书架比代码库还长。","world.anime.title":"动漫","world.anime.desc":"追番永不完结，热血日常治愈系全都要。B站年度大会员稳定续费中。","world.code.title":"代码","world.code.desc":"不是在工作，就是在折腾AI Agent。用代码造轮子是一种浪漫。","world.drive.title":"自驾","world.drive.desc":"三万公里老司机，导航说往东绝不往西。公路旅行的意义在于沿途的风景和便利店。","nav.projects":"项目","nav.contact":"联系",
     "hero.badge":"テクノロジー × 二次元",
     "hero.github":"GitHub","hero.about":"关于我 →",
     "about.title":"关于我",
@@ -26,7 +26,7 @@ const I18N = {
     "typed":["代码即艺术。端末も可愛い。","テクノロジー × 二次元","欢迎来到我的世界 ⚡","用代码改变世界 🌸","一行一行，构建未来"]
   },
   en: {
-    "nav.home":"Home","nav.about":"About","nav.skills":"Skills","nav.projects":"Projects","nav.contact":"Contact",
+    "nav.home":"Home","nav.about":"About","nav.skills":"Skills","nav.world":"World","world.title":"My World","world.stocks.title":"Stocks","world.stocks.desc":"A-share veteran leek. Believes 「drops are buying opportunities」. Portfolio goes red and green, mindset stays calm.","world.genshin.title":"Genshin","world.genshin.desc":"Traveler of Teyvat. Never misses daily commissions. Stars in Abyss, chilling in Serenitea Pot.","world.novel.title":"Novels","world.novel.desc":"Web novel scholar. Cultivation, fantasy, sci-fi — bring it on. Reading list longer than my codebase.","world.anime.title":"Anime","world.anime.desc":"Eternal anime chaser. Action, slice-of-life, healing — all welcome. Bilibili premium auto-renewed.","world.code.title":"Code","world.code.desc":"Not working, just tinkering with AI Agents. Building wheels with code is a kind of romance.","world.drive.title":"Road Trips","world.drive.desc":"30,000km veteran driver. Where GPS says east, I never go west. The joy is in the journey and convenience stores.","nav.projects":"Projects","nav.contact":"Contact",
     "hero.badge":"Tech × Anime",
     "hero.github":"GitHub","hero.about":"About Me →",
     "about.title":"About Me",
@@ -53,7 +53,7 @@ const I18N = {
     "typed":["Code is Art. Terminals can be cute.","Tech × Anime","Welcome to my world ⚡","Changing the world with code 🌸","Building the future, one line at a time."]
   },
   ja: {
-    "nav.home":"ホーム","nav.about":"について","nav.skills":"スキル","nav.projects":"プロジェクト","nav.contact":"連絡",
+    "nav.home":"ホーム","nav.about":"について","nav.skills":"スキル","nav.world":"世界","world.title":"私の世界","world.stocks.title":"株","world.stocks.desc":"A株歴戦のニラ。「下がれば買い」と信じている。口座は赤と緑、心境は犬のように安定。","world.genshin.title":"原神","world.genshin.desc":"テイワット大陸の旅人。デイリー委託は欠かさない。深境螺旋満星、洞天は放置気味。","world.novel.title":"小説","world.novel.desc":"ネット小説十級学者。修仙・玄幻・SFなんでも来い。本棚はコードベースより長い。","world.anime.title":"アニメ","world.anime.desc":"永遠の追番人。バトル・日常・癒し系ぜんぶOK。Bilibili年間会員は自動更新中。","world.code.title":"コード","world.code.desc":"仕事ではなくAI Agentをいじっている。コードで車輪を再造するのはロマン。","world.drive.title":"ドライブ","world.drive.desc":"3万キロのベテラン運転手。ナビが東と言えば西には行かない。旅の楽しみは道中とコンビニ。","nav.projects":"プロジェクト","nav.contact":"連絡",
     "hero.badge":"テクノロジー × 二次元",
     "hero.github":"GitHub","hero.about":"について →",
     "about.title":"について",
