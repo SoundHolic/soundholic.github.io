@@ -16,10 +16,29 @@
     backdrop-filter:blur(10px); transition:border-color .3s,transform .2s;
   }
   .article-card:hover { border-color:rgba(0,255,255,0.3); transform:translateY(-2px); }
-  .article-card img { width:100%; max-height:400px; object-fit:cover; display:block; }
+  .article-cover { position:relative; }
+  .article-cover .cover-img { width:100%; max-height:400px; object-fit:cover; display:block; }
+  .cover-thumbs {
+    display:flex; gap:8px; padding:8px 12px; overflow-x:auto;
+    background:rgba(0,0,0,0.3); justify-content:center; flex-wrap:wrap;
+  }
+  .cover-thumbs:empty { display:none; }
+  .cover-thumb {
+    width:60px; height:45px; object-fit:cover; border-radius:4px;
+    border:2px solid transparent; cursor:pointer; opacity:.5;
+    transition:border-color .2s,opacity .2s; flex-shrink:0;
+  }
+  .cover-thumb:hover, .cover-thumb.active {
+    border-color:#0ff; opacity:1;
+  }
   .article-body { padding:20px; }
   .article-date { font-size:13px; color:#0ff; font-family:Orbitron; margin-bottom:8px; }
   .article-text { font-size:15px; color:#ccc; line-height:1.8; }
+  .read-more-btn {
+    color:#0ff; cursor:pointer; font-size:14px;
+    margin-left:4px; white-space:nowrap; transition:color .2s;
+  }
+  .read-more-btn:hover { color:#fff; }
 </style>
 </head>
 <body>
@@ -59,7 +78,9 @@
 <div class="records-container">
 
   <article class="article-card">
-    <img src="images/jiaozi.jpg" alt="小黑煎饺" loading="lazy">
+    <div class="article-cover">
+      <img src="images/jiaozi.jpg" class="cover-img" alt="小黑煎饺" loading="lazy">
+    </div>
     <div class="article-body">
       <div class="article-date">2026-07-07</div>
       <div class="article-text">
@@ -78,5 +99,43 @@
 
 <script src="i18n.js"></script>
 <script src="main.js"></script>
+<script>
+// === Cover thumbnail switcher ===
+document.querySelectorAll('.article-cover').forEach(cover => {
+  const imgs = cover.querySelectorAll('img');
+  if (imgs.length <= 1) return;
+  const mainImg = imgs[0];
+  mainImg.classList.add('cover-img');
+  
+  const thumbs = document.createElement('div');
+  thumbs.className = 'cover-thumbs';
+  imgs.forEach((img, i) => {
+    const t = document.createElement('img');
+    t.src = img.src;
+    t.className = 'cover-thumb' + (i === 0 ? ' active' : '');
+    t.onclick = function() {
+      mainImg.src = t.src;
+      thumbs.querySelectorAll('.cover-thumb').forEach(el => el.classList.remove('active'));
+      t.classList.add('active');
+    };
+    thumbs.appendChild(t);
+  });
+  cover.appendChild(thumbs);
+});
+
+// === Read more truncation ===
+document.querySelectorAll('.article-text').forEach(el => {
+  const text = el.textContent.trim();
+  if (text.length <= 50) return;
+  const fullHTML = el.innerHTML;
+  el.innerHTML = text.slice(0, 50) + '... <span class="read-more-btn" onclick="expandText(this)">【阅读全文】</span>';
+  el.dataset.fullHTML = fullHTML;
+});
+
+function expandText(btn) {
+  const el = btn.closest('.article-text');
+  el.innerHTML = el.dataset.fullHTML;
+}
+</script>
 </body>
 </html>
