@@ -80,17 +80,24 @@
 
   <div class="chart-section">
     <div class="chart-header">
-      <h3 id="chartTitle">点击持仓卡片查看走势</h3>
+      <h3 id="chartTitle" data-i18n="invest.clickHint">点击上方持仓卡片查看走势图</h3>
     </div>
-    <div class="chart-wrap" id="chartArea"><div class="loading">点击上方持仓卡片查看走势图</div></div>
+    <div class="chart-wrap" id="chartArea"><div class="loading" data-i18n="invest.clickHint">点击上方持仓卡片查看走势图</div></div>
   </div>
 
-  <div class="trade-log" id="tradeLogSection">
-    <h3>操作记录</h3>
+  <div class="trade-log">
+    <h3 data-i18n="invest.tradeLog">操作记录</h3>
     <table class="trade-table" id="tradeTable">
-      <thead><tr><th>日期</th><th>代码</th><th>方向</th><th>价格</th><th>数量</th><th>备注</th></tr></thead>
+      <thead><tr>
+        <th data-i18n="invest.thDate">日期</th>
+        <th data-i18n="invest.thCode">代码</th>
+        <th data-i18n="invest.thDir">方向</th>
+        <th data-i18n="invest.thPrice">价格</th>
+        <th data-i18n="invest.thQty">数量</th>
+        <th data-i18n="invest.thNote">备注</th>
+      </tr></thead>
       <tbody id="tradeBody">
-        <tr><td colspan="6" class="empty-state">暂无操作记录</td></tr>
+        <tr><td colspan="6" class="empty-state" data-i18n="invest.noTrades">暂无操作记录</td></tr>
       </tbody>
     </table>
   </div>
@@ -115,6 +122,8 @@ const TRADES = [];
 let klineData = null, fundNavData = {};
 let activeCode = null, activeChart = null, activeSeries = null;
 
+function t(key) { return (I18N[currentLang] && I18N[currentLang][key]) || key; }
+
 // === 渲染持仓卡片 ===
 function renderHoldingCards() {
   const grid = document.getElementById('holdingsGrid');
@@ -134,18 +143,21 @@ function renderHoldingCards() {
     const cl = pl >= 0 ? 'green' : 'red';
     const activeClass = (activeCode === code) ? ' active' : '';
     const isStock = h.type === 'stock';
-    const unit = isStock ? '股' : '份';
-    const costLabel = isStock ? '成本价' : '成本净值';
+    const costLabel = isStock ? 'invest.costPrice' : 'invest.costNav';
+    const unitKey = isStock ? 'invest.shares' : 'invest.units';
 
     return `<div class="holding-card${activeClass}" onclick="switchTo('${code}')">
       <div class="symbol">${code}</div>
       <div class="name">${h.name}</div>
-      <div class="row"><span class="label">${costLabel}</span><span class="value">¥${h.cost}</span></div>
-      <div class="row"><span class="label">持仓</span><span class="value">${h.shares.toLocaleString()} ${unit}</span></div>
-      <div class="row"><span class="label">市值</span><span class="value">¥${val.toLocaleString('zh-CN',{minimumFractionDigits:2})}</span></div>
-      <div class="row"><span class="label">盈亏</span><span class="value ${cl}">${pl>=0?'+':''}${pl.toLocaleString('zh-CN',{minimumFractionDigits:2})} (${plPct>=0?'+':''}${plPct}%)</span></div>
+      <div class="row"><span class="label" data-i18n="${costLabel}">${t(costLabel)}</span><span class="value">¥${h.cost}</span></div>
+      <div class="row"><span class="label" data-i18n="invest.holdings">${t('invest.holdings')}</span><span class="value">${h.shares.toLocaleString()} <span data-i18n="${unitKey}">${t(unitKey)}</span></span></div>
+      <div class="row"><span class="label" data-i18n="invest.marketValue">${t('invest.marketValue')}</span><span class="value">¥${val.toLocaleString('zh-CN',{minimumFractionDigits:2})}</span></div>
+      <div class="row"><span class="label" data-i18n="invest.profit">${t('invest.profit')}</span><span class="value ${cl}">${pl>=0?'+':''}${pl.toLocaleString('zh-CN',{minimumFractionDigits:2})} (${plPct>=0?'+':''}${plPct}%)</span></div>
     </div>`;
   }).join('');
+
+  // Re-apply i18n to new elements
+  setTimeout(() => { if(typeof applyLang==='function') applyLang(currentLang); }, 0);
 }
 
 // === 切换标的 ===
@@ -153,8 +165,6 @@ function switchTo(code) {
   activeCode = code;
   renderHoldingCards();
   const h = HOLDINGS[code];
-  const title = document.getElementById('chartTitle');
-  title.textContent = code + ' ' + h.name + (h.type==='stock'?' · 日K':' · 净值走势');
 
   if (!window.LightweightCharts) return;
 
@@ -171,6 +181,9 @@ function switchTo(code) {
     timeScale:{borderColor:'rgba(255,255,255,0.1)',timeVisible:true},
   });
 
+  const suffix = h.type==='stock' ? ' · '+t('invest.dailyK') : ' · '+t('invest.navChart');
+  document.getElementById('chartTitle').textContent = code + ' ' + h.name + suffix;
+
   if (h.type === 'stock') {
     const data = klineData.map(d => ({time:d.t,open:d.o,high:d.h,low:d.l,close:d.c}));
     activeSeries = activeChart.addCandlestickSeries({
@@ -178,15 +191,12 @@ function switchTo(code) {
       wickUpColor:'#00ff88',wickDownColor:'#ff4466',
     });
     activeSeries.setData(data);
-
-    // 操作标记
     const markers = TRADES.filter(t=>t.symbol===code).map(t=>({
       time:t.date, position:t.type==='buy'?'belowBar':'aboveBar',
       color:t.type==='buy'?'#00ff88':'#ff4466', shape:t.type==='buy'?'arrowUp':'arrowDown',
-      text:(t.type==='buy'?'B':'S')+t.price, size:2,
+      text:(t.type==='buy'?t('invest.buy').charAt(0):t('invest.sell').charAt(0))+t.price, size:2,
     }));
     if(markers.length) activeSeries.setMarkers(markers);
-
   } else {
     const data = fundNavData[code].map(d => ({time:d.t,value:d.v}));
     activeSeries = activeChart.addLineSeries({
@@ -195,10 +205,9 @@ function switchTo(code) {
     activeSeries.setData(data);
   }
 
-  // 成本线
+  const lineTitle = (h.type==='stock' ? t('invest.costLine') : t('invest.navLine')) + ' ' + h.cost;
   activeSeries.createPriceLine({
-    price:h.cost, color:'#ffff00', lineWidth:2, lineStyle:2, axisLabelVisible:true,
-    title: (h.type==='stock'?'成本 ':'净值 ')+h.cost,
+    price:h.cost, color:'#ffff00', lineWidth:2, lineStyle:2, axisLabelVisible:true, title: lineTitle,
   });
 
   activeChart.timeScale().fitContent();
@@ -207,14 +216,18 @@ function switchTo(code) {
 // === 操作记录 ===
 function renderTrades() {
   const tbody = document.getElementById('tradeBody');
-  if(!TRADES.length){ tbody.innerHTML='<tr><td colspan="6" class="empty-state">暂无操作记录</td></tr>'; return; }
-  tbody.innerHTML = TRADES.map(t=>`
-    <tr><td>${t.date}</td><td>${t.symbol}</td><td class="${t.type}">${t.type==='buy'?'买入':'卖出'}</td>
-    <td>¥${t.price}</td><td>${t.shares}</td><td>${t.note||''}</td></tr>
+  if(!TRADES.length){
+    tbody.innerHTML = `<tr><td colspan="6" class="empty-state" data-i18n="invest.noTrades">${t('invest.noTrades')}</td></tr>`;
+    return;
+  }
+  tbody.innerHTML = TRADES.map(tr=>`
+    <tr><td>${tr.date}</td><td>${tr.symbol}</td>
+    <td class="${tr.type}">${tr.type==='buy'?t('invest.buy'):t('invest.sell')}</td>
+    <td>¥${tr.price}</td><td>${tr.shares}</td><td>${tr.note||''}</td></tr>
   `).join('');
 }
 
-// === 窗口大小变化 ===
+// === Resize ===
 window.addEventListener('resize',()=>{
   if(activeChart){
     const c = document.getElementById('chartArea');
@@ -222,7 +235,7 @@ window.addEventListener('resize',()=>{
   }
 });
 
-// === 启动 ===
+// === Init ===
 async function init() {
   try {
     const [kresp, f1resp, f2resp] = await Promise.all([
@@ -236,9 +249,28 @@ async function init() {
     renderTrades();
     switchTo('300724');
   } catch(e) {
-    document.getElementById('chartArea').innerHTML = '<div class="loading">数据加载失败: '+e.message+'</div>';
+    document.getElementById('chartArea').innerHTML = `<div class="loading">${t('invest.loadError')}: ${e.message}</div>`;
   }
 }
+
+// Override applyLang to re-render after lang change
+const _origApplyLang = typeof applyLang === 'function' ? applyLang : null;
+const origApplyLang = _origApplyLang;
+document.addEventListener('DOMContentLoaded', () => {
+  setTimeout(() => {
+    if (typeof applyLang === 'function') {
+      const orig = applyLang;
+      applyLang = function(lang) {
+        orig(lang);
+        if (document.querySelector('.holding-card')) {
+          renderHoldingCards();
+          renderTrades();
+          if (activeCode) switchTo(activeCode);
+        }
+      };
+    }
+  }, 100);
+});
 
 init();
 </script>
