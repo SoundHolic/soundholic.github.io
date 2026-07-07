@@ -253,24 +253,22 @@ async function init() {
   }
 }
 
-// Override applyLang to re-render after lang change
-const _origApplyLang = typeof applyLang === 'function' ? applyLang : null;
-const origApplyLang = _origApplyLang;
-document.addEventListener('DOMContentLoaded', () => {
-  setTimeout(() => {
-    if (typeof applyLang === 'function') {
-      const orig = applyLang;
-      applyLang = function(lang) {
-        orig(lang);
-        if (document.querySelector('.holding-card')) {
-          renderHoldingCards();
-          renderTrades();
-          if (activeCode) switchTo(activeCode);
-        }
-      };
-    }
-  }, 100);
-});
+// Re-render invest page when language changes
+(function patchLang() {
+  if (typeof applyLang === 'function') {
+    const orig = applyLang;
+    applyLang = function(lang) {
+      orig(lang);
+      if (document.querySelector('.holding-card')) {
+        renderHoldingCards();
+        renderTrades();
+        if (activeCode) switchTo(activeCode);
+      }
+    };
+  } else {
+    setTimeout(patchLang, 50);
+  }
+})();
 
 init();
 </script>
