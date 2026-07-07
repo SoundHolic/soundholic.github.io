@@ -49,6 +49,31 @@
   .trade-table td { padding:10px 12px; border-bottom:1px solid rgba(255,255,255,0.05); color:#ccc; }
   .trade-table .buy { color:#0f0; }
   .trade-table .sell { color:#f44; }
+
+  /* === Mobile === */
+  @media(max-width:768px){
+    .invest-container { margin:80px auto 30px; padding:0 16px; }
+    .chart-wrap { height:350px; }
+    .chart-header h3 { font-size:15px; }
+    .holding-card { width:260px; padding:16px; }
+    .holding-card .symbol { font-size:17px; }
+    .holding-card .row { font-size:13px; padding:5px 0; }
+    .trade-table { font-size:13px; }
+    .trade-table th, .trade-table td { padding:8px 8px; }
+  }
+  @media(max-width:480px){
+    .invest-container { margin:70px auto 24px; padding:0 12px; }
+    .chart-wrap { height:280px; }
+    .chart-header h3 { font-size:13px; }
+    .holding-card { width:220px; padding:14px; }
+    .holding-card .symbol { font-size:15px; }
+    .holding-card .name { font-size:11px; }
+    .holding-card .row { font-size:12px; }
+    .scroll-arrow { width:32px; height:32px; font-size:14px; }
+    .trade-section { overflow-x:auto; }
+    .trade-table { font-size:12px; min-width:480px; }
+    .trade-table th, .trade-table td { padding:6px 6px; }
+  }
 </style>
 </head>
 <body>
@@ -102,6 +127,7 @@
 
   <div class="trade-log">
     <h3 data-i18n="invest.tradeLog">操作记录</h3>
+    <div class="trade-section">
     <table class="trade-table" id="tradeTable">
       <thead><tr>
         <th data-i18n="invest.thDate">日期</th>
@@ -115,6 +141,7 @@
         <tr><td colspan="6" class="empty-state" data-i18n="invest.noTrades">暂无操作记录</td></tr>
       </tbody>
     </table>
+    </div>
   </div>
 
 </div>
@@ -207,8 +234,9 @@ function switchTo(code) {
   container.innerHTML = '';
   if (activeChart) { activeChart.remove(); activeChart = null; activeSeries = null; }
 
+  const chartH = window.innerWidth <= 480 ? 280 : (window.innerWidth <= 768 ? 350 : 500);
   activeChart = window.LightweightCharts.createChart(container, {
-    width:container.clientWidth, height:500,
+    width:container.clientWidth, height:chartH,
     layout:{ background:{type:'solid',color:'rgba(0,0,0,0.0)'}, textColor:'#888' },
     grid:{ vertLines:{color:'rgba(255,255,255,0.04)'}, horzLines:{color:'rgba(255,255,255,0.04)'} },
     crosshair:{mode:1},
@@ -266,7 +294,8 @@ function renderTrades() {
 window.addEventListener('resize',()=>{
   if(activeChart){
     const c = document.getElementById('chartArea');
-    activeChart.applyOptions({width:c.clientWidth,height:500});
+    const h = window.innerWidth <= 480 ? 280 : (window.innerWidth <= 768 ? 350 : 500);
+    activeChart.applyOptions({width:c.clientWidth, height:h});
   }
   updateScrollArrows();
 });
