@@ -11,8 +11,19 @@
 <script src="https://unpkg.com/lightweight-charts@4.2.3/dist/lightweight-charts.standalone.production.js"></script>
 <style>
   .invest-container { max-width:1200px; margin:120px auto 40px; padding:0 20px; }
-  .holdings-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:20px; margin-bottom:32px; }
+  .holdings-wrapper { position:relative; margin-bottom:32px; display:flex; align-items:center; }
+  .holdings-scroll { display:flex; gap:20px; overflow-x:auto; scroll-behavior:smooth; scrollbar-width:none; -ms-overflow-style:none; flex:1; padding:4px 0; }
+  .holdings-scroll::-webkit-scrollbar { display:none; }
+  .scroll-arrow {
+    flex-shrink:0; width:40px; height:40px; border-radius:50%;
+    background:rgba(0,255,255,0.1); border:1px solid rgba(0,255,255,0.3);
+    color:#0ff; font-size:18px; cursor:pointer; display:none; align-items:center; justify-content:center;
+    transition:background .2s; z-index:2;
+  }
+  .scroll-arrow:hover { background:rgba(0,255,255,0.2); }
+  .scroll-arrow.visible { display:flex; }
   .holding-card {
+    flex-shrink:0; width:300px;
     background:rgba(255,255,255,0.03); border:1px solid rgba(0,255,255,0.15);
     border-radius:12px; padding:20px; backdrop-filter:blur(10px); cursor:pointer;
     transition:border-color .3s, transform .2s;
@@ -76,7 +87,11 @@
 <main>
 <div class="invest-container">
 
-  <div class="holdings-grid" id="holdingsGrid"></div>
+  <div class="holdings-wrapper">
+    <button class="scroll-arrow" id="scrollLeft" onclick="scrollHoldings(-1)">‹</button>
+    <div class="holdings-scroll" id="holdingsGrid"></div>
+    <button class="scroll-arrow" id="scrollRight" onclick="scrollHoldings(1)">›</button>
+  </div>
 
   <div class="chart-section">
     <div class="chart-header">
@@ -158,6 +173,26 @@ function renderHoldingCards() {
 
   // Re-apply i18n to new elements
   setTimeout(() => { if(typeof applyLang==='function') applyLang(currentLang); }, 0);
+  updateScrollArrows();
+}
+
+function scrollHoldings(dir) {
+  const el = document.getElementById('holdingsGrid');
+  el.scrollBy({ left: el.clientWidth * 0.75 * dir, behavior:'smooth' });
+}
+
+function updateScrollArrows() {
+  const el = document.getElementById('holdingsGrid');
+  const left = document.getElementById('scrollLeft');
+  const right = document.getElementById('scrollRight');
+  if (!el || !left || !right) return;
+  const canScroll = el.scrollWidth > el.clientWidth + 2;
+  left.classList.toggle('visible', canScroll);
+  right.classList.toggle('visible', canScroll);
+  if (canScroll) {
+    left.style.opacity = el.scrollLeft <= 2 ? '0.3' : '1';
+    right.style.opacity = el.scrollLeft + el.clientWidth >= el.scrollWidth - 2 ? '0.3' : '1';
+  }
 }
 
 // === 切换标的 ===
@@ -233,6 +268,13 @@ window.addEventListener('resize',()=>{
     const c = document.getElementById('chartArea');
     activeChart.applyOptions({width:c.clientWidth,height:500});
   }
+  updateScrollArrows();
+});
+
+// === Scroll arrows ===
+document.addEventListener('DOMContentLoaded',()=>{
+  const el = document.getElementById('holdingsGrid');
+  if(el) el.addEventListener('scroll', updateScrollArrows);
 });
 
 // === Init ===
