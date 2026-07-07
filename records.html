@@ -8,6 +8,19 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;700;900&family=M+PLUS+Rounded+1c:wght@400;700;800&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<style>
+  .records-container { max-width:800px; margin:120px auto 40px; padding:0 20px; }
+  .article-card {
+    background:rgba(255,255,255,0.03); border:1px solid rgba(0,255,255,0.12);
+    border-radius:12px; overflow:hidden; margin-bottom:24px;
+    backdrop-filter:blur(10px); transition:border-color .3s;
+  }
+  .article-card:hover { border-color:rgba(0,255,255,0.3); }
+  .article-card img { width:100%; max-height:400px; object-fit:cover; display:block; }
+  .article-body { padding:20px; }
+  .article-date { font-size:13px; color:#0ff; font-family:Orbitron; margin-bottom:8px; }
+  .article-text { font-size:15px; color:#ccc; line-height:1.8; }
+</style>
 </head>
 <body>
 <div id="particles"></div>
@@ -43,8 +56,19 @@
 </header>
 
 <main>
-  <section class="section">
-      </section>
+<div class="records-container">
+
+  <article class="article-card">
+    <img src="images/jiaozi.jpg" alt="小黑煎饺" loading="lazy">
+    <div class="article-body">
+      <div class="article-date">2026-07-07</div>
+      <div class="article-text">
+        一家叫「小黑煎饺」的早餐店，承载着一代望江本地人的回忆。从高中起就开始吃的煎饺，位置就在水木清华单元楼的下面，必须是菜饺子蘸醋才好吃，价格这些年也涨了不少。
+      </div>
+    </div>
+  </article>
+
+</div>
 </main>
 
 <footer>
