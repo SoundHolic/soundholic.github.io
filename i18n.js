@@ -24,7 +24,7 @@ const I18N = {
     "contact.title":"联系我","contact.email":"邮箱","contact.phone":"电话","contact.douyin":"抖音","contact.x":"X (Twitter)","contact.github":"GitHub","contact.text":"一緒に素晴らしいものを作りましょう！<br>一起来做点有趣的东西吧！",
     "contact.btn":"访问我的 GitHub","footer.powered":"Powered by","footer.jp":"このページは愛と情熱で作られました",
     "typed":["代码即艺术。端末も可愛い。","テクノロジー × 二次元","欢迎来到我的世界 ⚡","用代码改变世界 🌸","一行一行，构建未来"]
-  },
+  ,"invest.costPrice":"成本价","invest.costNav":"成本净值","invest.holdings":"持仓","invest.shares":"股","invest.units":"份","invest.marketValue":"市值","invest.profit":"盈亏","invest.dailyK":"日K","invest.navChart":"净值走势","invest.tradeLog":"操作记录","invest.thDate":"日期","invest.thCode":"代码","invest.thDir":"方向","invest.thPrice":"价格","invest.thQty":"数量","invest.thNote":"备注","invest.noTrades":"暂无操作记录","invest.buy":"买入","invest.sell":"卖出","invest.loading":"加载中...","invest.loadError":"数据加载失败","invest.loadKline":"加载K线数据...","invest.clickHint":"点击上方持仓卡片查看走势图","invest.costLine":"成本","invest.navLine":"净值"},
   en: {
     "nav.home":"Home","nav.about":"About","nav.skills":"Skills","nav.world":"World","world.title":"My World","world.stocks.title":"Stocks","world.stocks.desc":"A-share veteran leek. Believes 「drops are buying opportunities」. Portfolio goes red and green, mindset stays calm.","world.genshin.title":"Genshin","world.genshin.desc":"Traveler of Teyvat. Never misses daily commissions. Stars in Abyss, chilling in Serenitea Pot.","world.novel.title":"Novels","world.novel.desc":"Drawn to Murakami, Hesse, Maugham. Literature is a refuge for the soul.","world.anime.title":"Anime","world.anime.desc":"Eternal anime chaser. Action, slice-of-life, healing — all welcome. Bilibili premium auto-renewed.","world.code.title":"Code","world.code.desc":"Not working, just tinkering with AI Agents. Building wheels with code is a kind of romance.","nav.projects":"Projects","nav.records":"Records","nav.invest":"Invest","nav.contact":"Contact",
     "hero.badge":"Tech × Anime",
@@ -51,9 +51,9 @@ const I18N = {
     "contact.title":"Contact","contact.email":"Email","contact.phone":"Phone","contact.douyin":"Douyin","contact.x":"X (Twitter)","contact.github":"GitHub","contact.text":"Let's build something amazing together!<br>一起来做点有趣的东西吧！",
     "contact.btn":"Visit My GitHub","footer.powered":"Powered by","footer.jp":"This page was made with love and passion",
     "typed":["Code is Art. Terminals can be cute.","Tech × Anime","Welcome to my world ⚡","Changing the world with code 🌸","Building the future, one line at a time."]
-  },
+  ,"invest.costPrice":"Cost","invest.costNav":"Cost NAV","invest.holdings":"Holdings","invest.shares":"shares","invest.units":"units","invest.marketValue":"Market Value","invest.profit":"P/L","invest.dailyK":"Daily K","invest.navChart":"NAV Chart","invest.tradeLog":"Trade Log","invest.thDate":"Date","invest.thCode":"Code","invest.thDir":"Dir","invest.thPrice":"Price","invest.thQty":"Qty","invest.thNote":"Note","invest.noTrades":"No trades yet","invest.buy":"Buy","invest.sell":"Sell","invest.loading":"Loading...","invest.loadError":"Failed to load data","invest.loadKline":"Loading K-line...","invest.clickHint":"Click a holding card above to view chart","invest.costLine":"Cost","invest.navLine":"NAV"},
   ja: {
-    "nav.home":"ホーム","nav.about":"について","nav.skills":"スキル","nav.world":"世界","world.title":"私の世界","world.stocks.title":"株","world.stocks.desc":"A株歴戦のニラ。「下がれば買い」と信じている。口座は赤と緑、心境は犬のように安定。","world.genshin.title":"原神","world.genshin.desc":"テイワット大陸の旅人。デイリー委託は欠かさない。深境螺旋満星、洞天は放置気味。","world.novel.title":"小説","world.novel.desc":"村上春樹、ヘッセ、モームが好き。文学は魂の避難所。","world.anime.title":"アニメ","world.anime.desc":"永遠の追番人。バトル・日常・癒し系ぜんぶOK。Bilibili年間会員は自動更新中。","world.code.title":"コード","world.code.desc":"仕事ではなくAI Agentをいじっている。コードで車輪を再造するのはロマン。","nav.projects":"プロジェクト","nav.contact":"連絡",
+    "nav.home":"ホーム","nav.about":"について","nav.skills":"スキル","nav.world":"世界","world.title":"私の世界","world.stocks.title":"株","world.stocks.desc":"A株歴戦のニラ。「下がれば買い」と信じている。口座は赤と緑、心境は犬のように安定。","world.genshin.title":"原神","world.genshin.desc":"テイワット大陸の旅人。デイリー委託は欠かさない。深境螺旋満星、洞天は放置気味。","world.novel.title":"小説","world.novel.desc":"村上春樹、ヘッセ、モームが好き。文学は魂の避難所。","world.anime.title":"アニメ","world.anime.desc":"永遠の追番人。バトル・日常・癒し系ぜんぶOK。Bilibili年間会員は自動更新中。","world.code.title":"コード","world.code.desc":"仕事ではなくAI Agentをいじっている。コードで車輪を再造するのはロマン。","nav.records":"記録","nav.invest":"投資","nav.projects":"プロジェクト","nav.contact":"連絡",
     "hero.badge":"テクノロジー × 二次元",
     "hero.github":"GitHub","hero.about":"について →",
     "about.title":"について",
@@ -78,5 +78,5 @@ const I18N = {
     "contact.title":"連絡","contact.email":"メール","contact.phone":"電話","contact.douyin":"抖音","contact.x":"X (Twitter)","contact.github":"GitHub","contact.text":"一緒に素晴らしいものを作りましょう！<br>一起来做点有趣的东西吧！",
     "contact.btn":"GitHub を見る","footer.powered":"Powered by","footer.jp":"このページは愛と情熱で作られました",
     "typed":["コードは芸術。端末も可愛い。","テクノロジー × 二次元","私の世界へようこそ ⚡","コードで世界を変える 🌸","一行ずつ、未来を構築する"]
-  }
+  ,"invest.costPrice":"取得単価","invest.costNav":"取得基準価額","invest.holdings":"保有","invest.shares":"株","invest.units":"口","invest.marketValue":"時価","invest.profit":"損益","invest.dailyK":"日足","invest.navChart":"基準価額推移","invest.tradeLog":"取引記録","invest.thDate":"日付","invest.thCode":"コード","invest.thDir":"売買","invest.thPrice":"価格","invest.thQty":"数量","invest.thNote":"備考","invest.noTrades":"取引記録なし","invest.buy":"買い","invest.sell":"売り","invest.loading":"読み込み中...","invest.loadError":"データ読み込み失敗","invest.loadKline":"K線読み込み中...","invest.clickHint":"上の保有カードをクリックしてチャートを表示","invest.costLine":"取得","invest.navLine":"基準価額"}
 };
