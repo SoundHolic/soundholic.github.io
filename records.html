@@ -12,14 +12,28 @@
   .records-container { max-width:800px; margin:120px auto 40px; padding:0 20px; }
   .article-card {
     background:rgba(255,255,255,0.03); border:1px solid rgba(0,255,255,0.12);
-    border-radius:12px; overflow:hidden; margin-bottom:24px;
+    border-radius:12px; overflow:hidden; margin-bottom:24px; display:none;
     backdrop-filter:blur(10px); transition:border-color .3s;
   }
+  .article-card.visible { display:block; }
   .article-card:hover { border-color:rgba(0,255,255,0.3); }
   .article-card img { width:100%; max-height:400px; object-fit:cover; display:block; }
+  .cover-placeholder {
+    width:100%; height:160px; display:flex; align-items:center; justify-content:center;
+    font-size:48px; font-weight:900; font-family:Orbitron; color:rgba(255,255,255,0.3);
+  }
   .article-body { padding:20px; }
   .article-date { font-size:13px; color:#0ff; font-family:Orbitron; margin-bottom:8px; }
   .article-text { font-size:15px; color:#ccc; line-height:1.8; }
+  .pagination { display:flex; justify-content:center; gap:8px; margin-top:32px; }
+  .pagination button {
+    background:rgba(255,255,255,0.05); border:1px solid rgba(0,255,255,0.2);
+    color:#0ff; padding:8px 16px; border-radius:6px; cursor:pointer;
+    font-family:Orbitron; font-size:14px; transition:all .2s;
+  }
+  .pagination button:hover { background:rgba(0,255,255,0.1); }
+  .pagination button.active { background:rgba(0,255,255,0.2); border-color:#0ff; }
+  .pagination button:disabled { opacity:0.3; cursor:default; }
 </style>
 </head>
 <body>
@@ -56,19 +70,149 @@
 </header>
 
 <main>
-<div class="records-container">
-
-  <article class="article-card">
-    <img src="images/jiaozi.jpg" alt="小黑煎饺" loading="lazy">
-    <div class="article-body">
-      <div class="article-date">2026-07-07</div>
-      <div class="article-text">
-        一家叫「小黑煎饺」的早餐店，承载着一代望江本地人的回忆。从高中起就开始吃的煎饺，位置就在水木清华单元楼的下面，必须是菜饺子蘸醋才好吃，价格这些年也涨了不少。
+<div class="records-container" id="recordsList">
+    <article class="article-card" data-page="0">
+      <img src="images/jiaozi.jpg" alt="" loading="lazy">
+      <div class="article-body">
+        <div class="article-date">2026-07-07</div>
+        <div class="article-text">一家叫「小黑煎饺」的早餐店，承载着一代望江本地人的回忆。从高中起就开始吃的煎饺，位置就在水木清华单元楼的下面，必须是菜饺子蘸醋才好吃，价格这些年也涨了不少。</div>
       </div>
-    </div>
-  </article>
-
+    </article>
+    <article class="article-card" data-page="0">
+      <div class="cover-placeholder" style="background:linear-gradient(135deg,#4a9,transparent 70%);"><span>06</span></div>
+      <div class="article-body">
+        <div class="article-date">2026-07-06</div>
+        <div class="article-text">今天300724又跌了，心态平稳。作为一个成熟的韭菜，早已学会了在暴跌中微笑。成本78.67，现在66块多，浮亏两万多。但我不慌，因为我相信光伏的长期逻辑。吧。</div>
+      </div>
+    </article>
+    <article class="article-card" data-page="0">
+      <div class="cover-placeholder" style="background:linear-gradient(135deg,#e74,transparent 70%);"><span>05</span></div>
+      <div class="article-body">
+        <div class="article-date">2026-07-05</div>
+        <div class="article-text">原神5.7版本终于把纳塔主线推完了。剧情比枫丹差了点意思，但火神的战斗演出确实燃。深渊12层换了新怪，用胡桃队硬刮过去了，凹了47次。</div>
+      </div>
+    </article>
+    <article class="article-card" data-page="0">
+      <div class="cover-placeholder" style="background:linear-gradient(135deg,#0af,transparent 70%);"><span>04</span></div>
+      <div class="article-body">
+        <div class="article-date">2026-07-04</div>
+        <div class="article-text">周末把AI Agent的本地部署折腾了一遍。Hermes Agent配合deepseek模型跑得还挺顺，就是token消耗有点大。准备写几个自动化技能挂到cron上试试。</div>
+      </div>
+    </article>
+    <article class="article-card" data-page="0">
+      <div class="cover-placeholder" style="background:linear-gradient(135deg,#c8a,transparent 70%);"><span>03</span></div>
+      <div class="article-body">
+        <div class="article-date">2026-07-03</div>
+        <div class="article-text">今天读完了毛姆的《刀锋》。拉里那种对人生意义的追寻让人着迷。每个人都在走自己的路，有人追求物质，有人追求精神，没有对错，只有选择。</div>
+      </div>
+    </article>
+    <article class="article-card" data-page="0">
+      <div class="cover-placeholder" style="background:linear-gradient(135deg,#f80,transparent 70%);"><span>02</span></div>
+      <div class="article-body">
+        <div class="article-date">2026-07-02</div>
+        <div class="article-text">Windows上跑ComfyUI + AMD显卡的经历真是一言难尽。ROCm装不上，DirectML勉强能用但SDXL速度只有35秒一张。羡慕N卡用户的快乐。</div>
+      </div>
+    </article>
+    <article class="article-card" data-page="0">
+      <div class="cover-placeholder" style="background:linear-gradient(135deg,#f44,transparent 70%);"><span>01</span></div>
+      <div class="article-body">
+        <div class="article-date">2026-07-01</div>
+        <div class="article-text">上半年结束，A股账户收益率-15.3%。主要亏损来自光伏和白酒。招商中证白酒年初到现在跌了快20个点，但我还在坚持定投。信仰不能丢。</div>
+      </div>
+    </article>
+    <article class="article-card" data-page="0">
+      <div class="cover-placeholder" style="background:linear-gradient(135deg,#4c8,transparent 70%);"><span>28</span></div>
+      <div class="article-body">
+        <div class="article-date">2026-06-28</div>
+        <div class="article-text">周末回望江，老家的变化太大了。小时候那条河边的小路已经变成了滨河公园。县城的商业综合体也开起来了，望江正在变得越来越好。</div>
+      </div>
+    </article>
+    <article class="article-card" data-page="0">
+      <div class="cover-placeholder" style="background:linear-gradient(135deg,#c6f,transparent 70%);"><span>25</span></div>
+      <div class="article-body">
+        <div class="article-date">2026-06-25</div>
+        <div class="article-text">用Blender建了一个尘歌壶的3D模型，打印出来大概要8小时。Bambu Studio的切片参数还在调，支撑结构总是加太多。3D打印真是个烧时间的爱好。</div>
+      </div>
+    </article>
+    <article class="article-card" data-page="0">
+      <div class="cover-placeholder" style="background:linear-gradient(135deg,#f6a,transparent 70%);"><span>22</span></div>
+      <div class="article-body">
+        <div class="article-date">2026-06-22</div>
+        <div class="article-text">最近在追《怪兽8号》第二季，制作质量比第一季好太多了。日向和卡夫卡的羁绊线写得真好，这才是热血番该有的样子。每周等更新等得心焦。</div>
+      </div>
+    </article>
+    <article class="article-card" data-page="1">
+      <div class="cover-placeholder" style="background:linear-gradient(135deg,#888,transparent 70%);"><span>20</span></div>
+      <div class="article-body">
+        <div class="article-date">2026-06-20</div>
+        <div class="article-text">单位的公文写作又来了。这次是年度工作总结汇报，写了三千字。体制内的文字功底就是这样一年年磨出来的，虽然无聊但确实有用。</div>
+      </div>
+    </article>
+    <article class="article-card" data-page="1">
+      <div class="cover-placeholder" style="background:linear-gradient(135deg,#6cf,transparent 70%);"><span>18</span></div>
+      <div class="article-body">
+        <div class="article-date">2026-06-18</div>
+        <div class="article-text">把deepseek-v4调教了一周，终于写出了能自动回复邮件的skill。Prompt engineering真是个玄学，同一个提示词隔天效果差很多，AI的心思你别猜。</div>
+      </div>
+    </article>
+    <article class="article-card" data-page="1">
+      <div class="cover-placeholder" style="background:linear-gradient(135deg,#da5,transparent 70%);"><span>15</span></div>
+      <div class="article-body">
+        <div class="article-date">2026-06-15</div>
+        <div class="article-text">美团上买了一份煎饼果子，送到手里已经凉透了。想起大学门口的那家煎饼摊，老板现做现卖，热腾腾的咬一口满嘴香。有些味道只能在记忆里重温了。</div>
+      </div>
+    </article>
+    <article class="article-card" data-page="1">
+      <div class="cover-placeholder" style="background:linear-gradient(135deg,#38d,transparent 70%);"><span>12</span></div>
+      <div class="article-body">
+        <div class="article-date">2026-06-12</div>
+        <div class="article-text">Python 3.14发布了，free-threading终于稳定了。试了一下多线程性能确实有提升，但现有库的兼容性还是个问题。生态迁移估计要一两年。</div>
+      </div>
+    </article>
+    <article class="article-card" data-page="1">
+      <div class="cover-placeholder" style="background:linear-gradient(135deg,#d00,transparent 70%);"><span>10</span></div>
+      <div class="article-body">
+        <div class="article-date">2026-06-10</div>
+        <div class="article-text">RX 6800 XT 用了一年，16GB显存是真的香。虽然AI训练方面不如N卡，但性价比没得说。最近驱动更新后游戏性能又提升了5%，AMD战未来。</div>
+      </div>
+    </article>
+    <article class="article-card" data-page="1">
+      <div class="cover-placeholder" style="background:linear-gradient(135deg,#fb3,transparent 70%);"><span>08</span></div>
+      <div class="article-body">
+        <div class="article-date">2026-06-08</div>
+        <div class="article-text">读完《克拉拉与太阳》，石黑一雄的笔触一如既往的克制而深刻。一个AI如何看待人类的情感与承诺？克拉拉的忠诚让我既感动又心疼。</div>
+      </div>
+    </article>
+    <article class="article-card" data-page="1">
+      <div class="cover-placeholder" style="background:linear-gradient(135deg,#48d,transparent 70%);"><span>05</span></div>
+      <div class="article-body">
+        <div class="article-date">2026-06-05</div>
+        <div class="article-text">望江的夏天来得特别早。五月底就已经35度了，办公室空调嗡嗡响。医保局的工作虽然琐碎，但偶尔能帮到真正需要帮助的人，也算有点意义。</div>
+      </div>
+    </article>
+    <article class="article-card" data-page="1">
+      <div class="cover-placeholder" style="background:linear-gradient(135deg,#a4f,transparent 70%);"><span>02</span></div>
+      <div class="article-body">
+        <div class="article-date">2026-06-02</div>
+        <div class="article-text">试了一下用Remotion做视频，React写动画确实爽。做了一个1分钟的科普小短片，渲染出来1080p用了3分钟。这个工具链很适合做批量内容。</div>
+      </div>
+    </article>
+    <article class="article-card" data-page="1">
+      <div class="cover-placeholder" style="background:linear-gradient(135deg,#e52,transparent 70%);"><span>30</span></div>
+      <div class="article-body">
+        <div class="article-date">2026-05-30</div>
+        <div class="article-text">五月最后一跌，白酒又绿了。但我不割肉。坚守了这么久，不差这一时半会儿。投资是场修行，考验的不是技术而是心性。</div>
+      </div>
+    </article>
+    <article class="article-card" data-page="1">
+      <div class="cover-placeholder" style="background:linear-gradient(135deg,#b7f,transparent 70%);"><span>28</span></div>
+      <div class="article-body">
+        <div class="article-date">2026-05-28</div>
+        <div class="article-text">给GitHub Pages网站加了多语言切换，中英日三语。i18n的坑比想象中多，特别是数据属性的动态绑定。不过最终效果还不错，国際化サイトっぽい。</div>
+      </div>
+    </article>
 </div>
+<div class="pagination" id="pagination"></div>
 </main>
 
 <footer>
@@ -78,5 +222,33 @@
 
 <script src="i18n.js"></script>
 <script src="main.js"></script>
+<script>
+const PER_PAGE = 10;
+const cards = document.querySelectorAll('.article-card');
+const totalPages = Math.ceil(cards.length / PER_PAGE);
+let currentPage = 1;
+
+function showPage(page) {
+  currentPage = page;
+  cards.forEach((card, i) => {
+    const cardPage = Math.floor(i / PER_PAGE) + 1;
+    card.classList.toggle('visible', cardPage === page);
+  });
+  renderPagination();
+  window.scrollTo({ top:0, behavior:'smooth' });
+}
+
+function renderPagination() {
+  const pag = document.getElementById('pagination');
+  let html = `<button onclick="showPage(${currentPage}-1)" ${currentPage===1?'disabled':''}>‹</button>`;
+  for (let p=1; p<=totalPages; p++) {
+    html += `<button class="${p===currentPage?'active':''}" onclick="showPage(${p})">${p}</button>`;
+  }
+  html += `<button onclick="showPage(${currentPage}+1)" ${currentPage===totalPages?'disabled':''}>›</button>`;
+  pag.innerHTML = html;
+}
+
+showPage(1);
+</script>
 </body>
 </html>
