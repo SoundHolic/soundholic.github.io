@@ -14,11 +14,10 @@
   .holdings-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:20px; margin-bottom:32px; }
   .holding-card {
     background:rgba(255,255,255,0.03); border:1px solid rgba(0,255,255,0.15);
-    border-radius:12px; padding:20px; backdrop-filter:blur(10px); cursor:default;
+    border-radius:12px; padding:20px; backdrop-filter:blur(10px); cursor:pointer;
     transition:border-color .3s, transform .2s;
   }
-  .holding-card.clickable { cursor:pointer; }
-  .holding-card.clickable:hover { border-color:rgba(0,255,255,0.5); transform:translateY(-2px); }
+  .holding-card:hover { border-color:rgba(0,255,255,0.5); transform:translateY(-2px); }
   .holding-card.active { border-color:rgba(0,255,255,0.6); box-shadow:0 0 20px rgba(0,255,255,0.1); }
   .holding-card .symbol { font-family:Orbitron; font-size:20px; font-weight:700; color:#0ff; }
   .holding-card .name { font-size:13px; color:#888; margin:4px 0 12px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
@@ -28,14 +27,10 @@
   .holding-card .row .value.red { color:#f44; }
   .holding-card .row .value.green { color:#0f0; }
   .chart-section { margin-bottom:40px; }
-  .chart-section h3 { font-size:18px; color:#0ff; margin-bottom:12px; font-family:Orbitron; }
+  .chart-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+  .chart-header h3 { font-size:18px; color:#0ff; font-family:Orbitron; margin:0; }
   .chart-wrap { position:relative; width:100%; height:500px; background:rgba(0,0,0,0.3); border-radius:8px; overflow:hidden; }
   .chart-wrap .loading { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:#555; font-size:14px; }
-  .fund-chart-section { margin-bottom:40px; }
-  .fund-chart-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
-  .fund-chart-header h3 { font-size:18px; color:#0ff; font-family:Orbitron; margin:0; }
-  .fund-chart-wrap { width:100%; height:400px; background:rgba(0,0,0,0.3); border-radius:8px; overflow:hidden; position:relative; }
-  .empty-state { text-align:center; padding:60px 20px; color:#555; font-size:15px; }
   .trade-log { margin-top:32px; }
   .trade-log h3 { font-size:18px; color:#0ff; margin-bottom:12px; font-family:Orbitron; }
   .trade-table { width:100%; border-collapse:collapse; font-size:14px; }
@@ -84,15 +79,10 @@
   <div class="holdings-grid" id="holdingsGrid"></div>
 
   <div class="chart-section">
-    <h3>300724 捷佳伟创 · 日K</h3>
-    <div class="chart-wrap" id="chart300724"><div class="loading">加载中...</div></div>
-  </div>
-
-  <div class="fund-chart-section">
-    <div class="fund-chart-header">
-      <h3 id="fundChartTitle">基金净值走势</h3>
+    <div class="chart-header">
+      <h3 id="chartTitle">点击持仓卡片查看走势</h3>
     </div>
-    <div class="fund-chart-wrap" id="chartFund"><div class="loading">点击上方基金卡片查看净值走势</div></div>
+    <div class="chart-wrap" id="chartArea"><div class="loading">点击上方持仓卡片查看走势图</div></div>
   </div>
 
   <div class="trade-log" id="tradeLogSection">
@@ -116,67 +106,63 @@
 <script src="i18n.js"></script>
 <script src="main.js"></script>
 <script>
-// === 持仓数据 ===
 const HOLDINGS = {
   '300724': { cost:78.67, shares:2300, name:'捷佳伟创', type:'stock' },
   '012414': { cost:0.56, shares:13196, name:'招商中证白酒指数(LOF)C', type:'fund' },
   '007339': { cost:1.95, shares:51, name:'易方达沪深300ETF联接C', type:'fund' }
 };
-
 const TRADES = [];
-
-let activeFundCode = null;
-let fundChart = null;
-let fundLineSeries = null;
+let klineData = null, fundNavData = {};
+let activeCode = null, activeChart = null, activeSeries = null;
 
 // === 渲染持仓卡片 ===
-function renderHoldingCards(klines, funds) {
+function renderHoldingCards() {
   const grid = document.getElementById('holdingsGrid');
-
-  // 计算300724最新价
-  const lastK = klines[klines.length-1];
-  const price300724 = lastK.c;
-
-  // 计算基金最新净值
-  const nav012414 = funds['012414'].length ? funds['012414'][funds['012414'].length-1].v : 0;
-  const nav007339 = funds['007339'].length ? funds['007339'][funds['007339'].length-1].v : 0;
-
-  const cards = [
-    { code:'300724', price:price300724 },
-    { code:'012414', price:nav012414 },
-    { code:'007339', price:nav007339 },
-  ];
-
-  grid.innerHTML = cards.map(c => {
-    const h = HOLDINGS[c.code];
-    const val = c.price * h.shares;
+  const codes = Object.keys(HOLDINGS);
+  grid.innerHTML = codes.map(code => {
+    const h = HOLDINGS[code];
+    let price = 0;
+    if (h.type === 'stock' && klineData && klineData.length) {
+      price = klineData[klineData.length-1].c;
+    } else if (h.type === 'fund' && fundNavData[code] && fundNavData[code].length) {
+      price = fundNavData[code][fundNavData[code].length-1].v;
+    }
+    const val = price * h.shares;
     const costVal = h.cost * h.shares;
     const pl = val - costVal;
-    const plPct = c.price ? ((c.price - h.cost) / h.cost * 100).toFixed(2) : '--';
+    const plPct = price ? ((price - h.cost) / h.cost * 100).toFixed(2) : '--';
     const cl = pl >= 0 ? 'green' : 'red';
-    const isFund = h.type === 'fund';
-    const clickable = isFund ? ' clickable' : '';
-    const activeClass = (activeFundCode === c.code) ? ' active' : '';
-    const onclick = isFund ? ` onclick="switchFund('${c.code}')"` : '';
+    const activeClass = (activeCode === code) ? ' active' : '';
+    const isStock = h.type === 'stock';
+    const unit = isStock ? '股' : '份';
+    const costLabel = isStock ? '成本价' : '成本净值';
 
-    return `<div class="holding-card${clickable}${activeClass}"${onclick}>
-      <div class="symbol">${c.code}</div>
+    return `<div class="holding-card${activeClass}" onclick="switchTo('${code}')">
+      <div class="symbol">${code}</div>
       <div class="name">${h.name}</div>
-      <div class="row"><span class="label">成本${isFund?'净值':'价'}</span><span class="value">¥${h.cost}</span></div>
-      <div class="row"><span class="label">持仓</span><span class="value">${h.shares.toLocaleString()} ${isFund?'份':'股'}</span></div>
+      <div class="row"><span class="label">${costLabel}</span><span class="value">¥${h.cost}</span></div>
+      <div class="row"><span class="label">持仓</span><span class="value">${h.shares.toLocaleString()} ${unit}</span></div>
       <div class="row"><span class="label">市值</span><span class="value">¥${val.toLocaleString('zh-CN',{minimumFractionDigits:2})}</span></div>
       <div class="row"><span class="label">盈亏</span><span class="value ${cl}">${pl>=0?'+':''}${pl.toLocaleString('zh-CN',{minimumFractionDigits:2})} (${plPct>=0?'+':''}${plPct}%)</span></div>
     </div>`;
   }).join('');
 }
 
-// === K线图 ===
-function renderKlineChart(klines) {
-  const container = document.getElementById('chart300724');
-  container.innerHTML = '';
-  if (!window.LightweightCharts) { container.innerHTML='<div class="loading">图表库加载失败</div>'; return; }
+// === 切换标的 ===
+function switchTo(code) {
+  activeCode = code;
+  renderHoldingCards();
+  const h = HOLDINGS[code];
+  const title = document.getElementById('chartTitle');
+  title.textContent = code + ' ' + h.name + (h.type==='stock'?' · 日K':' · 净值走势');
 
-  const chart = window.LightweightCharts.createChart(container, {
+  if (!window.LightweightCharts) return;
+
+  const container = document.getElementById('chartArea');
+  container.innerHTML = '';
+  if (activeChart) { activeChart.remove(); activeChart = null; activeSeries = null; }
+
+  activeChart = window.LightweightCharts.createChart(container, {
     width:container.clientWidth, height:500,
     layout:{ background:{type:'solid',color:'rgba(0,0,0,0.0)'}, textColor:'#888' },
     grid:{ vertLines:{color:'rgba(255,255,255,0.04)'}, horzLines:{color:'rgba(255,255,255,0.04)'} },
@@ -185,72 +171,37 @@ function renderKlineChart(klines) {
     timeScale:{borderColor:'rgba(255,255,255,0.1)',timeVisible:true},
   });
 
-  const candleData = klines.map(d => ({time:d.t,open:d.o,high:d.h,low:d.l,close:d.c}));
-  const series = chart.addCandlestickSeries({
-    upColor:'#00ff88',downColor:'#ff4466',borderUpColor:'#00ff88',borderDownColor:'#ff4466',
-    wickUpColor:'#00ff88',wickDownColor:'#ff4466',
-  });
-  series.setData(candleData);
+  if (h.type === 'stock') {
+    const data = klineData.map(d => ({time:d.t,open:d.o,high:d.h,low:d.l,close:d.c}));
+    activeSeries = activeChart.addCandlestickSeries({
+      upColor:'#00ff88',downColor:'#ff4466',borderUpColor:'#00ff88',borderDownColor:'#ff4466',
+      wickUpColor:'#00ff88',wickDownColor:'#ff4466',
+    });
+    activeSeries.setData(data);
+
+    // 操作标记
+    const markers = TRADES.filter(t=>t.symbol===code).map(t=>({
+      time:t.date, position:t.type==='buy'?'belowBar':'aboveBar',
+      color:t.type==='buy'?'#00ff88':'#ff4466', shape:t.type==='buy'?'arrowUp':'arrowDown',
+      text:(t.type==='buy'?'B':'S')+t.price, size:2,
+    }));
+    if(markers.length) activeSeries.setMarkers(markers);
+
+  } else {
+    const data = fundNavData[code].map(d => ({time:d.t,value:d.v}));
+    activeSeries = activeChart.addLineSeries({
+      color:'#00ff88', lineWidth:2, priceLineVisible:false, lastValueVisible:true,
+    });
+    activeSeries.setData(data);
+  }
 
   // 成本线
-  series.createPriceLine({
-    price:78.67, color:'#ffff00', lineWidth:2, lineStyle:2, axisLabelVisible:true, title:'成本 78.67',
+  activeSeries.createPriceLine({
+    price:h.cost, color:'#ffff00', lineWidth:2, lineStyle:2, axisLabelVisible:true,
+    title: (h.type==='stock'?'成本 ':'净值 ')+h.cost,
   });
 
-  // 操作标记
-  const markers = TRADES.filter(t=>t.symbol==='300724').map(t=>({
-    time:t.date, position:t.type==='buy'?'belowBar':'aboveBar',
-    color:t.type==='buy'?'#00ff88':'#ff4466', shape:t.type==='buy'?'arrowUp':'arrowDown',
-    text:(t.type==='buy'?'B':'S')+t.price, size:2,
-  }));
-  if(markers.length) series.setMarkers(markers);
-
-  chart.timeScale().fitContent();
-  window.addEventListener('resize',()=>{ chart.applyOptions({width:container.clientWidth,height:500}); });
-}
-
-// === 基金净值图 ===
-let fundNavData = {};
-
-function switchFund(code) {
-  // 高亮卡片
-  document.querySelectorAll('.holding-card').forEach(el => el.classList.remove('active'));
-  const cards = document.querySelectorAll('.holding-card');
-  if (code === '012414' && cards[1]) cards[1].classList.add('active');
-  if (code === '007339' && cards[2]) cards[2].classList.add('active');
-
-  activeFundCode = code;
-  const h = HOLDINGS[code];
-  const data = fundNavData[code] || [];
-  if (!data.length) return;
-
-  const container = document.getElementById('chartFund');
-  container.innerHTML = '';
-  document.getElementById('fundChartTitle').textContent = code + ' ' + h.name + ' · 净值走势';
-
-  if (fundChart) { fundChart.remove(); fundChart = null; }
-
-  fundChart = window.LightweightCharts.createChart(container, {
-    width:container.clientWidth, height:400,
-    layout:{ background:{type:'solid',color:'rgba(0,0,0,0.0)'}, textColor:'#888' },
-    grid:{ vertLines:{color:'rgba(255,255,255,0.04)'}, horzLines:{color:'rgba(255,255,255,0.04)'} },
-    crosshair:{mode:1},
-    rightPriceScale:{borderColor:'rgba(255,255,255,0.1)'},
-    timeScale:{borderColor:'rgba(255,255,255,0.1)',timeVisible:true},
-  });
-
-  fundLineSeries = fundChart.addLineSeries({
-    color:'#00ff88', lineWidth:2,
-    priceLineVisible:false, lastValueVisible:true,
-  });
-  fundLineSeries.setData(data.map(d => ({time:d.t,value:d.v})));
-
-  // 成本线
-  fundLineSeries.createPriceLine({
-    price:h.cost, color:'#ffff00', lineWidth:2, lineStyle:2, axisLabelVisible:true, title:'成本 '+h.cost,
-  });
-
-  fundChart.timeScale().fitContent();
+  activeChart.timeScale().fitContent();
 }
 
 // === 操作记录 ===
@@ -263,6 +214,14 @@ function renderTrades() {
   `).join('');
 }
 
+// === 窗口大小变化 ===
+window.addEventListener('resize',()=>{
+  if(activeChart){
+    const c = document.getElementById('chartArea');
+    activeChart.applyOptions({width:c.clientWidth,height:500});
+  }
+});
+
 // === 启动 ===
 async function init() {
   try {
@@ -271,20 +230,13 @@ async function init() {
       fetch('data/012414_nav.json'),
       fetch('data/007339_nav.json')
     ]);
-    const klines = await kresp.json();
-    const nav1 = await f1resp.json();
-    const nav2 = await f2resp.json();
-    fundNavData = { '012414':nav1, '007339':nav2 };
-
-    renderHoldingCards(klines, fundNavData);
-    renderKlineChart(klines);
+    klineData = await kresp.json();
+    fundNavData = { '012414':await f1resp.json(), '007339':await f2resp.json() };
+    renderHoldingCards();
     renderTrades();
-
-    // 默认显示012414净值图
-    setTimeout(() => switchFund('012414'), 300);
+    switchTo('300724');
   } catch(e) {
-    document.getElementById('chart300724').innerHTML = '<div class="loading">数据加载失败: '+e.message+'</div>';
-    document.getElementById('chartFund').innerHTML = '<div class="loading">数据加载失败</div>';
+    document.getElementById('chartArea').innerHTML = '<div class="loading">数据加载失败: '+e.message+'</div>';
   }
 }
 
