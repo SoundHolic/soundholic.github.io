@@ -106,6 +106,8 @@ document.querySelectorAll('.article-cover').forEach(cover => {
   if (imgs.length <= 1) return;
   const mainImg = imgs[0];
   mainImg.classList.add('cover-img');
+  // hide extra img tags
+  for (let i = 1; i < imgs.length; i++) imgs[i].style.display = 'none';
   
   const thumbs = document.createElement('div');
   thumbs.className = 'cover-thumbs';
