@@ -11,15 +11,17 @@
 <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
 <style>
   .invest-container { max-width:1200px; margin:120px auto 40px; padding:0 20px; }
-  .holdings-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:20px; margin-bottom:32px; }
+  .holdings-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:20px; margin-bottom:32px; }
   .holding-card {
     background:rgba(255,255,255,0.03); border:1px solid rgba(0,255,255,0.15);
-    border-radius:12px; padding:20px; backdrop-filter:blur(10px);
-    transition:border-color .3s;
+    border-radius:12px; padding:20px; backdrop-filter:blur(10px); cursor:default;
+    transition:border-color .3s, transform .2s;
   }
-  .holding-card:hover { border-color:rgba(0,255,255,0.4); }
+  .holding-card.clickable { cursor:pointer; }
+  .holding-card.clickable:hover { border-color:rgba(0,255,255,0.5); transform:translateY(-2px); }
+  .holding-card.active { border-color:rgba(0,255,255,0.6); box-shadow:0 0 20px rgba(0,255,255,0.1); }
   .holding-card .symbol { font-family:Orbitron; font-size:20px; font-weight:700; color:#0ff; }
-  .holding-card .name { font-size:14px; color:#888; margin:4px 0 12px; }
+  .holding-card .name { font-size:13px; color:#888; margin:4px 0 12px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
   .holding-card .row { display:flex; justify-content:space-between; padding:6px 0; font-size:14px; border-bottom:1px solid rgba(255,255,255,0.05); }
   .holding-card .row .label { color:#666; }
   .holding-card .row .value { color:#ccc; font-family:Orbitron; }
@@ -29,8 +31,10 @@
   .chart-section h3 { font-size:18px; color:#0ff; margin-bottom:12px; font-family:Orbitron; }
   .chart-wrap { position:relative; width:100%; height:500px; background:rgba(0,0,0,0.3); border-radius:8px; overflow:hidden; }
   .chart-wrap .loading { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:#555; font-size:14px; }
-  .fund-chart-wrap { width:100%; height:300px; background:rgba(0,0,0,0.3); border-radius:8px; overflow:hidden; position:relative; }
-  .fund-chart-wrap .loading { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:#555; font-size:14px; }
+  .fund-chart-section { margin-bottom:40px; }
+  .fund-chart-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+  .fund-chart-header h3 { font-size:18px; color:#0ff; font-family:Orbitron; margin:0; }
+  .fund-chart-wrap { width:100%; height:400px; background:rgba(0,0,0,0.3); border-radius:8px; overflow:hidden; position:relative; }
   .empty-state { text-align:center; padding:60px 20px; color:#555; font-size:15px; }
   .trade-log { margin-top:32px; }
   .trade-log h3 { font-size:18px; color:#0ff; margin-bottom:12px; font-family:Orbitron; }
@@ -39,8 +43,6 @@
   .trade-table td { padding:10px 12px; border-bottom:1px solid rgba(255,255,255,0.05); color:#ccc; }
   .trade-table .buy { color:#0f0; }
   .trade-table .sell { color:#f44; }
-  .fund-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:40px; }
-  @media(max-width:768px){ .fund-grid{grid-template-columns:1fr;} }
 </style>
 </head>
 <body>
@@ -79,36 +81,18 @@
 <main>
 <div class="invest-container">
 
-  <div class="holdings-grid" id="holdingsGrid">
-    <div class="holding-card">
-      <div class="symbol">300724</div>
-      <div class="name">捷佳伟创</div>
-      <div class="row"><span class="label">成本价</span><span class="value">¥78.67</span></div>
-      <div class="row"><span class="label">持仓</span><span class="value">2,300 股</span></div>
-      <div class="row"><span class="label">市值</span><span class="value" id="val300724">加载中...</span></div>
-      <div class="row"><span class="label">盈亏</span><span class="value" id="pl300724">--</span></div>
-    </div>
-    <div class="holding-card">
-      <div class="symbol">012414</div>
-      <div class="name">基金</div>
-      <div class="row"><span class="label">成本净值</span><span class="value">¥0.56</span></div>
-      <div class="row"><span class="label">持仓</span><span class="value">13,196 份</span></div>
-      <div class="row"><span class="label">市值</span><span class="value" id="val012414">加载中...</span></div>
-      <div class="row"><span class="label">盈亏</span><span class="value" id="pl012414">--</span></div>
-    </div>
-    <div class="holding-card">
-      <div class="symbol">007339</div>
-      <div class="name">基金</div>
-      <div class="row"><span class="label">成本净值</span><span class="value">¥1.95</span></div>
-      <div class="row"><span class="label">持仓</span><span class="value">51 份</span></div>
-      <div class="row"><span class="label">市值</span><span class="value" id="val007339">加载中...</span></div>
-      <div class="row"><span class="label">盈亏</span><span class="value" id="pl007339">--</span></div>
-    </div>
-  </div>
+  <div class="holdings-grid" id="holdingsGrid"></div>
 
   <div class="chart-section">
     <h3>300724 捷佳伟创 · 日K</h3>
-    <div class="chart-wrap" id="chart300724"><div class="loading">加载K线数据...</div></div>
+    <div class="chart-wrap" id="chart300724"><div class="loading">加载中...</div></div>
+  </div>
+
+  <div class="fund-chart-section">
+    <div class="fund-chart-header">
+      <h3 id="fundChartTitle">基金净值走势</h3>
+    </div>
+    <div class="fund-chart-wrap" id="chartFund"><div class="loading">点击上方基金卡片查看净值走势</div></div>
   </div>
 
   <div class="trade-log" id="tradeLogSection">
@@ -134,186 +118,177 @@
 <script>
 // === 持仓数据 ===
 const HOLDINGS = {
-  '300724': { cost:78.67, shares:2300 },
-  '012414': { cost:0.56, shares:13196 },
-  '007339': { cost:1.95, shares:51 }
+  '300724': { cost:78.67, shares:2300, name:'捷佳伟创', type:'stock' },
+  '012414': { cost:0.56, shares:13196, name:'招商中证白酒指数(LOF)C', type:'fund' },
+  '007339': { cost:1.95, shares:51, name:'易方达沪深300ETF联接C', type:'fund' }
 };
 
-// 操作记录
 const TRADES = [];
 
-// === JSONP 辅助 ===
-function jsonp(url, callbackName, timeout) {
-  return new Promise((resolve, reject) => {
-    const script = document.createElement('script');
-    const timer = setTimeout(() => { cleanup(); reject(new Error('timeout')); }, timeout || 10000);
-    function cleanup() { clearTimeout(timer); if(script.parentNode) script.parentNode.removeChild(script); delete window[callbackName]; }
-    window[callbackName] = function(data) { cleanup(); resolve(data); };
-    script.src = url;
-    script.onerror = () => { cleanup(); reject(new Error('network')); };
-    document.head.appendChild(script);
-  });
+let activeFundCode = null;
+let fundChart = null;
+let fundLineSeries = null;
+
+// === 渲染持仓卡片 ===
+function renderHoldingCards(klines, funds) {
+  const grid = document.getElementById('holdingsGrid');
+
+  // 计算300724最新价
+  const lastK = klines[klines.length-1];
+  const price300724 = lastK.c;
+
+  // 计算基金最新净值
+  const nav012414 = funds['012414'].length ? funds['012414'][funds['012414'].length-1].v : 0;
+  const nav007339 = funds['007339'].length ? funds['007339'][funds['007339'].length-1].v : 0;
+
+  const cards = [
+    { code:'300724', price:price300724 },
+    { code:'012414', price:nav012414 },
+    { code:'007339', price:nav007339 },
+  ];
+
+  grid.innerHTML = cards.map(c => {
+    const h = HOLDINGS[c.code];
+    const val = c.price * h.shares;
+    const costVal = h.cost * h.shares;
+    const pl = val - costVal;
+    const plPct = c.price ? ((c.price - h.cost) / h.cost * 100).toFixed(2) : '--';
+    const cl = pl >= 0 ? 'green' : 'red';
+    const isFund = h.type === 'fund';
+    const clickable = isFund ? ' clickable' : '';
+    const activeClass = (activeFundCode === c.code) ? ' active' : '';
+    const onclick = isFund ? ` onclick="switchFund('${c.code}')"` : '';
+
+    return `<div class="holding-card${clickable}${activeClass}"${onclick}>
+      <div class="symbol">${c.code}</div>
+      <div class="name">${h.name}</div>
+      <div class="row"><span class="label">成本${isFund?'净值':'价'}</span><span class="value">¥${h.cost}</span></div>
+      <div class="row"><span class="label">持仓</span><span class="value">${h.shares.toLocaleString()} ${isFund?'份':'股'}</span></div>
+      <div class="row"><span class="label">市值</span><span class="value">¥${val.toLocaleString('zh-CN',{minimumFractionDigits:2})}</span></div>
+      <div class="row"><span class="label">盈亏</span><span class="value ${cl}">${pl>=0?'+':''}${pl.toLocaleString('zh-CN',{minimumFractionDigits:2})} (${plPct>=0?'+':''}${plPct}%)</span></div>
+    </div>`;
+  }).join('');
 }
 
-// === 更新300724实时价格（腾讯API，JSONP） ===
-function update300724Price() {
-  const cb = '_cb300724_' + Date.now();
-  const url = 'https://qt.gtimg.cn/q=sz300724?callback=' + cb;
-  jsonp(url, cb, 5000).then(data => {
-    // data is a string like: v_sz300724="51~捷佳伟创~...~66.93~..."
-    if (typeof data === 'string') {
-      const parts = data.split('~');
-      const price = parseFloat(parts[3]); // 最新价
-      const name = parts[1];
-      updateHoldingCard('300724', price, name);
-    }
-  }).catch(() => {
-    document.getElementById('val300724').textContent = '获取失败';
-  });
-}
-
-function updateHoldingCard(code, price, name) {
-  const h = HOLDINGS[code];
-  if (!h) return;
-  const val = price * h.shares;
-  const costVal = h.cost * h.shares;
-  const pl = val - costVal;
-  const plPct = ((price - h.cost) / h.cost * 100).toFixed(2);
-
-  document.getElementById('val'+code).textContent = '¥' + val.toLocaleString('zh-CN', {minimumFractionDigits:2});
-  const plEl = document.getElementById('pl'+code);
-  plEl.textContent = (pl>=0?'+':'') + pl.toLocaleString('zh-CN', {minimumFractionDigits:2}) + ' (' + (plPct>=0?'+':'') + plPct + '%)';
-  plEl.className = 'value ' + (pl>=0?'green':'red');
-  if (name) {
-    const card = document.querySelector('.holding-card .symbol');
-    // update name if needed
-  }
-}
-
-// === 基金净值（天天基金，JSONP） ===
-function fetchFundNAV(code) {
-  const cb = '_cbFund_' + code + '_' + Date.now();
-  const url = 'https://fundgz.1234567.com.cn/js/' + code + '.js?rt=' + Date.now();
-  // 这个接口返回: jsonpgz({fundcode:"012414",name:"...",dwjz:"...",gsz:"...",...})
-  return jsonp(url, 'jsonpgz', 5000).then(data => {
-    if (data && data.gsz) return parseFloat(data.gsz); // 估算净值
-    if (data && data.dwjz) return parseFloat(data.dwjz); // 最新净值
-    return null;
-  });
-}
-
-async function updateFunds() {
-  for (const code of ['012414', '007339']) {
-    try {
-      const nav = await fetchFundNAV(code);
-      if (nav) updateHoldingCard(code, nav);
-    } catch(e) {
-      document.getElementById('val'+code).textContent = '获取失败';
-    }
-  }
-}
-
-// === K线图（新浪API，JSONP） ===
-function fetchKline300724() {
-  const cb = '_cbKline_' + Date.now();
-  const url = 'https://quotes.sina.cn/cn/api/jsonp_v2.php/data/CN_MarketDataService.getKLineData?symbol=sz300724&scale=240&ma=no&datalen=250&callback=' + cb;
-  return jsonp(url, cb, 10000);
-}
-
-async function initChart() {
+// === K线图 ===
+function renderKlineChart(klines) {
   const container = document.getElementById('chart300724');
-  try {
-    const raw = await fetchKline300724();
-    const candleData = raw.map(d => ({
-      time: d.day,
-      open: parseFloat(d.open),
-      high: parseFloat(d.high),
-      low: parseFloat(d.low),
-      close: parseFloat(d.close)
-    }));
+  container.innerHTML = '';
+  if (!window.LightweightCharts) { container.innerHTML='<div class="loading">图表库加载失败</div>'; return; }
 
-    // Remove loading
-    container.innerHTML = '';
+  const chart = window.LightweightCharts.createChart(container, {
+    width:container.clientWidth, height:500,
+    layout:{ background:{type:'solid',color:'rgba(0,0,0,0.0)'}, textColor:'#888' },
+    grid:{ vertLines:{color:'rgba(255,255,255,0.04)'}, horzLines:{color:'rgba(255,255,255,0.04)'} },
+    crosshair:{mode:1},
+    rightPriceScale:{borderColor:'rgba(255,255,255,0.1)'},
+    timeScale:{borderColor:'rgba(255,255,255,0.1)',timeVisible:true},
+  });
 
-    const chart = window.LightweightCharts.createChart(container, {
-      width: container.clientWidth,
-      height: 500,
-      layout: {
-        background: { type:'solid', color:'rgba(0,0,0,0.0)' },
-        textColor: '#888',
-      },
-      grid: {
-        vertLines: { color:'rgba(255,255,255,0.04)' },
-        horzLines: { color:'rgba(255,255,255,0.04)' },
-      },
-      crosshair: { mode:1 },
-      rightPriceScale: { borderColor:'rgba(255,255,255,0.1)' },
-      timeScale: { borderColor:'rgba(255,255,255,0.1)', timeVisible:true },
-    });
+  const candleData = klines.map(d => ({time:d.t,open:d.o,high:d.h,low:d.l,close:d.c}));
+  const series = chart.addCandlestickSeries({
+    upColor:'#00ff88',downColor:'#ff4466',borderUpColor:'#00ff88',borderDownColor:'#ff4466',
+    wickUpColor:'#00ff88',wickDownColor:'#ff4466',
+  });
+  series.setData(candleData);
 
-    const series = chart.addCandlestickSeries({
-      upColor:'#00ff88', downColor:'#ff4466', borderUpColor:'#00ff88', borderDownColor:'#ff4466',
-      wickUpColor:'#00ff88', wickDownColor:'#ff4466',
-    });
-    series.setData(candleData);
+  // 成本线
+  series.createPriceLine({
+    price:78.67, color:'#ffff00', lineWidth:2, lineStyle:2, axisLabelVisible:true, title:'成本 78.67',
+  });
 
-    // 成本线
-    series.createPriceLine({
-      price: 78.67,
-      color: '#ffff00',
-      lineWidth: 2,
-      lineStyle: 2,
-      axisLabelVisible: true,
-      title: '成本 78.67',
-    });
+  // 操作标记
+  const markers = TRADES.filter(t=>t.symbol==='300724').map(t=>({
+    time:t.date, position:t.type==='buy'?'belowBar':'aboveBar',
+    color:t.type==='buy'?'#00ff88':'#ff4466', shape:t.type==='buy'?'arrowUp':'arrowDown',
+    text:(t.type==='buy'?'B':'S')+t.price, size:2,
+  }));
+  if(markers.length) series.setMarkers(markers);
 
-    // 操作标记
-    if (TRADES.length > 0) {
-      const markers = TRADES.filter(t => t.symbol==='300724').map(t => ({
-        time: t.date,
-        position: t.type==='buy' ? 'belowBar' : 'aboveBar',
-        color: t.type==='buy' ? '#00ff88' : '#ff4466',
-        shape: t.type==='buy' ? 'arrowUp' : 'arrowDown',
-        text: (t.type==='buy'?'B':'S') + t.price,
-        size: 2,
-      }));
-      series.setMarkers(markers);
-    }
-
-    chart.timeScale().fitContent();
-
-    window.addEventListener('resize', () => {
-      chart.applyOptions({ width:container.clientWidth, height:500 });
-    });
-  } catch(e) {
-    container.innerHTML = '<div class="loading">K线加载失败：' + e.message + '</div>';
-  }
+  chart.timeScale().fitContent();
+  window.addEventListener('resize',()=>{ chart.applyOptions({width:container.clientWidth,height:500}); });
 }
 
-// === 操作记录表 ===
+// === 基金净值图 ===
+let fundNavData = {};
+
+function switchFund(code) {
+  // 高亮卡片
+  document.querySelectorAll('.holding-card').forEach(el => el.classList.remove('active'));
+  const cards = document.querySelectorAll('.holding-card');
+  if (code === '012414' && cards[1]) cards[1].classList.add('active');
+  if (code === '007339' && cards[2]) cards[2].classList.add('active');
+
+  activeFundCode = code;
+  const h = HOLDINGS[code];
+  const data = fundNavData[code] || [];
+  if (!data.length) return;
+
+  const container = document.getElementById('chartFund');
+  container.innerHTML = '';
+  document.getElementById('fundChartTitle').textContent = code + ' ' + h.name + ' · 净值走势';
+
+  if (fundChart) { fundChart.remove(); fundChart = null; }
+
+  fundChart = window.LightweightCharts.createChart(container, {
+    width:container.clientWidth, height:400,
+    layout:{ background:{type:'solid',color:'rgba(0,0,0,0.0)'}, textColor:'#888' },
+    grid:{ vertLines:{color:'rgba(255,255,255,0.04)'}, horzLines:{color:'rgba(255,255,255,0.04)'} },
+    crosshair:{mode:1},
+    rightPriceScale:{borderColor:'rgba(255,255,255,0.1)'},
+    timeScale:{borderColor:'rgba(255,255,255,0.1)',timeVisible:true},
+  });
+
+  fundLineSeries = fundChart.addLineSeries({
+    color:'#00ff88', lineWidth:2,
+    priceLineVisible:false, lastValueVisible:true,
+  });
+  fundLineSeries.setData(data.map(d => ({time:d.t,value:d.v})));
+
+  // 成本线
+  fundLineSeries.createPriceLine({
+    price:h.cost, color:'#ffff00', lineWidth:2, lineStyle:2, axisLabelVisible:true, title:'成本 '+h.cost,
+  });
+
+  fundChart.timeScale().fitContent();
+}
+
+// === 操作记录 ===
 function renderTrades() {
   const tbody = document.getElementById('tradeBody');
-  if (TRADES.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="6" class="empty-state">暂无操作记录</td></tr>';
-    return;
-  }
-  tbody.innerHTML = TRADES.map(t => `
-    <tr>
-      <td>${t.date}</td>
-      <td>${t.symbol}</td>
-      <td class="${t.type}">${t.type==='buy'?'买入':'卖出'}</td>
-      <td>¥${t.price}</td>
-      <td>${t.shares}</td>
-      <td>${t.note||''}</td>
-    </tr>
+  if(!TRADES.length){ tbody.innerHTML='<tr><td colspan="6" class="empty-state">暂无操作记录</td></tr>'; return; }
+  tbody.innerHTML = TRADES.map(t=>`
+    <tr><td>${t.date}</td><td>${t.symbol}</td><td class="${t.type}">${t.type==='buy'?'买入':'卖出'}</td>
+    <td>¥${t.price}</td><td>${t.shares}</td><td>${t.note||''}</td></tr>
   `).join('');
 }
 
 // === 启动 ===
-update300724Price();
-updateFunds();
-initChart();
-renderTrades();
+async function init() {
+  try {
+    const [kresp, f1resp, f2resp] = await Promise.all([
+      fetch('data/300724_kline.json'),
+      fetch('data/012414_nav.json'),
+      fetch('data/007339_nav.json')
+    ]);
+    const klines = await kresp.json();
+    const nav1 = await f1resp.json();
+    const nav2 = await f2resp.json();
+    fundNavData = { '012414':nav1, '007339':nav2 };
+
+    renderHoldingCards(klines, fundNavData);
+    renderKlineChart(klines);
+    renderTrades();
+
+    // 默认显示012414净值图
+    setTimeout(() => switchFund('012414'), 300);
+  } catch(e) {
+    document.getElementById('chart300724').innerHTML = '<div class="loading">数据加载失败: '+e.message+'</div>';
+    document.getElementById('chartFund').innerHTML = '<div class="loading">数据加载失败</div>';
+  }
+}
+
+init();
 </script>
 </body>
 </html>
