@@ -250,18 +250,19 @@ function doShare(btn) {
   const id = btn.dataset.id;
   const count = getCount(id, 'share') + 1;
   setCount(id, 'share', count);
-  // Try Web Share API, fallback to copy link
+  // Copy page link
   const url = location.href;
-  if (navigator.share) {
-    navigator.share({title: document.title, url: url}).catch(() => {});
-  } else {
-    navigator.clipboard.writeText(url).then(() => {
-      // brief feedback
-      const orig = btn.innerHTML;
-      btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Copied!';
-      setTimeout(() => { btn.innerHTML = orig; }, 1500);
-    }).catch(() => {});
-  }
+  navigator.clipboard.writeText(url).then(() => {
+    const origHTML = btn.innerHTML;
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="#0ff" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> <span style="color:#0ff">已复制</span>';
+    setTimeout(() => { btn.innerHTML = origHTML; }, 2000);
+  }).catch(() => {
+    // Fallback for older browsers
+    const ta = document.createElement('textarea');
+    ta.value = url; ta.style.position='fixed'; ta.style.left='-9999px';
+    document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta);
+  });
 }
 </script>
 </body>
