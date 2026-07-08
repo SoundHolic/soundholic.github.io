@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.json">
+<title>行政执法题库</title>
+<style>
+:root {
+  --bg: #0a0a0f;
+  --card: #12121a;
+  --card2: #1a1a28;
+  --border: #1e1e35;
+  --cyan: #00f0ff;
+  --magenta: #ff00aa;
+  --purple: #9d4edd;
+  --green: #00ff88;
+  --red: #ff3366;
+  --yellow: #ffd700;
+  --text: #c8c8d4;
+  --text2: #8888a0;
+  --radius: 12px;
+  --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+/* === HEADER === */
+header {
+  background: linear-gradient(180deg, rgba(0,240,255,0.08) 0%, transparent 100%);
+  padding: 16px 20px 12px;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  backdrop-filter: blur(10px);
+}
+header h1 {
+  font-size: 20px;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--cyan), var(--magenta));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: 2px;
+}
+header .subtitle {
+  font-size: 11px;
+  color: var(--text2);
+  margin-top: 2px;
+}
+
+/* === NAV TABS === */
+nav {
+  display: flex;
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 68px;
+  z-index: 10;
+}
+nav button {
+  flex: 1;
+  background: none;
+  border: none;
+  color: var(--text2);
+  padding: 14px 8px;
+  font-size: 14px;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+  font-family: var(--font);
+}
+nav button.active {
+  color: var(--cyan);
+  border-bottom-color: var(--cyan);
+  text-shadow: 0 0 10px rgba(0,240,255,0.3);
+}
+nav button:hover { color: var(--cyan); }
+
+/* === MAIN CONTENT === */
+main {
+  flex: 1;
+  padding: 16px;
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+}
+.page { display: none; }
+.page.active { display: block; animation: fadeIn 0.25s; }
+
+@keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+
+/* === CARDS === */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 16px;
+}
+.card h3 {
+  font-size: 16px;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+
+/* === QUESTION DISPLAY === */
+.question-block {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 12px;
+  transition: all 0.3s;
+}
+.question-block.correct { border-color: var(--green); background: rgba(0,255,136,0.05); }
+.question-block.wrong { border-color: var(--red); background: rgba(255,51,102,0.05); }
+.question-block.current { border-color: var(--cyan); box-shadow: 0 0 20px rgba(0,240,255,0.08); }
+
+.q-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.q-num {
+  font-size: 14px;
+  color: var(--text2);
+  font-weight: 600;
+}
+.q-type-badge {
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+.q-type-badge.single { background: rgba(0,240,255,0.15); color: var(--cyan); }
+.q-type-badge.judge { background: rgba(157,78,221,0.15); color: var(--purple); }
+.q-type-badge.multiple, .q-type-badge.case { background: rgba(255,0,170,0.15); color: var(--magenta); }
+
+.q-text {
+  font-size: 15px;
+  line-height: 1.7;
+  margin-bottom: 14px;
+  color: #e0e0ea;
+}
+.q-scenario {
+  font-size: 13px;
+  color: var(--text2);
+  background: var(--card2);
+  padding: 10px 14px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  border-left: 3px solid var(--yellow);
+  line-height: 1.6;
+}
+
+/* === OPTIONS === */
+.option {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  margin-bottom: 6px;
+  background: var(--card2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.option:active { transform: scale(0.98); }
+.option.selected { border-color: var(--cyan); background: rgba(0,240,255,0.08); }
+.option.correct-answer { border-color: var(--green); background: rgba(0,255,136,0.1); }
+.option.wrong-answer { border-color: var(--red); background: rgba(255,51,102,0.1); }
+.option-label {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+  color: var(--text2);
+  transition: all 0.15s;
+}
+.option.selected .option-label { border-color: var(--cyan); color: var(--cyan); background: rgba(0,240,255,0.12); }
+.option.correct-answer .option-label { border-color: var(--green); color: var(--green); background: rgba(0,255,136,0.12); }
+.option.wrong-answer .option-label { border-color: var(--red); color: var(--red); background: rgba(255,51,102,0.12); }
+
+/* === BUTTONS === */
+.btn {
+  background: linear-gradient(135deg, var(--cyan), var(--magenta));
+  color: #000;
+  border: none;
+  padding: 14px 32px;
+  border-radius: 25px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 1px;
+  font-family: var(--font);
+  transition: all 0.2s;
+  display: inline-block;
+  text-align: center;
+}
+.btn:active { transform: scale(0.96); opacity: 0.9; }
+.btn:disabled { opacity: 0.3; pointer-events: none; }
+.btn-sm {
+  padding: 8px 20px;
+  font-size: 13px;
+  border-radius: 20px;
+}
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--cyan);
+  color: var(--cyan);
+}
+.btn-outline:hover { background: rgba(0,240,255,0.1); }
+
+.btn-group {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+/* === RESULT PAGE === */
+.result-summary {
+  text-align: center;
+  padding: 30px 20px;
+}
+.result-score {
+  font-size: 64px;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--cyan), var(--magenta));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+}
+.result-label {
+  font-size: 14px;
+  color: var(--text2);
+  margin-top: 8px;
+}
+.result-stats {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-top: 16px;
+}
+.result-stat {
+  text-align: center;
+}
+.result-stat .num { font-size: 24px; font-weight: 700; }
+.result-stat .num.green { color: var(--green); }
+.result-stat .num.red { color: var(--red); }
+.result-stat .label { font-size: 12px; color: var(--text2); }
+
+/* === EMPTY STATE === */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text2);
+}
+.empty-state .icon { font-size: 48px; margin-bottom: 16px; }
+
+/* === SEARCH === */
+.search-box {
+  position: relative;
+  margin-bottom: 16px;
+}
+.search-box input {
+  width: 100%;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 25px;
+  padding: 12px 20px 12px 44px;
+  font-size: 15px;
+  color: var(--text);
+  font-family: var(--font);
+  outline: none;
+  transition: border-color 0.2s;
+}
+.search-box input:focus { border-color: var(--cyan); }
+.search-box .search-icon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: var(--text2);
+}
+
+/* === WRONG MODE === */
+.wrong-item {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.wrong-item:active { background: var(--card2); }
+.wrong-item .q-preview {
+  font-size: 14px;
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.wrong-item .wrong-meta {
+  display: flex;
+  gap: 16px;
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--text2);
+}
+
+/* === FOOTER === */
+.app-footer {
+  text-align: center;
+  padding: 20px;
+  font-size: 11px;
+  color: var(--text2);
+  border-top: 1px solid var(--border);
+}
+
+/* === MOBILE === */
+@media (max-width: 480px) {
+  header h1 { font-size: 18px; }
+  nav button { font-size: 12px; padding: 12px 4px; }
+  main { padding: 12px; }
+  .card, .question-block { padding: 14px; }
+  .q-text { font-size: 14px; }
+  .option { padding: 10px 12px; font-size: 13px; }
+  .result-score { font-size: 48px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>行政执法题库</h1>
+  <div class="subtitle">2026 安徽省行政执法资格认证 · 通用法律知识</div>
+</header>
+
+<nav>
+  <button class="active" data-page="exam">📝 答题</button>
+  <button data-page="study">📖 背题</button>
+  <button data-page="search">🔍 查题</button>
+  <button data-page="wrong">❌ 错题</button>
+</nav>
+
+<main>
+  <!-- ========== EXAM MODE ========== -->
+  <div id="page-exam" class="page active"></div>
+
+  <!-- ========== STUDY MODE ========== -->
+  <div id="page-study" class="page"></div>
+
+  <!-- ========== SEARCH MODE ========== -->
+  <div id="page-search" class="page">
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="search-input" placeholder="输入关键词搜索题目..." autocomplete="off">
+    </div>
+    <div id="search-results"></div>
+  </div>
+
+  <!-- ========== WRONG MODE ========== -->
+  <div id="page-wrong" class="page">
+    <div id="wrong-list"></div>
+  </div>
+</main>
+
+<div class="app-footer">题量 1186 · 数据本地存储 · 离线可用</div>
+
+<script src="questions.js"></script>
+<script>
+// Register service worker for offline support
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js');
+}
+</script>
+
+<script>
+// ============================================================
+// STATE MANAGEMENT
+// ============================================================
+const STORAGE_KEY = 'quiz_state_v2';
+
+function loadState() {
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if (raw) {
+    try { return JSON.parse(raw); } catch(e) {}
+  }
+  return {
+    total_bank: QUESTIONS.map(q => q.id),
+    correct_bank: [],
+    wrong_bank: {},        // {id: wrongCount}
+    wrong_consecutive: {}  // {id: consecutiveCorrect}
+  };
+}
+
+function saveState(state) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+
+let state = loadState();
+
+// ============================================================
+// QUESTION POOL LOGIC
+// ============================================================
+function getQuestionPool() {
+  const pool = new Set();
+  // Add from total_bank
+  state.total_bank.forEach(id => pool.add(id));
+  // Add from wrong_bank
+  Object.keys(state.wrong_bank).forEach(id => pool.add(id));
+  // If empty, use correct_bank
+  if (pool.size === 0) {
+    state.correct_bank.forEach(id => pool.add(id));
+  }
+  return [...pool];
+}
+
+function getQuestionsByType(poolIds, type) {
+  return poolIds.filter(id => {
+    const q = findQuestion(id);
+    return q && q.type === type;
+  });
+}
+
+function findQuestion(id) {
+  // Cache lookup
+  if (!findQuestion.cache) findQuestion.cache = {};
+  if (findQuestion.cache[id]) return findQuestion.cache[id];
+  for (const q of QUESTIONS) {
+    if (q.id === id) {
+      findQuestion.cache[id] = q;
+      return q;
+    }
+  }
+  return null;
+}
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function drawQuestions(count = 10) {
+  const pool = getQuestionPool();
+  const singles = shuffle(getQuestionsByType(pool, 'single'));
+  const judges = shuffle(getQuestionsByType(pool, 'judge'));
+  const multiIds = pool.filter(id => {
+    const q = findQuestion(id);
+    return q && (q.type === 'multiple' || q.type === 'case');
+  });
+  const multiples = shuffle(multiIds);
+
+  const result = [];
+  
+  // Distribute: 4 singles, 3 judges, 3 multiples when possible
+  const sCount = Math.min(4, singles.length);
+  const jCount = Math.min(3, judges.length);
+  const mRemaining = count - sCount - jCount;
+  const mCount = Math.min(mRemaining, multiples.length);
+
+  for (let i = 0; i < sCount; i++) result.push(findQuestion(singles[i]));
+  for (let i = 0; i < jCount; i++) result.push(findQuestion(judges[i]));
+  for (let i = 0; i < mCount; i++) result.push(findQuestion(multiples[i]));
+
+  // Fill remaining with whatever's available, maintaining order
+  if (result.length < count) {
+    const remainingIds = [...singles.slice(sCount), ...judges.slice(jCount), ...multiples.slice(mCount)];
+    // Convert IDs to question objects for sorting
+    const remaining = remainingIds.map(id => findQuestion(id)).filter(Boolean);
+    const typeOrder = {single:0, judge:1, multiple:2, case:2};
+    remaining.sort((a, b) => {
+      const oa = typeOrder[a.type] ?? 3;
+      const ob = typeOrder[b.type] ?? 3;
+      return oa - ob;
+    });
+    for (const q of remaining) {
+      if (result.length >= count) break;
+      if (!result.find(r => r.id === q.id)) {
+        result.push(q);
+      }
+    }
+  }
+
+  return result.slice(0, count);
+}
+
+// ============================================================
+// SCORING
+// ============================================================
+function checkAnswer(question, userAnswer) {
+  const correct = question.answer;
+  const type = question.type;
+
+  if (type === 'single') {
+    return {
+      correct: userAnswer === correct,
+      score: userAnswer === correct ? 1 : 0
+    };
+  }
+  
+  if (type === 'judge') {
+    return {
+      correct: userAnswer === correct,
+      score: userAnswer === correct ? 1 : 0
+    };
+  }
+  
+  // Multiple choice / case analysis (不定项)
+  const correctSet = new Set(correct.split(''));
+  const userSet = new Set(userAnswer.split(''));
+  
+  // Check for extra wrong answers (selected something not in correct)
+  const hasExtra = [...userSet].some(x => !correctSet.has(x));
+  if (hasExtra) {
+    return { correct: false, score: 0 };
+  }
+  
+  // Check if all correct answers are selected
+  const hasAll = [...correctSet].every(x => userSet.has(x));
+  if (hasAll) {
+    return { correct: true, score: 1 };
+  }
+  
+  // Missing some correct answers
+  return { correct: false, score: 0.5 };
+}
+
+// ============================================================
+// UPDATE STATE AFTER ANSWER
+// ============================================================
+function updateStateAfterAnswer(qid, isCorrect) {
+  if (isCorrect) {
+    // Remove from total_bank
+    state.total_bank = state.total_bank.filter(id => id !== qid);
+    
+    if (state.wrong_bank[qid]) {
+      // Track consecutive correct answers for wrong bank questions
+      state.wrong_consecutive[qid] = (state.wrong_consecutive[qid] || 0) + 1;
+      if (state.wrong_consecutive[qid] >= 3) {
+        // Remove from wrong bank, add to correct bank
+        delete state.wrong_bank[qid];
+        delete state.wrong_consecutive[qid];
+        if (!state.correct_bank.includes(qid)) {
+          state.correct_bank.push(qid);
+        }
+      }
+    } else {
+      // Add to correct bank
+      if (!state.correct_bank.includes(qid)) {
+        state.correct_bank.push(qid);
+      }
+    }
+  } else {
+    // Wrong answer
+    state.total_bank = state.total_bank.filter(id => id !== qid);
+    state.wrong_bank[qid] = (state.wrong_bank[qid] || 0) + 1;
+    state.wrong_consecutive[qid] = 0; // Reset consecutive correct count
+  }
+  saveState(state);
+}
+
+// ============================================================
+// RENDER QUESTION HTML
+// ============================================================
+function getTypeLabel(type) {
+  const map = { single: '单选题', judge: '判断题', multiple: '多选题', case: '不定项' };
+  return map[type] || '题目';
+}
+
+function renderQuestion(q, index, mode, userAnswer, showResult) {
+  let html = `<div class="question-block${showResult ? (showResult.correct ? ' correct' : ' wrong') : ' current'}" data-qid="${q.id}">`;
+  
+  // Header
+  html += `<div class="q-header">`;
+  html += `<span class="q-num">#${index + 1}</span>`;
+  html += `<span class="q-type-badge ${q.type}">${getTypeLabel(q.type)}</span>`;
+  html += `</div>`;
+
+  // Scenario
+  if (q.scenario) {
+    html += `<div class="q-scenario">${q.scenario}</div>`;
+  }
+
+  // Question text
+  html += `<div class="q-text">${q.question}</div>`;
+
+  // Options
+  const isMultiple = q.type === 'multiple' || q.type === 'case';
+  const inputType = isMultiple ? 'checkbox' : 'radio';
+  const name = `q_${q.id}`;
+  
+  q.options.forEach((opt, oi) => {
+    const letter = String.fromCharCode(65 + oi);
+    let cls = 'option';
+    const isSelected = userAnswer && userAnswer.includes(letter);
+    if (isSelected) cls += ' selected';
+    if (showResult) {
+      if (q.answer.includes(letter)) cls += ' correct-answer';
+      else if (isSelected) cls += ' wrong-answer';
+    }
+    
+    if (mode === 'study' && showResult) {
+      // In study mode with result, don't allow clicking
+      html += `<div class="${cls}">
+        <span class="option-label">${letter}</span>
+        <span>${opt.substring(2).trim()}</span>
+      </div>`;
+    } else {
+      html += `<div class="${cls}" data-letter="${letter}" data-qid="${q.id}" onclick="selectOption(this, '${q.id}', '${letter}')">
+        <span class="option-label">${letter}</span>
+        <span>${opt.substring(2).trim()}</span>
+        ${inputType === 'checkbox' ? '<input type="checkbox" style="display:none" name="' + name + '" value="' + letter + '">' : ''}
+        ${inputType === 'radio' ? '<input type="radio" style="display:none" name="' + name + '" value="' + letter + '">' : ''}
+      </div>`;
+    }
+  });
+
+  // Result display (study mode)
+  if (mode === 'study' && showResult) {
+    const icon = showResult.correct ? '✅' : '❌';
+    const color = showResult.correct ? 'var(--green)' : 'var(--red)';
+    html += `<div style="margin-top:12px; padding:10px; border-radius:8px; background:${showResult.correct?'rgba(0,255,136,0.08)':'rgba(255,51,102,0.08)'}; text-align:center; font-weight:700; color:${color}">
+      ${icon} ${showResult.correct ? '回答正确' : '回答错误'} · 正确答案：${q.answer}
+    </div>`;
+  }
+
+  html += `</div>`;
+  return html;
+}
+
+// ============================================================
+// OPTION SELECTION HANDLER
+// ============================================================
+window.selectedAnswers = {};
+
+function selectOption(el, qid, letter) {
+  const q = findQuestion(qid);
+  const isMultiple = q.type === 'multiple' || q.type === 'case';
+  const parent = el.parentElement;
+  
+  if (!isMultiple) {
+    // Radio behavior
+    parent.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+    el.classList.add('selected');
+    window.selectedAnswers[qid] = letter;
+  } else {
+    // Checkbox behavior
+    el.classList.toggle('selected');
+    const selected = new Set(window.selectedAnswers[qid] ? window.selectedAnswers[qid].split('') : []);
+    if (el.classList.contains('selected')) {
+      selected.add(letter);
+    } else {
+      selected.delete(letter);
+    }
+    window.selectedAnswers[qid] = [...selected].sort().join('');
+  }
+}
+
+// ============================================================
+// EXAM MODE
+// ============================================================
+let examQuestions = [];
+let examSubmitted = false;
+
+function startExam() {
+  examQuestions = drawQuestions(10);
+  examSubmitted = false;
+  window.selectedAnswers = {};
+  renderExamPage();
+}
+
+function renderExamPage() {
+  const page = document.getElementById('page-exam');
+  
+  if (examQuestions.length === 0) {
+    page.innerHTML = `<div class="empty-state">
+      <div class="icon">🎉</div>
+      <p>题库抽题中...</p>
+      <button class="btn btn-sm" style="margin-top:16px" onclick="startExam()">开始答题</button>
+    </div>`;
+    startExam();
+    return;
+  }
+
+  if (examSubmitted) {
+    // Show results
+    renderExamResult(page);
+    return;
+  }
+
+  let html = '';
+  examQuestions.forEach((q, i) => {
+    html += renderQuestion(q, i, 'exam', window.selectedAnswers[q.id], null);
+  });
+
+  html += `<div class="btn-group">
+    <button class="btn" onclick="submitExam()">提交答案</button>
+  </div>`;
+
+  page.innerHTML = html;
+}
+
+function submitExam() {
+  // Check all 10 questions answered
+  const unanswered = examQuestions.filter(q => !window.selectedAnswers[q.id]);
+  if (unanswered.length > 0) {
+    alert(`还有 ${unanswered.length} 道题未作答，请答完所有题目后再提交。`);
+    return;
+  }
+
+  let totalScore = 0;
+  const results = [];
+
+  examQuestions.forEach(q => {
+    const result = checkAnswer(q, window.selectedAnswers[q.id]);
+    result.qid = q.id;
+    result.userAnswer = window.selectedAnswers[q.id];
+    results.push(result);
+    totalScore += result.score;
+    
+    // Update state
+    updateStateAfterAnswer(q.id, result.correct);
+  });
+
+  examSubmitted = true;
+  window._examResults = results;
+  window._examScore = totalScore;
+  renderExamPage();
+}
+
+function renderExamResult(page) {
+  const results = window._examResults;
+  const totalScore = window._examScore;
+  const correctCount = results.filter(r => r.correct).length;
+  const partialCount = results.filter(r => !r.correct && r.score > 0).length;
+  const wrongCount = results.filter(r => r.score === 0).length;
+
+  let html = `<div class="result-summary">
+    <div class="result-score">${totalScore.toFixed(1)}</div>
+    <div class="result-label">总分 / 10分</div>
+    <div class="result-stats">
+      <div class="result-stat"><div class="num green">${correctCount}</div><div class="label">正确</div></div>`;
+  
+  if (partialCount > 0) {
+    html += `<div class="result-stat"><div class="num" style="color:var(--yellow)">${partialCount}</div><div class="label">少选</div></div>`;
+  }
+  
+  html += `<div class="result-stat"><div class="num red">${wrongCount}</div><div class="label">错误</div></div>
+    </div>
+  </div>`;
+
+  // Show each question result
+  examQuestions.forEach((q, i) => {
+    const r = results[i];
+    html += renderQuestion(q, i, 'exam', r.userAnswer, { correct: r.correct, score: r.score });
+    // Show correct answer
+    html += `<div style="padding:0 20px 16px; font-size:13px; color:var(--text2)">
+      你的答案：<span style="color:${r.correct?'var(--green)':'var(--red)'};font-weight:700">${r.userAnswer||'未作答'}</span>
+      ${!r.correct ? ` · 正确答案：<span style="color:var(--green);font-weight:700">${q.answer}</span>` : ''}
+      ${r.score > 0 && !r.correct ? ` · 得分：<span style="color:var(--yellow);font-weight:700">${r.score}</span>（少选）` : ''}
+    </div>`;
+  });
+
+  html += `<div class="btn-group">
+    <button class="btn" onclick="startExam()">再来一组</button>
+    <button class="btn btn-outline" onclick="switchPage('exam')">返回</button>
+  </div>`;
+
+  page.innerHTML = html;
+  page.scrollIntoView({ behavior: 'smooth' });
+}
+
+// ============================================================
+// STUDY MODE
+// ============================================================
+let studyQuestions = [];
+let studyIndex = 0;
+let studyResults = [];
+
+function startStudy() {
+  studyQuestions = drawQuestions(10);
+  studyIndex = 0;
+  studyResults = [];
+  window.selectedAnswers = {};
+  renderStudyPage();
+}
+
+function renderStudyPage() {
+  const page = document.getElementById('page-study');
+
+  if (studyQuestions.length === 0) {
+    page.innerHTML = `<div class="empty-state">
+      <div class="icon">📖</div>
+      <p>加载中...</p>
+    </div>`;
+    startStudy();
+    return;
+  }
+
+  if (studyIndex >= studyQuestions.length) {
+    // All done
+    const correctCount = studyResults.filter(r => r.correct).length;
+    const totalScore = studyResults.reduce((s, r) => s + r.score, 0);
+    page.innerHTML = `<div class="result-summary">
+      <div class="result-score">${totalScore.toFixed(1)}</div>
+      <div class="result-label">背题完成 · ${correctCount}/${studyQuestions.length} 正确</div>
+      <div class="btn-group" style="margin-top:20px">
+        <button class="btn" onclick="startStudy()">再来一组</button>
+        <button class="btn btn-outline" onclick="switchPage('study')">返回</button>
+      </div>
+      <div style="margin-top:20px; text-align:left">
+        ${studyQuestions.map((q, i) => {
+          const r = studyResults[i];
+          const color = r.correct ? 'var(--green)' : 'var(--red)';
+          return `<div style="padding:8px 0; border-bottom:1px solid var(--border); font-size:13px">
+            <span style="color:${color}">${r.correct?'✅':'❌'}</span> #${i+1} ${q.question.substring(0,40)}...
+            <span style="color:var(--text2)">答案:${q.answer}</span>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>`;
+    return;
+  }
+
+  const q = studyQuestions[studyIndex];
+  const result = studyResults[studyIndex];
+  
+  let html = `<div style="text-align:center; margin-bottom:16px; color:var(--text2); font-size:13px">
+    第 ${studyIndex + 1} / ${studyQuestions.length} 题
+  </div>`;
+  
+  html += renderQuestion(q, studyIndex, 'study', window.selectedAnswers[q.id], result || null);
+  
+  if (!result) {
+    html += `<div class="btn-group">
+      <button class="btn" onclick="submitStudyAnswer()">确认答案</button>
+    </div>`;
+  } else {
+    html += `<div class="btn-group">
+      <button class="btn" onclick="nextStudyQuestion()">
+        ${studyIndex + 1 >= studyQuestions.length ? '查看结果' : '下一题'}
+      </button>
+    </div>`;
+  }
+
+  page.innerHTML = html;
+  if (!result) page.scrollIntoView({ behavior: 'smooth' });
+}
+
+function submitStudyAnswer() {
+  const q = studyQuestions[studyIndex];
+  const userAnswer = window.selectedAnswers[q.id];
+  
+  if (!userAnswer) {
+    alert('请先选择答案');
+    return;
+  }
+
+  const result = checkAnswer(q, userAnswer);
+  result.qid = q.id;
+  result.userAnswer = userAnswer;
+  studyResults[studyIndex] = result;
+  
+  // Update state
+  updateStateAfterAnswer(q.id, result.correct);
+  
+  renderStudyPage();
+}
+
+function nextStudyQuestion() {
+  studyIndex++;
+  renderStudyPage();
+}
+
+// ============================================================
+// SEARCH MODE
+// ============================================================
+function initSearch() {
+  const input = document.getElementById('search-input');
+  const results = document.getElementById('search-results');
+  
+  input.addEventListener('input', () => {
+    const query = input.value.trim().toLowerCase();
+    if (query.length < 2) {
+      results.innerHTML = '<div class="empty-state"><p>输入至少2个字符开始搜索</p></div>';
+      return;
+    }
+    
+    const matches = QUESTIONS.filter(q => 
+      q.question.toLowerCase().includes(query) ||
+      q.options.some(o => o.toLowerCase().includes(query)) ||
+      (q.scenario && q.scenario.toLowerCase().includes(query))
+    );
+    
+    if (matches.length === 0) {
+      results.innerHTML = `<div class="empty-state"><p>未找到包含「${query}」的题目</p></div>`;
+      return;
+    }
+    
+    results.innerHTML = `<p style="color:var(--text2); margin-bottom:12px; font-size:13px">找到 ${matches.length} 道题目</p>
+      ${matches.slice(0, 50).map((q, i) => {
+        const isMultiple = q.type === 'multiple' || q.type === 'case';
+        return `<div class="wrong-item" style="cursor:default">
+          <div style="display:flex; gap:8px; align-items:center; margin-bottom:8px">
+            <span class="q-type-badge ${q.type}">${getTypeLabel(q.type)}</span>
+            <span style="font-size:12px; color:var(--text2)">Q${i+1}</span>
+          </div>
+          ${q.scenario ? `<div class="q-scenario">${q.scenario}</div>` : ''}
+          <div class="q-text" style="margin-bottom:8px">${highlightText(q.question, query)}</div>
+          ${q.options.map(o => `<div style="font-size:13px; color:var(--text2); padding:2px 0">${highlightText(o, query)}</div>`).join('')}
+          <div style="margin-top:8px; padding:6px 10px; background:rgba(0,255,136,0.05); border-radius:6px; font-size:13px">
+            <span style="color:var(--green); font-weight:700">答案：${q.answer}</span>
+            ${isMultiple ? '<span style="color:var(--text2); margin-left:6px">（' + (q.type==="case"?'不定项':'多选') + '）</span>' : ''}
+          </div>
+        </div>`;
+      }).join('')}`;
+  });
+  
+  // Show some initial questions
+  results.innerHTML = `<p style="color:var(--text2); margin-bottom:12px; font-size:13px">输入关键词搜索（共 ${QUESTIONS.length} 题）</p>
+    <div style="display:flex; gap:8px; flex-wrap:wrap">
+      ${['行政许可','行政处罚','行政复议','行政诉讼','国家赔偿','行政强制'].map(kw => 
+        `<span style="padding:6px 14px; background:var(--card2); border-radius:20px; font-size:13px; cursor:pointer; border:1px solid var(--border)" onclick="quickSearch('${kw}')">${kw}</span>`
+      ).join('')}
+    </div>`;
+}
+
+function quickSearch(kw) {
+  document.getElementById('search-input').value = kw;
+  document.getElementById('search-input').dispatchEvent(new Event('input'));
+}
+
+function highlightText(text, query) {
+  if (!query) return text;
+  const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+  return text.replace(regex, '<mark style="background:rgba(0,240,255,0.25);color:var(--cyan);padding:0 2px;border-radius:2px">$1</mark>');
+}
+
+// ============================================================
+// WRONG MODE
+// ============================================================
+function renderWrongMode() {
+  const list = document.getElementById('wrong-list');
+  const wrongIds = Object.keys(state.wrong_bank);
+  
+  if (wrongIds.length === 0) {
+    list.innerHTML = `<div class="empty-state">
+      <div class="icon">🎉</div>
+      <p>错题库为空，继续保持！</p>
+    </div>`;
+    return;
+  }
+
+  // Sort by wrong count descending
+  wrongIds.sort((a, b) => (state.wrong_bank[b] || 0) - (state.wrong_bank[a] || 0));
+  
+  list.innerHTML = `<p style="color:var(--text2); margin-bottom:12px; font-size:13px">共 ${wrongIds.length} 道错题</p>
+    ${wrongIds.map(id => {
+      const q = findQuestion(id);
+      if (!q) return '';
+      const wc = state.wrong_bank[id] || 0;
+      const cc = state.wrong_consecutive[id] || 0;
+      return `<div class="wrong-item" onclick="reviewWrongQuestion('${id}')">
+        <div style="display:flex; gap:8px; align-items:center; margin-bottom:6px">
+          <span class="q-type-badge ${q.type}">${getTypeLabel(q.type)}</span>
+          <span style="font-size:12px; color:var(--text2)">${q.id}</span>
+        </div>
+        <div class="q-preview">${q.question}</div>
+        <div class="wrong-meta">
+          <span>❌ 错误 ${wc} 次</span>
+          <span>${cc > 0 ? `✅ 连续答对 ${cc}/3 次` : '—'}</span>
+          <span style="color:var(--green)">答案：${q.answer}</span>
+        </div>
+      </div>`;
+    }).join('')}`;
+}
+
+function reviewWrongQuestion(qid) {
+  // Switch to exam mode with just this question
+  const q = findQuestion(qid);
+  if (!q) return;
+  
+  examQuestions = [q];
+  examSubmitted = false;
+  window.selectedAnswers = {};
+  switchPage('exam');
+  renderExamPage();
+}
+
+// ============================================================
+// NAVIGATION
+// ============================================================
+function switchPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  
+  const pageEl = document.getElementById(`page-${name}`);
+  const btnEl = document.querySelector(`nav button[data-page="${name}"]`);
+  
+  if (pageEl) pageEl.classList.add('active');
+  if (btnEl) btnEl.classList.add('active');
+  
+  if (name === 'exam' && examQuestions.length === 0) {
+    startExam();
+  } else if (name === 'exam') {
+    renderExamPage();
+  } else if (name === 'study') {
+    startStudy();
+  } else if (name === 'wrong') {
+    renderWrongMode();
+  }
+}
+
+// ============================================================
+// INIT
+// ============================================================
+document.querySelectorAll('nav button').forEach(btn => {
+  btn.addEventListener('click', () => switchPage(btn.dataset.page));
+});
+
+// Init search functionality
+initSearch();
+
+// Start exam mode by default
+startExam();
+</script>
+
+</body>
+</html>
