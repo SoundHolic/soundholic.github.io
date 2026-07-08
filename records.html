@@ -54,6 +54,15 @@
     margin-left:4px; white-space:nowrap; transition:color .2s;
   }
   .read-more-btn:hover { color:#fff; }
+  /* 点赞 & 转发 */
+  .article-actions { display:flex; gap:14px; margin-top:14px; padding-top:12px; border-top:1px solid rgba(0,255,255,0.06); }
+  .action-btn { background:none; border:none; color:#666; cursor:pointer; display:flex; align-items:center; gap:5px; font-size:12px; padding:4px 10px; border-radius:6px; transition:all .2s; font-family:inherit; }
+  .action-btn:hover { color:#0ff; background:rgba(0,255,255,0.05); }
+  .action-btn.liked { color:#ff4466; }
+  .action-btn.liked:hover { color:#ff6688; }
+  .action-btn svg { width:15px; height:15px; transition:transform .2s; }
+  .action-btn:active svg { transform:scale(1.3); }
+  .action-count { font-family:Orbitron; font-size:11px; min-width:12px; text-align:center; }
   /* 移动端恢复一致 */
   @media (max-width:480px) {
     .article-card:nth-child(n) .cover-img {
@@ -109,7 +118,17 @@
     <div class="article-text">
       7月的天空...
     </div>
-  </div>
+    <div class="article-actions">
+      <button class="action-btn like-btn" onclick="toggleLike(this)" data-id="2026-07-08">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        <span class="action-count">0</span>
+      </button>
+      <button class="action-btn share-btn" onclick="doShare(this)" data-id="2026-07-08">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+        <span class="action-count">0</span>
+      </button>
+    </div>
+    </div>
   </article>
 
   <article class="article-card">
@@ -120,6 +139,16 @@
       <div class="article-date">2026-07-07</div>
       <div class="article-text">
         一家叫「小黑煎饺」的早餐店，承载着一代望江本地人的回忆。从高中起就开始吃的煎饺，位置就在水木清华单元楼的下面，必须是菜饺子蘸醋才好吃，价格这些年也涨了不少。
+      </div>
+      <div class="article-actions">
+        <button class="action-btn like-btn" onclick="toggleLike(this)" data-id="2026-07-07">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          <span class="action-count">0</span>
+        </button>
+        <button class="action-btn share-btn" onclick="doShare(this)" data-id="2026-07-07">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          <span class="action-count">0</span>
+        </button>
       </div>
     </div>
   </article>
@@ -172,6 +201,67 @@ document.querySelectorAll('.article-text').forEach(el => {
 function expandText(btn) {
   const el = btn.closest('.article-text');
   el.innerHTML = el.dataset.fullHTML;
+}
+
+// === Like & Share ===
+function getCount(id, type) {
+  return parseInt(localStorage.getItem('rec_'+type+'_'+id) || '0');
+}
+function setCount(id, type, val) {
+  localStorage.setItem('rec_'+type+'_'+id, val);
+  // update display
+  document.querySelectorAll('[data-id="'+id+'"]').forEach(btn => {
+    if (btn.classList.contains(type+'-btn')) {
+      btn.querySelector('.action-count').textContent = val;
+    }
+  });
+}
+
+// Init counts + liked state on load
+(function initActions() {
+  document.querySelectorAll('.like-btn').forEach(btn => {
+    const id = btn.dataset.id;
+    const count = getCount(id, 'like');
+    btn.querySelector('.action-count').textContent = count;
+    if (localStorage.getItem('rec_liked_'+id) === '1') btn.classList.add('liked');
+    // also init share counts
+    const shareBtn = btn.closest('.article-actions').querySelector('.share-btn');
+    if (shareBtn) shareBtn.querySelector('.action-count').textContent = getCount(id, 'share');
+  });
+})();
+
+function toggleLike(btn) {
+  const id = btn.dataset.id;
+  const liked = localStorage.getItem('rec_liked_'+id) === '1';
+  let count = getCount(id, 'like');
+  if (liked) {
+    count = Math.max(0, count - 1);
+    localStorage.removeItem('rec_liked_'+id);
+    btn.classList.remove('liked');
+  } else {
+    count = count + 1;
+    localStorage.setItem('rec_liked_'+id, '1');
+    btn.classList.add('liked');
+  }
+  setCount(id, 'like', count);
+}
+
+function doShare(btn) {
+  const id = btn.dataset.id;
+  const count = getCount(id, 'share') + 1;
+  setCount(id, 'share', count);
+  // Try Web Share API, fallback to copy link
+  const url = location.href;
+  if (navigator.share) {
+    navigator.share({title: document.title, url: url}).catch(() => {});
+  } else {
+    navigator.clipboard.writeText(url).then(() => {
+      // brief feedback
+      const orig = btn.innerHTML;
+      btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Copied!';
+      setTimeout(() => { btn.innerHTML = orig; }, 1500);
+    }).catch(() => {});
+  }
 }
 </script>
 </body>
