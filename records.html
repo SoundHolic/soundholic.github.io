@@ -16,8 +16,23 @@
     backdrop-filter:blur(10px); transition:border-color .3s,transform .2s;
   }
   .article-card:hover { border-color:rgba(0,255,255,0.3); transform:translateY(-2px); }
-  .article-cover { position:relative; }
-  .article-cover .cover-img { width:100%; max-height:400px; object-fit:cover; display:block; }
+  .article-cover { position:relative; overflow:hidden; }
+  .article-cover .cover-img {
+    display:block; max-height:260px; object-fit:cover;
+    border-radius:6px; transition:transform .3s;
+  }
+  .article-card:hover .cover-img { transform:scale(1.03); }
+  /* 随性大小+左右交错 */
+  .article-card:nth-child(odd) .article-cover { text-align:left; }
+  .article-card:nth-child(even) .article-cover { text-align:right; }
+  .article-card:nth-child(1) .cover-img { width:60%; }
+  .article-card:nth-child(2) .cover-img { width:45%; margin-left:auto; }
+  .article-card:nth-child(3) .cover-img { width:52%; }
+  .article-card:nth-child(4) .cover-img { width:40%; margin-left:auto; }
+  .article-card:nth-child(5) .cover-img { width:55%; }
+  .article-card:nth-child(6) .cover-img { width:48%; margin-left:auto; }
+  .article-card:nth-child(7) .cover-img { width:42%; transform:rotate(-0.8deg); }
+  .article-card:nth-child(8) .cover-img { width:58%; margin-left:auto; transform:rotate(0.6deg); }
   .cover-thumbs {
     display:flex; gap:8px; padding:8px 12px; overflow-x:auto;
     background:rgba(0,0,0,0.3); justify-content:center; flex-wrap:wrap;
@@ -39,6 +54,14 @@
     margin-left:4px; white-space:nowrap; transition:color .2s;
   }
   .read-more-btn:hover { color:#fff; }
+  /* 移动端恢复一致 */
+  @media (max-width:480px) {
+    .article-card:nth-child(n) .cover-img {
+      width:85%; margin:0 auto; transform:none;
+    }
+    .article-card:nth-child(n) .article-cover { text-align:center; }
+    .article-cover .cover-img { max-height:200px; }
+  }
 </style>
 </head>
 <body>
