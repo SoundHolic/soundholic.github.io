@@ -620,11 +620,15 @@ function renderQuestion(q, index, mode, userAnswer, showResult) {
 
   // Options
   const isMultiple = q.type === 'multiple' || q.type === 'case';
+  const isJudge = q.type === 'judge';
   const inputType = isMultiple ? 'checkbox' : 'radio';
   const name = `q_${q.id}`;
   
-  q.options.forEach((opt, oi) => {
-    const letter = String.fromCharCode(65 + oi);
+  const opts = isJudge 
+    ? [{letter: '√', text: '对 (正确)'}, {letter: '×', text: '错 (错误)'}]
+    : q.options.map((opt, oi) => ({letter: String.fromCharCode(65 + oi), text: opt.substring(2).trim()}));
+  
+  opts.forEach(({letter, text}) => {
     let cls = 'option';
     const isSelected = userAnswer && userAnswer.includes(letter);
     if (isSelected) cls += ' selected';
@@ -637,12 +641,12 @@ function renderQuestion(q, index, mode, userAnswer, showResult) {
       // In study mode with result, don't allow clicking
       html += `<div class="${cls}">
         <span class="option-label">${letter}</span>
-        <span>${opt.substring(2).trim()}</span>
+        <span>${text}</span>
       </div>`;
     } else {
       html += `<div class="${cls}" data-letter="${letter}" data-qid="${q.id}" onclick="selectOption(this, '${q.id}', '${letter}')">
         <span class="option-label">${letter}</span>
-        <span>${opt.substring(2).trim()}</span>
+        <span>${text}</span>
         ${inputType === 'checkbox' ? '<input type="checkbox" style="display:none" name="' + name + '" value="' + letter + '">' : ''}
         ${inputType === 'radio' ? '<input type="radio" style="display:none" name="' + name + '" value="' + letter + '">' : ''}
       </div>`;
