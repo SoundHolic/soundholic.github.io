@@ -12,8 +12,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      ANDROID_SDK_ROOT: /usr/local/lib/android/sdk
 
     steps:
       - uses: actions/checkout@v4
@@ -35,7 +33,7 @@ jobs:
           gradle-version: '8.5'
 
       - name: Build Release APK
-        run: gradle assembleRelease
+        run: gradle assembleRelease --no-daemon
         working-directory: quiz/android
 
       - name: Upload APK
