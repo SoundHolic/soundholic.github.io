@@ -4,125 +4,76 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="theme-color" content="#0a0a1a">
-<title>joker</title>
+<title>ishuai</title>
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
-html, body { width:100%; height:100%; overflow-x:hidden; background:#0a0a1a; }
-body { display:flex; align-items:center; justify-content:center; min-height:200vh; }
-
-.scene {
-  position:fixed; top:50%; left:50%;
-  transform:translate(-50%,-50%);
-  width:min(80vw,500px); height:min(80vw,500px);
-}
-
-@keyframes pulse {
-  0%,100% { opacity:0.4; transform:scale(1); }
-  50% { opacity:0.8; transform:scale(1.08); }
-}
-@keyframes float {
-  0%,100% { transform:translateY(0) translateX(0); opacity:0.2; }
-  50% { transform:translateY(-40px) translateX(15px); opacity:0.7; }
-}
-
-.ring {
-  position:absolute; border-radius:50%; pointer-events:none;
-  top:-30px; left:-30px; right:-30px; bottom:-30px;
-  border:3px solid rgba(168,85,247,0.3);
-  animation:pulse 3s ease-in-out infinite;
-}
-.ring2 {
-  position:absolute; border-radius:50%; pointer-events:none;
-  top:-55px; left:-55px; right:-55px; bottom:-55px;
-  border:2px solid rgba(34,211,238,0.15);
-  animation:pulse 3s ease-in-out 0.5s infinite;
-}
-
-.particle {
-  position:fixed; border-radius:50%; pointer-events:none;
-}
-.p1 { top:15%; left:15%; width:10px; height:10px; background:#a855f7; animation:float 4s ease-in-out infinite; }
-.p2 { top:25%; right:18%; width:6px; height:6px; background:#22d3ee; animation:float 5s ease-in-out 1s infinite; }
-.p3 { bottom:20%; left:30%; width:12px; height:12px; background:#22c55e; animation:float 3.5s ease-in-out 2s infinite; }
-.p4 { top:40%; right:12%; width:5px; height:5px; background:#ef4444; animation:float 4.5s ease-in-out 0.5s infinite; }
-.p5 { bottom:30%; left:8%; width:8px; height:8px; background:#a855f7; animation:float 3s ease-in-out 1.5s infinite; }
-.p6 { top:55%; right:30%; width:7px; height:7px; background:#22d3ee; animation:float 6s ease-in-out 3s infinite; }
+html, body { width:100%; height:100%; overflow:hidden; background:#0a0a1a; }
+canvas { display:block; }
 </style>
 </head>
 <body>
-<div class="particle p1"></div>
-<div class="particle p2"></div>
-<div class="particle p3"></div>
-<div class="particle p4"></div>
-<div class="particle p5"></div>
-<div class="particle p6"></div>
-
-<div class="scene" id="joker">
-  <div class="ring"></div>
-  <div class="ring2"></div>
-  <svg viewBox="0 0 500 500" style="width:100%;height:100%;filter:drop-shadow(0 0 40px rgba(168,85,247,0.5)) drop-shadow(0 0 80px rgba(34,211,238,0.25))" id="joker-svg">
-    <defs>
-      <radialGradient id="bg"><stop offset="0%" stop-color="#1a1025"/><stop offset="100%" stop-color="#0a0a1a"/></radialGradient>
-    </defs>
-    <rect width="500" height="500" fill="url(#bg)" rx="250"/>
-    
-    <ellipse cx="250" cy="75" rx="185" ry="130" fill="#22c55e"/>
-    <path d="M110 150 Q70 50 160 15 Q230 -25 250 5 Q270 -25 340 15 Q430 50 390 150" fill="#16a34a"/>
-    <path d="M90 140 Q50 20 250 -5 Q450 20 410 140" fill="#22c55e"/>
-    <path d="M100 130 Q60 0 250 -15 Q440 0 400 130" fill="#4ade80" opacity="0.5"/>
-    
-    <ellipse cx="250" cy="255" rx="155" ry="175" fill="#f1f5f9"/>
-    <ellipse cx="250" cy="260" rx="138" ry="160" fill="#ffffff"/>
-    
-    <ellipse cx="250" cy="265" rx="24" ry="28" fill="#ef4444"/>
-    <ellipse cx="243" cy="257" rx="8" ry="6" fill="#fca5a5" opacity="0.5"/>
-    
-    <path d="M155 215 L200 235 L115 248 Z" fill="#1e1b4b" opacity="0.65"/>
-    <path d="M345 215 L300 235 L385 248 Z" fill="#1e1b4b" opacity="0.65"/>
-    
-    <ellipse cx="195" cy="240" rx="30" ry="22" fill="#ffffff"/>
-    <ellipse cx="305" cy="240" rx="30" ry="22" fill="#ffffff"/>
-    <circle cx="200" cy="240" r="13" fill="#0f172a"/>
-    <circle cx="300" cy="240" r="13" fill="#0f172a"/>
-    <circle cx="205" cy="236" r="5" fill="#ffffff"/>
-    <circle cx="295" cy="236" r="5" fill="#ffffff"/>
-    
-    <path d="M155 205 Q195 188 235 210" stroke="#0f172a" stroke-width="6" fill="none" stroke-linecap="round"/>
-    <path d="M345 205 Q305 188 265 210" stroke="#0f172a" stroke-width="6" fill="none" stroke-linecap="round"/>
-    
-    <path d="M150 310 Q250 420 350 310" stroke="#0f172a" stroke-width="6" fill="none" stroke-linecap="round"/>
-    <path d="M150 310 Q160 375 180 385" stroke="#dc2626" stroke-width="7" fill="none" stroke-linecap="round"/>
-    <path d="M350 310 Q340 375 320 385" stroke="#dc2626" stroke-width="7" fill="none" stroke-linecap="round"/>
-    
-    <path d="M210 320 Q250 345 290 320" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
-    <rect x="215" y="298" width="10" height="10" rx="2" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
-    <rect x="230" y="295" width="10" height="10" rx="2" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
-    <rect x="260" y="295" width="10" height="10" rx="2" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
-    <rect x="275" y="298" width="10" height="10" rx="2" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
-    
-    <path d="M150 310 Q250 390 350 310" fill="#dc2626" opacity="0.25"/>
-    <path d="M180 330 Q250 385 320 330" fill="#dc2626" opacity="0.15"/>
-    
-    <path d="M135 430 L250 355 L365 430" fill="#7c3aed"/>
-    <path d="M135 430 L250 390 L140 490 Z" fill="#6d28d9"/>
-    <path d="M365 430 L250 390 L360 490 Z" fill="#6d28d9"/>
-  </svg>
-</div>
-
+<canvas id="rain"></canvas>
 <script>
-(function(){
-  var svg = document.getElementById('joker-svg');
-  if(!svg) return;
-  window.addEventListener('scroll',function(){
-    var y = window.scrollY;
-    var maxY = Math.max(document.body.scrollHeight - window.innerHeight, 1);
-    var pct = Math.min(y / maxY, 1);
-    var r = pct * 20 - 10;
-    var s = 1 + pct * 0.2;
-    svg.style.transform = 'rotate(' + r + 'deg) scale(' + s + ')';
-    svg.style.filter = 'drop-shadow(0 0 ' + (40 + pct*60) + 'px rgba(168,85,247,' + (0.5 + pct*0.3) + ')) drop-shadow(0 0 ' + (80 + pct*80) + 'px rgba(34,211,238,' + (0.25 + pct*0.2) + '))';
-  });
-})();
+var WORDS = ["60%", "省外", "65%", "70%", "50%", "省内市外", "75%", "项目", "55%", "基本医保", "0556-12345转医保", "市内", "大病保险", "80%", "45%", "起付线", "就医区域", "序号", "2000元", "4000元", "标准", "10-20万元段", "20万元以上段", "报销比例", "不纳入", "年度限额", "400元", "40%", "80000元", "100%", "3000元", "三级", "0元", "200元", "年度起付线", "5万元以内段", "5-10万元段", "不设起付线", "剖宫产", "96000元", "两病门诊", "低保对象", "85%", "10000元", "1000元", "说明", "相关链接", "返贫致贫人口", "5万", "2万元", "慢特病门诊", "17000元", "年度封顶线", "无封顶线", "病种", "8000元", "报销金额", "省内", "单行支付", "一级", "二级", "顺产", "年度最高支付限额", "普通门诊", "医保基金不予支付", "数据", "甲类", "发布日期", "异地就医直接结算", "开通时间", "办理渠道", "桐城市", "潜山市", "怀宁县", "太湖县", "宿松县", "望江县", "岳西县", "政策目录", "政策名称", "防止返贫监测对象", "限额", "90%", "1万", "2万", "对比维度", "不需要", "省外规范转诊（上海瑞金医院）", "医疗机构级别", "同上/报60%", "同上/报50%", "就医情形", "省外规范转诊", "情形", "按时缴", "未缴2025", "个人缴费", "70元", "参保缴费", "住院", "不再纳入大病保险", "纳入大病保险", "高血压", "2500元", "冠心病", "5000元", "糖尿病", "恶性肿瘤", "93种", "700元", "产前检查", "辅助生殖", "在职职工", "起付2000/报81%", "起付2000/报76%", "×76%", "2%", "500元", "6000元", "1.5万元", "支付方式", "2027.5.1及以后", "不再要求", "9元", "7元", "门诊慢特病", "版本", "乙类", "丙类", "2859条", "最新版本", "药品目录", "全部乙类", "安徽省开通情况", "省份", "家庭共济", "医保钱包", "用途", "范围", "安庆可用？", "✅ 已开通", "国家医保服务平台APP", "医疗救助", "2026年5月", "安庆市级", "安庆市医疗服务价格目录", "医疗救助标准", "医疗救助监管", "人员类别", "全额资助", "救助比例", "特困人员、孤儿", "防止返贫监测人口", "因病致贫重病患者", "适用人群", "报销范围", "申请手续", "准入标准", "150元", "一级及以下/乡镇卫生院", "二级和县级", "80790元", "三、缴费标准", "1月1日-12月31日", "断缴后补缴", "2026年3月15日", "6月15日后", "困难人员身份", "政府资助", "民政", "330元", "重度残疾人", "380元", "20元", "重点优抚对象", "政策体系概览", "2026年7月主要变化", "所属类别", "生育保障", "2026-07-01 🔴", "罕见病单行支付", "省内大病无异地", "一般诊疗费", "医保耗材目录", "承诺制异地长期居住", "二、需要另外缴费吗？", "🔄 与旧政策对比", "30%", "乙类先行自付费用", "跨省异地就医降比例部分", "超支付标准自付费用", "旧标准", "新标准（2026.7.1起）", "过渡期递减，2030年出局", "提高起付线", "封顶线±20%", "2026年7月1日起执行新政策", "再次报销", "\"一站式\"结算", "一、什么是慢特病门诊？", "慢性病", "特殊病", "报销比例下降10个百分点", "心功能不全", "慢性阻塞性肺疾病", "肝硬化", "帕金森病", "系统性红斑狼疮", "慢性肾衰竭", "器官移植术后抗排异治疗", "白血病", "血友病", "多发性硬化", "40000元", "戈谢病", "慢性病门诊", "特殊病门诊", "+1500元", "+1000元", "可以报销", "分娩方式", "1600元", "2400元", "低于", "不再享受", "补齐待遇", "一、什么是省内大病无异地？", "二、报销对比案例", "三、试点医疗机构和病种", "就医方式", "计算过程", "省内无异地（安徽省立医院）", "33225元", "21000元", "心脏移植", "不受", "不提高", "不降低", "省内无异地", "一、什么是罕见病单行支付？", "二、报销比例", "异地长期居住备案", "下降10个百分点", "下降20个百分点", "生育保险", "生育津贴", "灵活就业", "退休职工", "起付2000/报78%", "起付2000/报83%", "起付2000/报73%", "起付2000/报71%", "起付2000/报86%", "报销计算", "×88%", "13464元", "上海瑞金（规范转诊）", "2000-200=1800", "10564元", "上海瑞金（自行外出）", "×66%", "9174元", "7744元", "5624元", "4884元", "随单位参保", "以个人身份参保", "单位缴费基数", "单位费率", "个人缴费基数", "个人费率", "4227元（2024年度）", "8.5%", "6.5%", "20000元", "2万元以内段", "2-10万元段", "35%", "48000元", "职工", "居民", "支付限额", "不设", "98天", "+15天", "分娩镇痛", "4000元/100%报销", "6000元/100%报销", "全省统一满10个月", "甲类纳入", "扩大到省外", "生育补助金", "2027.5.1起改津贴", "有序扩大到省外定点医疗机构", "37840元", "33400元", "一级及未定级", "医保基金", "出院前补齐备案材料", "按异地长期居住人员报销", "自费出院后补齐材料", "未能补齐材料", "线上", "线下", "异地长期居住人员", "慢性病待遇享受", "内容", "20元/人·年", "60元/天", "按月与定点机构结算", "50元/天", "15元/天"];
+
+var canvas = document.getElementById('rain');
+var ctx = canvas.getContext('2d');
+
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+var cols = 0;
+var drops = [];
+var fontSize = 16;
+var speeds = [];
+var colors = ['#22c55e','#4ade80','#a855f7','#22d3ee','#34d399','#818cf8','#2dd4bf'];
+
+function init() {
+  cols = Math.floor(canvas.width / (fontSize * 1.8));
+  drops = [];
+  speeds = [];
+  for (var i = 0; i < cols; i++) {
+    drops[i] = Math.random() * -canvas.height;
+    speeds[i] = 0.8 + Math.random() * 2.5;
+  }
+}
+init();
+window.addEventListener('resize', init);
+
+function draw() {
+  ctx.fillStyle = 'rgba(10,10,26,0.12)';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  for (var i = 0; i < drops.length; i++) {
+    var word = WORDS[Math.floor(Math.random() * WORDS.length)];
+    var x = i * fontSize * 1.8;
+    var y = drops[i] * fontSize;
+    var color = colors[Math.floor(Math.random() * colors.length)];
+
+    ctx.font = 'bold ' + fontSize + 'px "Microsoft YaHei","PingFang SC",sans-serif';
+    ctx.shadowColor = color;
+    ctx.shadowBlur = 8;
+    ctx.globalAlpha = 0.9;
+    ctx.fillStyle = color;
+    ctx.fillText(word.charAt(0), x, y);
+    ctx.globalAlpha = 0.5;
+    ctx.fillText(word.slice(1), x + fontSize, y);
+    ctx.shadowBlur = 0;
+    ctx.globalAlpha = 1;
+
+    drops[i] += speeds[i];
+    if (drops[i] * fontSize > canvas.height + 100 && Math.random() > 0.975) {
+      drops[i] = Math.random() * -10;
+      speeds[i] = 0.8 + Math.random() * 2.5;
+    }
+  }
+}
+
+setInterval(draw, 50);
 </script>
 </body>
 </html>
