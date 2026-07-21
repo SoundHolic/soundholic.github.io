@@ -43,252 +43,99 @@
 </header>
 
 <main>
-  <section id="home" class="hero">
-    <div class="hero-bg-grid"></div>
-      <div class="hero-content">
-      <div class="hero-badge" data-i18n="hero.badge">テクノロジー × 二次元</div>
-      <h1 class="hero-title">
-        <span class="glitch" data-text="ishuai">ishuai</span>
-      </h1>
 
-      <p class="hero-subtitle">
-        <span class="typed" id="typed"></span><span class="cursor">▊</span>
-      </p>
-      <div class="hero-links">
-        <a href="https://github.com/SoundHolic" target="_blank" class="btn-cyber">
-          <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-          <span data-i18n="hero.github">GitHub</span>
-        </a>
-        <a href="#about" class="btn-ghost" data-i18n="hero.about">关于我 →</a>
-      </div>
-    </div>
-    <div class="scroll-indicator">
-      <span>SCROLL</span>
-      <div class="scroll-line"></div>
-    </div>
-  </section>
+<section id="joker-hero" style="min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;background:radial-gradient(ellipse at center,#1a1025 0%,#0a0a1a 70%)">
+  <div id="joker-container" style="position:relative;width:min(80vw,500px);height:min(80vw,500px)">
+    <svg viewBox="0 0 500 500" style="width:100%;height:100%;filter:drop-shadow(0 0 30px rgba(168,85,247,0.5)) drop-shadow(0 0 60px rgba(34,211,238,0.3))">
+      <!-- Hair -->
+      <ellipse cx="250" cy="80" rx="180" ry="120" fill="#22c55e"/>
+      <path d="M120 150 Q80 60 150 20 Q220 -20 250 10 Q280 -20 350 20 Q420 60 380 150" fill="#16a34a"/>
+      <path d="M100 140 Q60 30 250 0 Q440 30 400 140" fill="#22c55e"/>
+      
+      <!-- Face -->
+      <ellipse cx="250" cy="250" rx="150" ry="170" fill="#f8fafc"/>
+      <ellipse cx="250" cy="255" rx="135" ry="155" fill="#ffffff"/>
+      
+      <!-- Red nose -->
+      <ellipse cx="250" cy="260" rx="22" ry="26" fill="#ef4444"/>
+      <ellipse cx="244" cy="253" rx="8" ry="6" fill="#fca5a5" opacity="0.6"/>
+      
+      <!-- Eye makeup (dark triangles) -->
+      <path d="M160 210 L200 230 L120 240 Z" fill="#1e1b4b" opacity="0.7"/>
+      <path d="M340 210 L300 230 L380 240 Z" fill="#1e1b4b" opacity="0.7"/>
+      
+      <!-- Eyes -->
+      <ellipse cx="195" cy="235" rx="28" ry="20" fill="#ffffff"/>
+      <ellipse cx="305" cy="235" rx="28" ry="20" fill="#ffffff"/>
+      <circle cx="200" cy="235" r="12" fill="#1e293b"/>
+      <circle cx="300" cy="235" r="12" fill="#1e293b"/>
+      <circle cx="204" cy="231" r="4" fill="#ffffff"/>
+      <circle cx="304" cy="231" r="4" fill="#ffffff"/>
+      
+      <!-- Eyebrows -->
+      <path d="M160 200 Q195 185 230 205" stroke="#1e293b" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M340 200 Q305 185 270 205" stroke="#1e293b" stroke-width="5" fill="none" stroke-linecap="round"/>
+      
+      <!-- Smile -->
+      <path d="M160 300 Q250 400 340 300" stroke="#1e293b" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M160 300 Q170 360 185 370" stroke="#dc2626" stroke-width="6" fill="none" stroke-linecap="round"/>
+      <path d="M340 300 Q330 360 315 370" stroke="#dc2626" stroke-width="6" fill="none" stroke-linecap="round"/>
+      
+      <!-- Teeth -->
+      <path d="M220 310 Q250 330 280 310" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"/>
+      <rect x="228" y="290" width="8" height="8" rx="2" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"/>
+      <rect x="264" y="290" width="8" height="8" rx="2" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"/>
+      
+      <!-- Red lips -->
+      <path d="M160 300 Q250 380 340 300" fill="#dc2626" opacity="0.3"/>
+      <path d="M190 320 Q250 370 310 320" fill="#dc2626" opacity="0.2"/>
+      
+      <!-- Suit collar -->
+      <path d="M140 420 L250 350 L360 420" fill="#7c3aed"/>
+      <path d="M140 420 L250 380 L150 480 Z" fill="#6d28d9"/>
+      <path d="M360 420 L250 380 L350 480 Z" fill="#6d28d9"/>
+    </svg>
+    <!-- Neon ring -->
+    <div style="position:absolute;top:-20px;left:-20px;right:-20px;bottom:-20px;border:3px solid rgba(168,85,247,0.4);border-radius:50%;animation:joker-pulse 3s ease-in-out infinite;pointer-events:none"></div>
+    <div style="position:absolute;top:-40px;left:-40px;right:-40px;bottom:-40px;border:2px solid rgba(34,211,238,0.2);border-radius:50%;animation:joker-pulse 3s ease-in-out 0.5s infinite;pointer-events:none"></div>
+  </div>
+  <!-- Floating particles -->
+  <div style="position:absolute;inset:0;pointer-events:none;overflow:hidden">
+    <div style="position:absolute;top:10%;left:20%;width:8px;height:8px;background:#a855f7;border-radius:50%;animation:float-up 4s ease-in-out infinite"></div>
+    <div style="position:absolute;top:30%;right:25%;width:6px;height:6px;background:#22d3ee;border-radius:50%;animation:float-up 5s ease-in-out 1s infinite"></div>
+    <div style="position:absolute;bottom:20%;left:35%;width:10px;height:10px;background:#22c55e;border-radius:50%;animation:float-up 3.5s ease-in-out 2s infinite"></div>
+    <div style="position:absolute;top:50%;right:15%;width:5px;height:5px;background:#ef4444;border-radius:50%;animation:float-up 4.5s ease-in-out 0.5s infinite"></div>
+    <div style="position:absolute;bottom:40%;left:10%;width:7px;height:7px;background:#a855f7;border-radius:50%;animation:float-up 3s ease-in-out 1.5s infinite"></div>
+  </div>
+</section>
 
-  <section id="about" class="section">
-    <h2 class="section-title"><span class="section-num">01</span> <span data-i18n="about.title">About Me</span></h2>
-    <div class="about-card">
-      <div class="about-info">
-        <div class="about-name">shuai</div>
-        <div class="about-meta">
-          <span class="meta-item">♂ <span data-i18n="about.male">男</span></span>
-          <span class="meta-sep">·</span>
-          <span class="meta-item">🇨🇳 <span data-i18n="about.cn">中国籍</span></span>
-          <span class="meta-sep">·</span>
-          <span class="meta-item mbti-badge">INFP</span>
-        </div>
-        <p class="about-desc" data-i18n="about.desc">一个奇怪的人。喜欢安静地构建有趣的东西。</p>
-        <div class="about-tags">
-          <span class="tag tag-glow">📈 <span data-i18n="about.hobby1">炒股</span></span>
-          <span class="tag tag-glow">⚔️ <span data-i18n="about.hobby2">原神</span></span>
-          <span class="tag tag-glow">📖 <span data-i18n="about.hobby3">小说</span></span>
-          <span class="tag tag-glow">🌸 <span data-i18n="about.hobby4">动漫</span></span>
-          <span class="tag tag-glow">💻 <span data-i18n="about.hobby5">代码</span></span>
-        </div>
-      </div>
-      <div class="about-card-deco">
-        <div class="infp-card">
-          <div class="infp-label">MBTI</div>
-          <div class="infp-type">INFP</div>
-          <div class="infp-desc" data-i18n="about.infp">调停者</div>
-          <div class="infp-traits">
-            <span>I</span><span>N</span><span>F</span><span>P</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+<style>
+@keyframes joker-pulse {
+  0%,100% { opacity:0.4; transform:scale(1); }
+  50% { opacity:0.8; transform:scale(1.05); }
+}
+@keyframes float-up {
+  0%,100% { transform:translateY(0) translateX(0); opacity:0.3; }
+  50% { transform:translateY(-30px) translateX(10px); opacity:0.8; }
+}
+#joker-container svg {
+  transition: transform 0.1s ease;
+}
+</style>
 
-  <section id="skills" class="section">
-    <h2 class="section-title"><span class="section-num">02</span> <span data-i18n="skills.title">Skills</span></h2>
-    <div class="skills-grid">
-      <div class="skill-card" style="--delay:0s">
-        <div class="skill-icon">🐍</div>
-        <h3>Python</h3>
-        <div class="skill-bar"><div class="bar-fill" style="--w:90%"></div></div>
-        <p data-i18n="skills.python.desc">Flask · Sanic · Django 等 Web 后端框架</p>
-      </div>
-      <div class="skill-card" style="--delay:.05s">
-        <div class="skill-icon">📊</div>
-        <h3 data-i18n="skills.data.title">数据分析</h3>
-        <div class="skill-bar"><div class="bar-fill" style="--w:75%"></div></div>
-        <p data-i18n="skills.data.desc">Pandas · Jupyter · Excel</p>
-      </div>
-      <div class="skill-card" style="--delay:.1s">
-        <div class="skill-icon">🗄️</div>
-        <h3 data-i18n="skills.db.title">数据库</h3>
-        <div class="skill-bar"><div class="bar-fill" style="--w:85%"></div></div>
-        <p data-i18n="skills.db.desc">MySQL · Oracle · SQL Server</p>
-      </div>
-      <div class="skill-card" style="--delay:.15s">
-        <div class="skill-icon">🐧</div>
-        <h3 data-i18n="skills.os.title">操作系统</h3>
-        <div class="skill-bar"><div class="bar-fill" style="--w:80%"></div></div>
-        <p data-i18n="skills.os.desc">Linux · Windows · macOS</p>
-      </div>
-      <div class="skill-card" style="--delay:.2s">
-        <div class="skill-icon">⚙️</div>
-        <h3>C & Lua</h3>
-        <div class="skill-bar"><div class="bar-fill" style="--w:70%"></div></div>
-        <p data-i18n="skills.clua.desc">银行二代支付系统开发经验</p>
-      </div>
-      <div class="skill-card" style="--delay:.25s">
-        <div class="skill-icon">💚</div>
-        <h3>Vue</h3>
-        <div class="skill-bar"><div class="bar-fill" style="--w:65%"></div></div>
-        <p data-i18n="skills.frontend.desc">Vue · HTML · CSS · JavaScript</p>
-      </div>
-      <div class="skill-card" style="--delay:.3s">
-        <div class="skill-icon">🤖</div>
-        <h3 data-i18n="skills.ai.title">AI</h3>
-        <div class="skill-bar"><div class="bar-fill" style="--w:75%"></div></div>
-        <p data-i18n="skills.ai.desc">AI Agent (Codex · Hermes) · LLM (GLM · DeepSeek · Gemma · GPT)</p>
-      </div>
-      <div class="skill-card" style="--delay:.35s">
-        <div class="skill-icon">📝</div>
-        <h3 data-i18n="skills.doc.title">公文写作</h3>
-        <div class="skill-bar"><div class="bar-fill" style="--w:60%"></div></div>
-        <p data-i18n="skills.doc.desc">体制内被迫磨练掌握......</p>
-      </div>
-      <div class="skill-card" style="--delay:.4s">
-        <div class="skill-icon">🚗</div>
-        <h3 data-i18n="skills.drive.title">驾驶</h3>
-        <div class="skill-bar"><div class="bar-fill" style="--w:85%"></div></div>
-        <p data-i18n="skills.drive.desc">驾龄 30,000 公里</p>
-      </div>
-      <div class="skill-card" style="--delay:.45s">
-        <div class="skill-icon">🖨️</div>
-        <h3 data-i18n="skills.3dp.title">3D打印</h3>
-        <div class="skill-bar"><div class="bar-fill" style="--w:50%"></div></div>
-        <p data-i18n="skills.3dp.desc">回本很快的副业</p>
-      </div>
-      <div class="skill-card" style="--delay:.5s">
-        <div class="skill-icon">🧊</div>
-        <h3 data-i18n="skills.model.title">3D建模</h3>
-        <div class="skill-bar"><div class="bar-fill" style="--w:45%"></div></div>
-        <p data-i18n="skills.model.desc">Blender建模 · Bambu Studio切片</p>
-      </div>
-    </div>
-  </section>
-
-  <section id="world" class="section">
-    <h2 class="section-title"><span class="section-num">03</span> <span data-i18n="world.title">兴趣世界</span></h2>
-    <div class="world-grid">
-      <div class="world-card world-stocks">
-        <div class="world-card-bg">📈</div>
-        <h3 data-i18n="world.stocks.title">炒股</h3>
-        <p data-i18n="world.stocks.desc">A股常年韭菜，坚信"跌了就是加仓机会"。账户红绿交替，心态稳如老狗。</p>
-        <div class="world-tags"><span>A股</span><span>基金</span><span>韭菜</span></div>
-      </div>
-      <div class="world-card world-genshin">
-        <div class="world-card-bg">⚔️</div>
-        <h3 data-i18n="world.genshin.title">原神</h3>
-        <p data-i18n="world.genshin.desc">提瓦特大陆旅行者，每日委托从不缺席。深渊满星，尘歌壶摆烂。</p>
-        <div class="world-tags"><span>提瓦特</span><span>深渊</span><span>60原石</span></div>
-      </div>
-      <div class="world-card world-novel">
-        <div class="world-card-bg">📖</div>
-        <h3 data-i18n="world.novel.title">小说</h3>
-        <p data-i18n="world.novel.desc">网文十级学者，修仙玄幻都市科幻来者不拒。的书架比代码库还长。</p>
-        <div class="world-tags"><span>村上春树</span><span>黑塞</span><span>毛姆</span></div>
-      </div>
-      <div class="world-card world-anime">
-        <div class="world-card-bg">🌸</div>
-        <h3 data-i18n="world.anime.title">动漫</h3>
-        <p data-i18n="world.anime.desc">追番永不完结，热血日常治愈系全都要。B站年度大会员稳定续费中。</p>
-        <div class="world-tags"><span>热血</span><span>治愈</span><span>追番</span></div>
-      </div>
-      <div class="world-card world-code">
-        <div class="world-card-bg">💻</div>
-        <h3 data-i18n="world.code.title">代码</h3>
-        <p data-i18n="world.code.desc">不是在工作，就是在折腾AI Agent。用代码造轮子是一种浪漫。</p>
-        <div class="world-tags"><span>Python</span><span>AI Agent</span><span>造轮子</span></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Resume / Timeline -->
-  <section id="resume" class="section">
-    <h2 class="section-title"><span class="section-num">04</span> <span data-i18n="resume.title">Resume</span></h2>
-    <div class="timeline">
-      <div class="timeline-item">
-        <div class="timeline-dot"></div>
-        <div class="timeline-date" data-i18n="resume.r1.date">2013.09 - 2017.06</div>
-        <div class="timeline-content">
-          <h3 data-i18n="resume.r1.title">安徽大学 · 网络工程卓越班</h3>
-          <span class="timeline-role" data-i18n="resume.r1.role">学生</span>
-          <p data-i18n="resume.r1.desc">期间两次实习：科大讯飞（2015.07-2015.10）、宇视科技（2016.07-2016.09）</p>
-        </div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-dot"></div>
-        <div class="timeline-date" data-i18n="resume.r2.date">2017.07 - 2019.09</div>
-        <div class="timeline-content">
-          <h3 data-i18n="resume.r2.title">恒生电子股份有限公司</h3>
-          <span class="timeline-role" data-i18n="resume.r2.role">软件工程师</span>
-        </div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-dot"></div>
-        <div class="timeline-date" data-i18n="resume.r3.date">2020.05 - 至今</div>
-        <div class="timeline-content">
-          <h3 data-i18n="resume.r3.title">望江县医疗保障局</h3>
-          <span class="timeline-role" data-i18n="resume.r3.role">工作人员</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="contact" class="section section-center">
-    <h2 class="section-title"><span class="section-num">05</span> <span data-i18n="contact.title">Contact</span></h2>
-    <div class="contact-card">
-      <p class="contact-text" data-i18n="contact.text">一緒に素晴らしいものを作りましょう！<br>一起来做点有趣的东西吧！</p>
-      <div class="contact-info">
-        <a href="mailto:shuaihong@yahoo.com" class="contact-item">
-          <div class="contact-icon">📧</div>
-          <div class="contact-detail">
-            <span class="contact-label" data-i18n="contact.email">邮箱</span>
-            <span class="contact-value">shuaihong@yahoo.com</span>
-          </div>
-        </a>
-        <a href="tel:16655604004" class="contact-item">
-          <div class="contact-icon">📱</div>
-          <div class="contact-detail">
-            <span class="contact-label" data-i18n="contact.phone">电话</span>
-            <span class="contact-value">16655604004</span>
-          </div>
-        </a>
-        <a href="https://www.douyin.com/user/MS4wLjABAAAAeOaAbMUKQEgnLT6lOmWSi9bv_4q1y0HP-UfCY_e78jAidvD_2P4EDR6ivVaa-xSU" target="_blank" class="contact-item">
-          <div class="contact-icon">🎵</div>
-          <div class="contact-detail">
-            <span class="contact-label" data-i18n="contact.douyin">抖音</span>
-            <span class="contact-value">S04</span>
-          </div>
-        </a>
-        <a href="https://x.com/honshuai" target="_blank" class="contact-item">
-          <div class="contact-icon">𝕏</div>
-          <div class="contact-detail">
-            <span class="contact-label" data-i18n="contact.x">X (Twitter)</span>
-            <span class="contact-value">@honshuai</span>
-          </div>
-        </a>
-        <a href="https://github.com/SoundHolic" target="_blank" class="contact-item">
-          <div class="contact-icon">🐙</div>
-          <div class="contact-detail">
-            <span class="contact-label" data-i18n="contact.github">GitHub</span>
-            <span class="contact-value">@SoundHolic</span>
-          </div>
-        </a>
-      </div>
-      <a href="https://github.com/SoundHolic" target="_blank" class="btn-cyber btn-large" style="margin-top:28px">
-        <svg width="22" height="22" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-        <span data-i18n="contact.btn">Visit My GitHub</span>
-      </a>
-    </div>
-  </section>
+<script>
+(function(){
+  var s = document.getElementById('joker-container');
+  if(!s) return;
+  var svg = s.querySelector('svg');
+  window.addEventListener('scroll',function(){
+    var y = window.scrollY;
+    var maxY = Math.max(document.body.scrollHeight - window.innerHeight, 1);
+    var pct = Math.min(y / maxY, 1);
+    if(svg) svg.style.transform = 'rotate(' + (pct * 15 - 5) + 'deg) scale(' + (1 + pct * 0.15) + ')';
+  });
+})();
+</script>
 
 </main>
 
