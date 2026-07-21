@@ -2,13 +2,13 @@
 <html lang="zh">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <meta name="theme-color" content="#0a0a1a">
 <title>ishuai</title>
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
 html, body { width:100%; height:100%; overflow:hidden; background:#0a0a1a; }
-canvas { display:block; }
+canvas { display:block; width:100%; height:100%; }
 </style>
 </head>
 <body>
@@ -18,62 +18,83 @@ var WORDS = ["60%", "省外", "65%", "70%", "50%", "省内市外", "75%", "项�
 
 var canvas = document.getElementById('rain');
 var ctx = canvas.getContext('2d');
-
-function resize() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-}
-resize();
-window.addEventListener('resize', resize);
-
-var cols = 0;
-var drops = [];
-var fontSize = 16;
-var speeds = [];
+var dpr = window.devicePixelRatio || 1;
+var fontSize, cols, drops, speeds;
 var colors = ['#22c55e','#4ade80','#a855f7','#22d3ee','#34d399','#818cf8','#2dd4bf'];
 
-function init() {
-  cols = Math.floor(canvas.width / (fontSize * 1.8));
-  drops = [];
-  speeds = [];
+function setup() {
+  var w = window.innerWidth;
+  var h = window.innerHeight;
+  canvas.width = w * dpr;
+  canvas.height = h * dpr;
+  canvas.style.width = w + 'px';
+  canvas.style.height = h + 'px';
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+  if (w < 400) {
+    fontSize = 13;
+  } else if (w < 768) {
+    fontSize = 15;
+  } else {
+    fontSize = 17;
+  }
+
+  var spacing = fontSize * 1.6;
+  cols = Math.floor(w / spacing);
+  drops = new Array(cols);
+  speeds = new Array(cols);
   for (var i = 0; i < cols; i++) {
-    drops[i] = Math.random() * -canvas.height;
-    speeds[i] = 0.8 + Math.random() * 2.5;
+    drops[i] = Math.random() * -h;
+    speeds[i] = 0.6 + Math.random() * 2.2;
   }
 }
-init();
-window.addEventListener('resize', init);
+
+setup();
+window.addEventListener('resize', setup);
+window.addEventListener('orientationchange', function(){ setTimeout(setup, 200); });
 
 function draw() {
-  ctx.fillStyle = 'rgba(10,10,26,0.12)';
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  var w = window.innerWidth;
+  var h = window.innerHeight;
+  ctx.fillStyle = 'rgba(10,10,26,0.1)';
+  ctx.fillRect(0, 0, w, h);
 
-  for (var i = 0; i < drops.length; i++) {
+  var spacing = fontSize * 1.6;
+  for (var i = 0; i < cols; i++) {
     var word = WORDS[Math.floor(Math.random() * WORDS.length)];
-    var x = i * fontSize * 1.8;
-    var y = drops[i] * fontSize;
-    var color = colors[Math.floor(Math.random() * colors.length)];
+    var x = i * spacing + 2;
+    var y = drops[i];
 
-    ctx.font = 'bold ' + fontSize + 'px "Microsoft YaHei","PingFang SC",sans-serif';
+    var ci = Math.floor(Math.random() * colors.length);
+    var color = colors[ci];
+
+    ctx.font = 'bold ' + fontSize + 'px "Microsoft YaHei","PingFang SC","Noto Sans SC",sans-serif';
     ctx.shadowColor = color;
-    ctx.shadowBlur = 8;
-    ctx.globalAlpha = 0.9;
+    ctx.shadowBlur = 6;
     ctx.fillStyle = color;
+
+    ctx.globalAlpha = 0.95;
     ctx.fillText(word.charAt(0), x, y);
-    ctx.globalAlpha = 0.5;
-    ctx.fillText(word.slice(1), x + fontSize, y);
+
+    if (word.length > 1) {
+      ctx.globalAlpha = 0.45;
+      ctx.fillText(word.slice(1), x + fontSize * 0.9, y);
+    }
+
     ctx.shadowBlur = 0;
     ctx.globalAlpha = 1;
 
     drops[i] += speeds[i];
-    if (drops[i] * fontSize > canvas.height + 100 && Math.random() > 0.975) {
-      drops[i] = Math.random() * -10;
-      speeds[i] = 0.8 + Math.random() * 2.5;
+
+    if (drops[i] > h + 80 && Math.random() > 0.97) {
+      drops[i] = Math.random() * -60;
+      speeds[i] = 0.6 + Math.random() * 2.2;
     }
   }
+  requestAnimationFrame(draw);
 }
 
-setInterval(draw, 50);
+requestAnimationFrame(draw);
 </script>
 </body>
 </html>
