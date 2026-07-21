@@ -2,101 +2,288 @@
 <html lang="zh">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<meta name="theme-color" content="#0a0a1a">
-<title>医保小洪</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>望江县医保政策知识库：小洪整理</title>
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
-html, body { width:100%; height:100%; overflow:hidden; background:#0a0a1a; }
-canvas { display:block; width:100%; height:100%; }
+body {
+  font-family: -apple-system,"Microsoft YaHei","PingFang SC",sans-serif;
+  font-size: 18px;
+  color: #1e293b;
+  background: #f0f4f8;
+  line-height: 1.7;
+}
+.container { max-width: 900px; margin: 0 auto; padding: 0 16px; }
+
+header {
+  background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+  color: #fff;
+  padding: 36px 20px;
+  text-align: center;
+}
+header h1 { font-size: 28px; margin-bottom: 8px; }
+header p { font-size: 16px; opacity: 0.85; }
+
+.badge {
+  display: inline-block;
+  background: #dc2626;
+  color: #fff;
+  font-size: 13px;
+  padding: 3px 10px;
+  border-radius: 4px;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+section { background: #fff; margin: 16px 0; padding: 24px 20px; border-radius: 8px; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
+section h2 {
+  font-size: 22px;
+  color: #1e40af;
+  border-left: 4px solid #3b82f6;
+  padding-left: 12px;
+  margin-bottom: 16px;
+}
+section h3 { font-size: 19px; color: #334155; margin: 16px 0 10px; }
+section h4 { font-size: 17px; color: #475569; margin: 12px 0 8px; }
+
+.alert {
+  background: #fef3c7;
+  border: 1px solid #f59e0b;
+  border-radius: 6px;
+  padding: 14px 18px;
+  margin: 12px 0;
+  font-size: 16px;
+  color: #92400e;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 12px 0;
+  font-size: 16px;
+}
+th, td {
+  border: 1px solid #9ca3af;
+  padding: 10px 12px;
+  text-align: left;
+}
+th {
+  background: #eff6ff;
+  font-weight: 700;
+  color: #1e40af;
+}
+tr:nth-child(even) td { background: #f8fafc; }
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 12px;
+  margin: 12px 0;
+}
+.card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 16px;
+}
+.card h4 { margin: 0 0 6px; font-size: 17px; color: #1e40af; }
+.card p { font-size: 15px; color: #475569; }
+
+.tag { display: inline-block; background: #dbeafe; color: #1e40af; font-size: 13px; padding: 2px 8px; border-radius: 4px; margin-right: 4px; }
+.tag-red { background: #fee2e2; color: #dc2626; }
+
+.highlight { background: #fef9c3; padding: 2px 6px; border-radius: 3px; }
+
+footer {
+  background: #e5e7eb;
+  padding: 24px 20px;
+  text-align: center;
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 2;
+}
+footer strong { color: #374151; }
+
+@media (max-width: 640px) {
+  body { font-size: 16px; }
+  section { padding: 18px 14px; }
+  table { font-size: 14px; }
+  th, td { padding: 8px 6px; }
+  .card-grid { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 <body>
-<canvas id="rain"></canvas>
-<script>
-var WORDS = ["大病保险", "政策目录", "基本医保", "两病门诊", "医保基金不予支付", "甲类", "全部乙类", "安徽省开通情况", "国家医保服务平台APP", "办理渠道", "政策体系概览", "2026年7月主要变化", "参保缴费", "慢特病门诊", "住院", "一般诊疗费", "医保耗材目录", "承诺制异地长期居住", "特困人员/低保对象/返贫致贫人口（倾斜支付）", "2026年7月1日起执行新政策", "再次报销", "无封顶线", "不再纳入大病保险", "慢性病门诊", "特殊病门诊", "不再享受", "补齐待遇", "省内无异地", "省外规范转诊", "单行支付", "异地长期居住备案", "生育津贴", "在职职工", "随单位参保", "以个人身份参保", "有序扩大到省外定点医疗机构", "不再要求", "一级及未定级", "异地长期居住人员", "一般诊疗费收付费政策", "全新政策", "挂号费 + 诊查费 + 注射费", "当天只限收取一次", "只收取该疗程内首次", "住院患者不得收取", "不可收取", "不与各类\"门诊诊查费\"和\"注射费\"同时收费", "医保三大目录", "国家药品目录（2025版）", "目录分类", "目录规模", "支付规则", "支付条件（全部符合方可支付）", "基金不予支付（符合其一即不支付）", "不纳入目录的情形", "目录动态调整", "调出情形", "执行要求", "乙类", "丙类", "2859条", "个人先行自付", "支付标准", "限定支付范围", "工伤保险/生育保险", "每年调整一次", "不得自行制定目录", "不得自行调整", "须保障参保人员知情同意权", "医保家庭共济", "已开通省市（截至2026年）", "安徽省家庭共济操作流程", "家庭共济 vs 医保钱包 vs 异地就医", "家庭共济常见问题", "职工医保参保人", "个人账户余额", "本人医保卡", "安徽", "安徽省已全面开通", "安庆市已开通", "皖事通APP", "安徽医保公共服务小程序", "国家医保服务平台", "皖事通", "医保专区", "个人账户共济", "配偶、父母（含配偶父母）、子女", "不需要！", "医保诉求答复规范", "核心原则", "答复结构", "格式要求", "常用政策依据速查", "禁止事项", "纯医保立场", "不越界", "依据知识库", "不换行", "医保钱包推广区域", "当前开通省份（截至2026年中）", "安庆市/望江县状态", "个人账户余额跨区域转账", "省级平台", "并非全省所有区县已同步开通", "据群众反馈，目前望江县暂不支持医保钱包使用", "拨打12345", "安庆市医保局电话", "安庆市区县列表", "各区县医保咨询电话", "望江县医疗保障局 - 回复模板", "标准回复格式", "使用说明", "医保定点查询", "安庆市定点医药机构名单", "安庆市医保部门经办系统固话", "市本级及各区县", "安庆市级", "桐城市", "怀宁县", "潜山市", "岳西县", "太湖县", "望江县", "宿松县", "0556-12345 转医保", "医保目录", "目录查询", "药品目录", "诊疗项目目录", "医用耗材目录", "试行版 2859条（2026.7.1执行）", "安庆市医疗救助政策", "医疗救助标准", "全额资助", "特困人员、孤儿", "低保对象", "返贫致贫人口", "防止返贫监测人口", "因病致贫重病患者", "因个人原因未参加基本医保期间的费用", "医疗救助监管", "由本人负担", "暂停其医疗救助", "停止其医疗救助", "责令退回", "移送司法机关", "不予结算", "取消", "安庆市医疗服务价格目录", "安庆居民医保【\"两病\"门诊】政策", "高血压、糖尿病", "门诊用药", "适用人群", "年度限额", "报销范围", "申请手续", "准入标准", "整体纳入", "不需要参保居民申请办理", "安庆居民医保【住院】政策", "住院起付线及报销比例", "本地就医（安庆市立医院）", "省内异地规范转诊（安徽省立医院）", "省内异地自行外出（安徽省立医院）", "省外规范转诊（上海瑞金医院）", "省外自行外出（上海瑞金医院）", "一级及以下/乡镇卫生院", "二级和县级", "三级(市属)", "三级(省属)", "结论", "安庆居民医保【参保缴费】政策", "2026年度（参加2025年缴费）个人缴费资助标准", "2025年度个人缴费资助标准", "集中参保缴费期", "2025年10月20日-12月31日", "2026年1月1日至12月31日", "次日起", "重要", "待遇等待期", "就高原则", "安庆市城乡居民医保政策总览", "基本医保（6项）", "大病保险（3项）🔴", "医疗救助", "普通门诊", "生育保障", "不再纳入", "罕见病单行支付", "省内大病无异地", "跨省异地就医降比例部分不纳入大病保险", "安庆居民医保【大病保险】政策（2026年7月更新）", "普通居民", "基本医保起付线以下部分", "乙类先行自付费用", "超支付标准自付费用", "跨省异地就医降比例部分", "没有降比例部分", "优先计入", "不纳入医疗救助", "连续参保/零报销", "断保人员", "过渡期递减，2030年出局", "提高起付线", "安庆居民医保【慢特病门诊】政策", "安庆居民医保【普通门诊】政策", "市域内普通门诊定点医疗机构", "不报销", "【异地长期居住备案】", "安庆居民医保【生育保障】政策", "补助规则", "可以。", "据实支付", "定额标准", "并发症或合并症", "补差", "安庆居民医保【省内大病无异地】政策", "试点省属三级医疗机构", "试点病种", "省内试点医疗机构", "三级医疗机构", "心脏移植", "安庆居民医保【罕见病单行支付】政策", "尚未纳入基本医疗保险药品目录", "安庆市城镇职工医保政策总览", "生育保险 🔴", "大额医疗救助", "生育保险", "门诊统筹", "产前检查", "住院分娩", "灵活就业", "辅助生殖", "安庆职工医保【住院】政策", "退休职工", "安庆职工医保【参保缴费】政策", "单位缴费基数", "单位费率", "个人缴费基数", "个人费率", "退休人员", "次月起", "安庆职工医保【大病保险】政策", "普通职工", "基本医保（含大额医疗救助）", "安庆职工医保【慢特病门诊】政策", "年度起付线", "报销比例", "安庆职工医保【生育保障】政策（2026年7月更新）", "享受条件——🔴 全省统一", "津贴计算", "津贴天数", "产前检查基础服务包", "普通门诊统筹", "顺产", "剖宫产", "无自付", "合并计算", "不重复保障", "单建统筹模式", "统账结合模式", "生育补助金", "不予享受", "2027年5月1日起，不再保留生育补助金相关政策。", "女居民参保地的职工医保统筹基金", "不占用", "不发放", "甲类纳入", "扩大到省外", "2027.5.1起改津贴", "安庆职工医保【省内大病无异地】政策", "安庆职工医保【罕见病单行支付】政策", "安庆职工医保【辅助生殖门诊】政策", "2024年8月1日", "25家", "安庆市立医院", "安庆116医院", "安庆职工医保【门诊统筹】政策", "起付线累计规则", "定点药店购药", "2022年7月1日", "2023年10月1日", "定点医疗机构普通门诊", "定点零售药店门诊处方外配购药", "一级及未定级医院", "二级和三级医院", "二级和三级", "年度最高支付限额", "职工本人使用", "安庆职工医保【门诊血液透析】政策", "结算方式", "优势", "慢性肾衰竭（尿毒症期）门诊慢特病认定", "不含", "按病种付费", "医保基金", "参保患者", "减轻参保患者医疗费用负担", "异地就医直接结算", "住院免备案直接结算", "本地就医标准", "出院前补齐备案材料", "自费出院后补齐材料", "未能补齐材料", "其他临时外出就医人员", "已发生医保结算的费用原则上不予补差结算", "务必致电告知申请人", "慢性病待遇享受", "城乡居民", "城镇职工", "短信通知", "在线查询", "一级以上（含）定点医疗机构", "安徽省基本医疗保险门诊慢特病病种认定标准", "概述", "部分病种认定标准摘要", "高血压", "冠心病", "心功能不全", "慢性阻塞性肺疾病", "糖尿病", "恶性肿瘤", "慢性肾衰竭（尿毒症期）", "器官移植术后抗排异治疗", "再生障碍性贫血", "戈谢病", "线上自助办理流程", "下载打印结算单", "经办服务流程", "服务项目", "文本指南", "视频教程（扫码观看）", "安庆长期护理保险政策", "资金补助和服务保障", "同步参加"];
 
-var canvas = document.getElementById('rain');
-var ctx = canvas.getContext('2d');
-var dpr = window.devicePixelRatio || 1;
-var fontSize, colGap, cols, streams;
-var colors = ['#22c55e','#4ade80','#a855f7','#22d3ee','#34d399','#818cf8','#2dd4bf'];
+<header>
+  <h1>望江县医保政策知识库</h1>
+  <p>2026年7月更新 仅作参考 具体政策以书面为准</p>
+</header>
 
-function randWord() {
-  var w = WORDS[Math.floor(Math.random() * WORDS.length)];
-  return { chars: w.split(''), idx: 0, color: colors[Math.floor(Math.random() * colors.length)] };
-}
+<div class="container">
 
-function setup() {
-  var w = window.innerWidth;
-  var h = window.innerHeight;
-  canvas.width = w * dpr;
-  canvas.height = h * dpr;
-  canvas.style.width = w + 'px';
-  canvas.style.height = h + 'px';
-  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+<!-- 2026年7月新政策速览 -->
+<section>
+  <h2>2026年7月 新政策速览 <span class="badge">NEW</span></h2>
+  <div class="alert">
+    <strong>以下政策自2026年7月1日起正式执行：</strong>
+  </div>
+  <table>
+    <tr><th style="width:30px">#</th><th>政策名称</th><th>要点</th></tr>
+    <tr><td>1</td><td>大病保险调整</td><td>起付线 1.5万→<strong>1.7万</strong>；跨省降比部分不再纳入；超说明书用药过渡退出</td></tr>
+    <tr><td>2</td><td>医保耗材目录</td><td>安徽省首版，<strong>2,859条</strong>，全部乙类支付，准入法管理</td></tr>
+    <tr><td>3</td><td>一般诊疗费</td><td>乡镇卫生院基金支付<strong>9元</strong>/个人自付2元；村卫生室7元/1元</td></tr>
+    <tr><td>4</td><td>职工生育保险</td><td>产前检查包<strong>1000元</strong>全额报；顺产4000元/剖宫产6000元；辅助生殖扩至省外</td></tr>
+    <tr><td>5</td><td>承诺制异地居住</td><td>异地长期居住人员可用承诺制办理备案</td></tr>
+  </table>
+</section>
 
-  if (w < 400) { fontSize = 14; colGap = fontSize * 1.8; }
-  else if (w < 768) { fontSize = 16; colGap = fontSize * 2; }
-  else { fontSize = 18; colGap = fontSize * 2.2; }
+<!-- 三大目录 -->
+<section>
+  <h2>医保三大目录</h2>
+  <table>
+    <tr><th>目录</th><th>层级</th><th>最新版本</th><th>执行时间</th><th>规模</th></tr>
+    <tr><td>药品目录</td><td>国家统一</td><td>2025版</td><td>2026.1.1</td><td>3,253种（西药1,857+中成药1,396）；谈判药品406种；中药饮片892种</td></tr>
+    <tr><td>耗材目录</td><td>省级（安徽）</td><td>试行版</td><td>2026.7.1</td><td>2,859条，全部乙类</td></tr>
+    <tr><td>服务价格</td><td>市级（安庆）</td><td>2026版</td><td>2026.6.1</td><td>综合医疗/医技诊疗/临床诊疗/康复</td></tr>
+  </table>
 
-  cols = Math.floor(w / colGap);
-  streams = new Array(cols);
-  for (var i = 0; i < cols; i++) {
-    streams[i] = {
-      word: randWord(),
-      chars: [],
-      speed: 0.25 + Math.random() * 0.6,
-      tick: Math.random() * 100
-    };
-  }
-}
+  <h4>药品分类</h4>
+  <div class="card-grid">
+    <div class="card"><h4>甲类</h4><p>临床必需、使用广泛、价格低，<strong>100%</strong>纳入报销基数</p></div>
+    <div class="card"><h4>乙类</h4><p>可供选择、价格较高，<strong>按比例自付后</strong>纳入报销</p></div>
+    <div class="card"><h4>丙类</h4><p>目录外自费药品，<strong>不纳入</strong>医保报销</p></div>
+  </div>
+</section>
 
-setup();
-window.addEventListener('resize', setup);
-window.addEventListener('orientationchange', function(){ setTimeout(setup, 200); });
+<!-- 城乡居民医保 -->
+<section>
+  <h2>城乡居民医保</h2>
+  <p>保障体系：<strong>基本医保 + 大病保险 + 医疗救助</strong>（三重保障）</p>
 
-function draw() {
-  var w = window.innerWidth;
-  var h = window.innerHeight;
-  ctx.fillStyle = 'rgba(10,10,26,0.08)';
-  ctx.fillRect(0, 0, w, h);
+  <h3>参保缴费</h3>
+  <table>
+    <tr><th>项目</th><th>标准</th></tr>
+    <tr><td>个人缴费</td><td><strong>400元/年</strong>（2026年度）</td></tr>
+    <tr><td>集中缴费期</td><td>2025年10月20日 - 12月31日</td></tr>
+    <tr><td>待遇享受期</td><td>2026年1月1日 - 12月31日</td></tr>
+    <tr><td>⚠ 等待期</td><td>未连续参保或未在集中期参保的，设<strong>至少3个月</strong>等待期</td></tr>
+  </table>
 
-  ctx.textBaseline = 'top';
-  ctx.textAlign = 'center';
+  <table>
+    <tr><th>困难群体</th><th>政府资助</th><th>个人缴费</th></tr>
+    <tr><td>特困人员、孤儿</td><td>400元</td><td><strong>0元</strong></td></tr>
+    <tr><td>低保对象</td><td>330元</td><td>70元</td></tr>
+    <tr><td>防止返贫监测对象</td><td>200元</td><td>200元</td></tr>
+    <tr><td>重度残疾人</td><td>380元</td><td>20元</td></tr>
+  </table>
 
-  for (var i = 0; i < cols; i++) {
-    var s = streams[i];
-    var x = i * colGap + colGap / 2;
+  <h3>主要待遇标准</h3>
+  <table>
+    <tr><th>类别</th><th>标准</th></tr>
+    <tr><td>普通门诊</td><td>报销比例60%，年度限额150元</td></tr>
+    <tr><td>两病门诊</td><td>高血压/糖尿病，报销比例50%，年限额150元/病种</td></tr>
+    <tr><td>慢特病门诊</td><td>93个病种，年度起付线400元，报销比例45%-65%</td></tr>
+    <tr><td>住院</td><td>起付线200-1000元（按医院级别），报销比例50%-90%</td></tr>
+    <tr><td>生育</td><td>自然分娩补助1600元，剖宫产补助2400元</td></tr>
+    <tr><td>年度封顶</td><td>基本医保+大病保险合计<strong>30万元</strong></td></tr>
+  </table>
 
-    for (var j = s.chars.length - 1; j >= 0; j--) {
-      s.chars[j].y += s.speed * 2;
-      if (s.chars[j].y > h + fontSize) s.chars.splice(j, 1);
-    }
+  <h3>大病保险（2026年7月新）</h3>
+  <table>
+    <tr><th>项目</th><th>普通居民</th><th>困难群体</th></tr>
+    <tr><td>起付线</td><td><strong>17,000元</strong></td><td><strong>8,500元</strong>（减半）</td></tr>
+    <tr><td>封顶线</td><td>省内30万/省外20万（±20%激励约束）</td><td><strong>无封顶线</strong></td></tr>
+    <tr><td>报销比例</td><td>市内60%-80%（分段递增）</td><td>市内65%-85%（+5%）</td></tr>
+  </table>
+  <p style="font-size:14px;color:#dc2626;margin-top:8px">⚠ 跨省降比部分、乙类先行自付、起付线以下不再纳入大病保险</p>
+</section>
 
-    s.tick++;
-    if (s.tick > 8 + Math.random() * 12) {
-      s.tick = 0;
-      var ch = s.word.chars[s.word.idx];
-      s.word.idx++;
-      if (s.word.idx >= s.word.chars.length) s.word = randWord();
-      s.chars.unshift({ char: ch, y: -fontSize });
-    }
+<!-- 城镇职工医保 -->
+<section>
+  <h2>城镇职工医保</h2>
+  <p>保障体系：<strong>基本医保 + 大额医疗救助 + 大病保险 + 生育保险</strong></p>
 
-    for (var j = 0; j < s.chars.length; j++) {
-      var c = s.chars[j];
-      ctx.font = 'bold ' + fontSize + 'px KaiTi,STKaiti,"AR PL UKai CN","Noto Serif SC",serif';
-      ctx.fillStyle = s.word.color;
-      ctx.globalAlpha = 0.55;
-      ctx.fillText(c.char, x, c.y);
-    }
-    ctx.shadowBlur = 0;
-    ctx.globalAlpha = 1;
-  }
-  requestAnimationFrame(draw);
-}
+  <h3>主要待遇标准</h3>
+  <table>
+    <tr><th>类别</th><th>标准</th></tr>
+    <tr><td>门诊统筹</td><td>起付线200-400元，报销比例50%-60%，年限额2000元（退休3000元）</td></tr>
+    <tr><td>慢特病门诊</td><td>93个病种，年度起付线500元，报销比例60%-90%</td></tr>
+    <tr><td>住院</td><td>起付线300-1000元；在职报销86%-93%，退休89%-96%</td></tr>
+    <tr><td>大病保险</td><td>起付线2万元</td></tr>
+  </table>
 
-requestAnimationFrame(draw);
-</script>
+  <h3>生育保险（2026年7月升级） <span class="badge">NEW</span></h3>
+  <table>
+    <tr><th>项目</th><th>标准</th></tr>
+    <tr><td>产前检查</td><td>基础服务包<strong>1000元</strong>，100%报销（全新）</td></tr>
+    <tr><td>顺产</td><td><strong>4000元</strong>，100%报销</td></tr>
+    <tr><td>剖宫产</td><td><strong>6000元</strong>，100%报销</td></tr>
+    <tr><td>生育津贴</td><td>全省统一连续参保满10个月</td></tr>
+    <tr><td>辅助生殖</td><td>扩大到省外</td></tr>
+    <tr><td>分娩镇痛</td><td>按甲类纳入生育保险</td></tr>
+  </table>
+</section>
+
+<!-- 一般诊疗费 -->
+<section>
+  <h2>一般诊疗费（2026年7月新） <span class="badge">NEW</span></h2>
+  <p>含挂号费+诊查费+注射费（含静脉输液），不含药品费。</p>
+  <table>
+    <tr><th>医疗机构</th><th>医保基金支付</th><th>个人自付</th></tr>
+    <tr><td>乡镇卫生院/社区卫生服务中心</td><td><strong>9元</strong></td><td><strong>2元</strong></td></tr>
+    <tr><td>村卫生室/社区卫生服务站</td><td><strong>7元</strong></td><td><strong>1元</strong></td></tr>
+  </table>
+  <ul style="margin:8px 0 0 20px;font-size:15px;color:#475569">
+    <li>当天限收一次；住院患者不得收取</li>
+    <li>两病门诊医保基金不予支付</li>
+    <li>可与针灸、推拿、理疗、雾化同时收取</li>
+  </ul>
+</section>
+
+<!-- 医疗救助 -->
+<section>
+  <h2>医疗救助</h2>
+  <p>三重保障的最后防线，按<strong>"先保险后救助"</strong>原则。</p>
+  <table>
+    <tr><th>人员类别</th><th>起付线</th><th>救助比例</th><th>限额</th></tr>
+    <tr><td>特困人员、孤儿</td><td>0</td><td><strong>90%</strong></td><td>5万</td></tr>
+    <tr><td>低保对象</td><td>0</td><td><strong>75%</strong></td><td>5万</td></tr>
+    <tr><td>返贫致贫人口</td><td>1500元</td><td>70%</td><td>5万</td></tr>
+    <tr><td>防止返贫监测人口</td><td>3000元</td><td>60%</td><td>5万</td></tr>
+    <tr><td>因病致贫重病患者</td><td>2万元</td><td>50%</td><td>3万</td></tr>
+  </table>
+  <p style="font-size:14px;color:#475569;margin-top:8px">定点医疗机构一站式即时结算，无需申请。</p>
+</section>
+
+<!-- 家庭共济 -->
+<section>
+  <h2>医保家庭共济</h2>
+  <p>职工医保参保人可将<strong>个人账户余额</strong>授权给<strong>配偶、父母（含配偶父母）、子女</strong>使用，支付合规医药费中的个人自付部分。</p>
+  <div class="alert" style="background:#dbeafe;border-color:#3b82f6;color:#1e40af">
+    ⚠ 共济的是个人账户的"钱"，不是医保卡。就医仍需使用<strong>本人医保卡</strong>实名就诊。
+  </div>
+  <p>办理渠道：国家医保服务平台APP、皖事通APP、安徽医保公共服务小程序</p>
+</section>
+
+<!-- 经办服务 -->
+<section>
+  <h2>经办服务</h2>
+  <table>
+    <tr><th>服务项目</th><th>说明</th></tr>
+    <tr><td>慢特病认定</td><td>安徽省93个病种，认定后可享受门诊报销</td></tr>
+    <tr><td>异地就医备案</td><td>规范转诊不降报销比例；自行外出降比10-25%</td></tr>
+    <tr><td>慢性病待遇</td><td>在线查询申请进度和使用情况</td></tr>
+    <tr><td>线上办理</td><td>国家医保APP / 皖事通 / 安徽医保小程序 / 安庆医保公众号</td></tr>
+  </table>
+</section>
+
+</div>
+
+<footer>
+  <strong>编辑：洪帅  整理：Hermes Agent</strong><br>
+  更新时间：2026年7月
+</footer>
+
 </body>
 </html>
