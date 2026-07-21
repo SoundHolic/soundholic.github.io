@@ -86,8 +86,6 @@ function draw() {
     for (var j = 0; j < s.chars.length; j++) {
       var c = s.chars[j];
       ctx.font = 'bold ' + fontSize + 'px KaiTi,STKaiti,"AR PL UKai CN","Noto Serif SC",serif';
-      ctx.shadowColor = s.word.color;
-      ctx.shadowBlur = j === 0 ? 8 : 0;
       ctx.fillStyle = s.word.color;
       ctx.globalAlpha = 0.55;
       ctx.fillText(c.char, x, c.y);
