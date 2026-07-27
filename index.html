@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="望江县医保政策知识库，整理职工医保、居民医保、慢特病、住院、生育、大病保险和医疗救助等常用政策。">
+<meta name="theme-color" content="#123b66">
 <title>望江县医保政策知识库：小洪整理</title>
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
@@ -145,18 +147,28 @@ footer strong { color: #374151; }
   th, td { padding: 6px 4px; }
 }
 </style>
+<link rel="stylesheet" href="redesign.css">
 </head>
 <body>
 
+<a class="skip-link" href="#main-content">跳到主要内容</a>
 <header>
-  <h1>望江县医保政策知识库</h1>
-  <p>2026年7月更新 仅作参考 具体政策以书面为准</p>
+  <div class="header-inner">
+    <div class="header-kicker">望江县 · 医疗保障便民资料</div>
+    <h1>望江县医保政策知识库</h1>
+    <p>将常用医保政策集中整理成可查询、可比较的便民资料。内容仅供参考，具体办理与待遇标准以医保部门最新书面文件为准。</p>
+    <div class="header-meta"><span>更新于 2026 年 7 月</span><span>非官方网站</span><span>支持页面内搜索与打印</span></div>
+  </div>
 </header>
-
-<div class="container">
+<div class="utility-bar" role="search"><div class="utility-inner">
+  <label class="search-box"><span class="visually-hidden">搜索政策内容</span><input id="policy-search" type="search" placeholder="搜索病种、金额、报销比例或政策名称" autocomplete="off"><span class="search-status" id="search-status" aria-live="polite">输入关键词</span></label>
+  <div class="view-switch" aria-label="医保类型视图"><button type="button" data-view="all" aria-pressed="true">全部</button><button type="button" data-view="employee" aria-pressed="false">职工医保</button><button type="button" data-view="resident" aria-pressed="false">居民医保</button></div>
+</div></div>
+<nav class="section-nav" aria-label="页面目录"><div class="section-nav-inner"><a href="#new-policies">新政策</a><a href="#insurance-compare">职工与居民</a><a href="#medical-catalog">医保目录</a><a href="#clinic-fee">诊疗费</a><a href="#medical-assistance">医疗救助</a><a href="#family-account">家庭共济</a><a href="#services">经办服务</a></div></nav>
+<main class="container" id="main-content">
 
 <!-- ===== NEW POLICIES OVERVIEW ===== -->
-<section>
+<section id="new-policies">
   <h2>2026年7月 新政策速览 <span class="badge">NEW</span></h2>
   <div class="alert">
     <strong>以下政策自2026年7月1日起正式执行：</strong>
@@ -172,7 +184,7 @@ footer strong { color: #374151; }
 </section>
 
 <!-- ===== TWO-COLUMN: 职工 (LEFT) vs 居民 (RIGHT) ===== -->
-<div class="two-col">
+<div class="two-col" id="insurance-compare">
 
 <!-- ========== LEFT: 城镇职工 ========== -->
 <div class="col-left">
@@ -357,7 +369,7 @@ footer strong { color: #374151; }
 </div><!-- /two-col -->
 
 <!-- ===== 公共政策（下方全宽） ===== -->
-<section>
+<section id="medical-catalog">
   <h2>医保三大目录</h2>
   <table>
     <tr><th>目录</th><th>层级</th><th>最新版本</th><th>执行时间</th><th>规模</th></tr>
@@ -376,7 +388,7 @@ footer strong { color: #374151; }
   </div>
 </section>
 
-<section>
+<section id="clinic-fee">
   <h2>一般诊疗费（2026年7月新） <span class="badge">NEW</span></h2>
   <p>含挂号费+诊查费+注射费（含静脉输液），不含药品费。</p>
   <table>
@@ -395,7 +407,7 @@ footer strong { color: #374151; }
   </div>
 </section>
 
-<section>
+<section id="medical-assistance">
   <h2>医疗救助</h2>
   <p>三重保障最后防线，"先保险后救助"原则。</p>
   <table>
@@ -409,7 +421,7 @@ footer strong { color: #374151; }
   <p class="note">定点医疗机构一站式即时结算，无需申请。</p>
 </section>
 
-<section>
+<section id="family-account">
   <h2>医保家庭共济</h2>
   <p>职工医保参保人可将<strong>个人账户余额</strong>授权给<strong>配偶、父母（含配偶父母）、子女</strong>使用，支付合规医药费中的个人自付部分。</p>
   <div class="alert alert-info">
@@ -418,7 +430,7 @@ footer strong { color: #374151; }
   <p>办理渠道：国家医保服务平台APP、皖事通APP、安徽医保公共服务小程序</p>
 </section>
 
-<section>
+<section id="services">
   <h2>经办服务</h2>
   <table>
     <tr><th>服务项目</th><th>说明</th></tr>
@@ -436,12 +448,14 @@ footer strong { color: #374151; }
   </div>
 </section>
 
-</div>
+</main>
 
 <footer>
   <strong>编辑：<a href="home.html" style="color:#1e40af">洪帅</a>  整理：Hermes Agent</strong><br>
   更新时间：2026年7月
 </footer>
 
+<button class="back-to-top" id="back-to-top" type="button" aria-label="返回页面顶部">↑</button>
+<script src="redesign.js"></script>
 </body>
 </html>
