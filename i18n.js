@@ -1,6 +1,6 @@
 const I18N = {
   zh: {
-    "nav.home":"首页","nav.about":"关于","nav.skills":"技能","nav.world":"兴趣世界","world.title":"兴趣世界","world.stocks.title":"炒股","world.stocks.desc":"A股常年韭菜，坚信「跌了就是加仓机会」。账户红绿交替，心态稳如老狗。","world.genshin.title":"原神","world.genshin.desc":"提瓦特大陆旅行者，每日委托从不缺席。深渊满星，尘歌壶摆烂。","world.novel.title":"小说","world.novel.desc":"偏爱村上春树、黑塞、毛姆。文学是灵魂的避难所。","world.anime.title":"动漫","world.anime.desc":"追番永不完结，热血日常治愈系全都要。B站年度大会员稳定续费中。","world.code.title":"代码","world.code.desc":"不是在工作，就是在折腾AI Agent。用代码造轮子是一种浪漫。","nav.projects":"项目","nav.contact":"联系",
+    "nav.home":"首页","nav.about":"关于","nav.skills":"技能","nav.world":"兴趣世界","world.title":"兴趣世界","world.stocks.title":"炒股","world.stocks.desc":"A股常年韭菜，坚信「跌了就是加仓机会」。账户红绿交替，心态稳如老狗。","world.genshin.title":"原神","world.genshin.desc":"提瓦特大陆旅行者，每日委托从不缺席。深渊满星，尘歌壶摆烂。","world.novel.title":"小说","world.novel.desc":"偏爱村上春树、黑塞、毛姆。文学是灵魂的避难所。","world.anime.title":"动漫","world.anime.desc":"追番永不完结，热血日常治愈系全都要。B站年度大会员稳定续费中。","world.code.title":"代码","world.code.desc":"不是在工作，就是在折腾AI Agent。用代码造轮子是一种浪漫。","nav.projects":"项目","nav.records":"记录","nav.invest":"投资","nav.contact":"联系",
     "hero.badge":"テクノロジー × 二次元",
     "hero.github":"GitHub","hero.about":"关于我 →",
     "about.title":"关于我",
