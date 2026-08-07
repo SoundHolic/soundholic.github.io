@@ -158,7 +158,8 @@
 const HOLDINGS = {
   '300724': { cost:78.67, shares:2300, name:'捷佳伟创', type:'stock' },
   '012414': { cost:0.55, shares:16634, name:'招商中证白酒指数(LOF)C', type:'fund' },
-  '007339': { cost:1.90, shares:211, name:'易方达沪深300ETF联接C', type:'fund' }
+  '007339': { cost:1.90, shares:211, name:'易方达沪深300ETF联接C', type:'fund' },
+  '001593': { cost:1.40, shares:249, name:'天弘创业板ETF联接C', type:'fund' }
 };
 const TRADES = [];
 let klineData = null, fundNavData = {};
@@ -309,13 +310,14 @@ document.addEventListener('DOMContentLoaded',()=>{
 // === Init ===
 async function init() {
   try {
-    const [kresp, f1resp, f2resp] = await Promise.all([
+    const [kresp, f1resp, f2resp, f3resp] = await Promise.all([
       fetch('data/300724_kline.json'),
       fetch('data/012414_nav.json'),
-      fetch('data/007339_nav.json')
+      fetch('data/007339_nav.json'),
+      fetch('data/001593_nav.json')
     ]);
     klineData = await kresp.json();
-    fundNavData = { '012414':await f1resp.json(), '007339':await f2resp.json() };
+    fundNavData = { '012414':await f1resp.json(), '007339':await f2resp.json(), '001593':await f3resp.json() };
     renderHoldingCards();
     renderTrades();
     switchTo('300724');
